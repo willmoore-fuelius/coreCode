@@ -1,0 +1,21 @@
+{
+  "label": "Core Code",
+  "preview_path": "./templates/home.html",
+  "screenshot_path": "./images/template-previews/theme_preview.png",
+  "enable_domain_stylesheets": false,
+  "author": {
+    "name": "Fuelius",
+    "email": "help@fuelius.com",
+    "url": "https://www.fuelius.com/"
+  },
+  "responsive_breakpoints": [
+    {
+      "name": "mobile",
+      "mediaQuery": "@media (max-width: 767px)",
+      "previewWidth": {
+        "value": 477
+      }
+    }
+  ],
+  "version": "1.0"
+}

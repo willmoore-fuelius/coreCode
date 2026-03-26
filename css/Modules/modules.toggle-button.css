@@ -1,0 +1,63 @@
+.e-toggle {
+	display: none;
+}
+
+.e-toggle, .e-toggle:after, .e-toggle:before, .e-toggle *, .e-toggle *:after, .e-toggle *:before, .e-toggle + .e-toggle-btn {
+	box-sizing: border-box;
+}
+
+.e-toggle::-moz-selection, .e-toggle:after::-moz-selection, .e-toggle:before::-moz-selection, .e-toggle *::-moz-selection, .e-toggle *:after::-moz-selection, .e-toggle *:before::-moz-selection, .e-toggle + .e-toggle-btn::-moz-selection {
+	background: none;
+}
+
+.e-toggle::selection, .e-toggle:after::selection, .e-toggle:before::selection, .e-toggle *::selection, .e-toggle *:after::selection, .e-toggle *:before::selection, .e-toggle + .e-toggle-btn::selection {
+	background: none;
+}
+
+.e-toggle + .e-toggle-btn {
+	display: block;
+	width: 30px;
+	height: 30px;
+	position: relative;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.e-toggle + .e-toggle-btn:after, .e-toggle + .e-toggle-btn:before {
+	position: relative;
+	display: block;
+	content: "";
+	width: 50%;
+	height: 100%;
+}
+
+.e-toggle + .e-toggle-btn:after {
+	left: 0;
+}
+
+.e-toggle + .e-toggle-btn:before {
+	display: none;
+}
+
+.e-toggle:checked + .e-toggle-btn:after {
+	left: 50%;
+}
+
+.e-toggle-light + .e-toggle-btn {
+	width: 50px;
+	background: var(--black);
+	padding: var(--space8);
+	transition: all var(--transitionSpeed);
+}
+
+.e-toggle-light + .e-toggle-btn:after {
+	background: var(--white);
+	transition: all var(--transitionSpeed);
+}
+
+.e-toggle-light:checked + .e-toggle-btn {
+	opacity: 1;
+}

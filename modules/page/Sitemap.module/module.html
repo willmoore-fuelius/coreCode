@@ -1,0 +1,104 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-sitemap">
+		<div id="sitemap" class="o-wrapper o-wrapper--module o-rte" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				<div class="default-module">Sitemap added</div>
+
+				{% require_js position='footer' %}
+
+				<script type="text/javascript">
+					document.addEventListener('DOMContentLoaded', function() {
+						function countStrings(stringToSearch, stringToFind) {
+							return stringToSearch.split(stringToFind).length - 1;
+						}
+
+						const menuItems = [];
+
+						fetch('/sitemap.xml')
+							.then(function(response) {
+								return response.text();
+							})
+							.then(function(data) {
+								const parser = new DOMParser();
+								const xml = parser.parseFromString(data, 'text/xml');
+								const urls = xml.querySelectorAll('url');
+
+								urls.forEach(function(url) {
+									const loc = url.querySelector('loc');
+									if (loc) {
+										const link = loc.textContent;
+										const pathname = new URL(link).pathname.replace('/', '');
+										menuItems.push({ link: link, pathname: pathname, urlParts: countStrings(link, '/') });
+									}
+								});
+
+								const sitemap = document.getElementById('sitemap');
+								const rootList = document.createElement('ul');
+								sitemap.appendChild(rootList);
+								const elements = {};
+
+								// Sort menu items
+								menuItems.sort(function(a, b) {
+									return a.urlParts - b.urlParts;
+								});
+
+								menuItems.forEach(function(item, i) {
+									const parentKey = item.link.substr(0, item.link.lastIndexOf('/'));
+									const parent = elements[parentKey];
+									let list = parent ? parent.querySelector('ul') : rootList;
+
+									if (parent && !list) {
+										list = document.createElement('ul');
+										parent.appendChild(list);
+									}
+
+									const li = document.createElement('li');
+									list.appendChild(li);
+
+									const parts = item.pathname.split('/');
+									const lastPart = parts[parts.length - 1];
+									const nameParts = lastPart.split('-');
+
+									function capitalizeFirstLetterOfEachWord(str) {
+										return str.split(' ').map(function(word) {
+											return word.charAt(0).toUpperCase() + word.slice(1);
+										}).join(' ');
+									}
+
+									const capitalizedParts = nameParts.map(function(part) {
+										return capitalizeFirstLetterOfEachWord(part);
+									});
+
+									let resultString = capitalizedParts.join(' ');
+
+									if (i === 0) {
+										resultString = 'Homepage';
+									}
+
+									const anchor = document.createElement('a');
+									anchor.href = item.link;
+									anchor.textContent = resultString;
+									li.appendChild(anchor);
+
+									elements[item.link] = li;
+								});
+							})
+							.catch(function(error) {
+								console.error('Error fetching sitemap:', error);
+							});
+					});
+				</script>
+
+				{% end_require_js %}
+
+			</div>
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}

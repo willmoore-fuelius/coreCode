@@ -1,0 +1,70 @@
+<!--
+    templateType: blog_post
+    isAvailableForNewContent: true
+    label: Core Code - Blog post
+-->
+
+{% set template_css = '../../css/templates/blog-post.css' %} {% extends
+"./layouts/base.html" %} {% block body %}
+
+<main id="main-content" class="m-blogPost">
+  <div class="o-wrapper o-wrapper--module" style="--containerWidth: 960px">
+    <article class="m-blogPost__article">
+      <h1 class="m-blogPost__heading">{{ content.name }}</h1>
+      <div class="m-blogPost__metadata">
+        <time class="m-blogPost__date">
+          {{ content.publish_date|datetimeformat('%d.%m.%y') }}
+        </time>
+        {% if content.blog_post_author.slug %}
+        <a
+          class="m-blogPost__author"
+          href="{{ blog_author_url(group.id, content.blog_post_author.slug) }}"
+          rel="author"
+        >
+          {{ content.blog_post_author.display_name }}
+        </a>
+        {% endif %} {% if content.tag_list %}
+        <span>|</span>
+        <ul class="m-blogPost__tags m-tags">
+          {% for tag in content.tag_list %}
+			<li>
+			  <a
+				class="m-blogPost__tag m-tags__tag"
+				href="{{ blog_tag_url(group.id, tag.slug) }}"
+				rel="tag"
+				>{{ tag.name }}</a>
+				{% if not loop.last %},{% endif %}
+			</li>
+           {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% if content.featured_image %}
+      <img
+        class="m-blogPost__featuredimage"
+        src="{{ resize_image_url(content.featured_image, 1200, 0) }}"
+        alt="{{ content.featured_image_alt_text }}"
+        loading="lazy"
+        width="1200"
+        height="630"
+      />
+      {% endif %}
+      <div class="m-blogPost__body">{{ content.post_body }}</div>
+    </article>
+
+    {% if group.allow_comments %}
+    <div class="m-blogPost__comments">
+      <h2>Comment on {{ content.title }}</h2>
+      {% module 'blog_comments' path='@hubspot/blog_comments', label="Blog
+      comments" %}
+    </div>
+    {% endif %}
+  </div>
+
+  {% set tag_posts = blog_recent_tag_posts(content.group_id,
+  content.topic_list|map('slug'), 3) %} {% if tag_posts %} {% module
+  "recent-posts" path="../modules/page/Recent Articles", label="Recent
+  Articles", blog_options={ 'tag_field': content.topic_list|map('slug'),
+  'display_summary': false } %} {% endif %}
+</main>
+{% endblock body %}

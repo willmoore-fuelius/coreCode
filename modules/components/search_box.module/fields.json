@@ -1,0 +1,62 @@
+[ {
+  "id" : "3538ee88-b905-8306-a91b-4243c2923ece",
+  "name" : "search_settings",
+  "label" : "Search settings",
+  "required" : false,
+  "locked" : false,
+  "children" : [ {
+    "id" : "a9d06a56-064e-2039-58b5-e27511ab691f",
+    "name" : "placeholder",
+    "label" : "Placeholder",
+    "required" : false,
+    "locked" : false,
+    "allow_new_line" : false,
+    "type" : "text",
+    "display_width" : null,
+    "default" : "Enter keywords"
+  }, {
+    "id" : "72fa9b1e-eee0-dda3-022e-7fc784ed1e5a",
+    "name" : "website_pages",
+    "label" : "Website pages",
+    "inline_help_text" : "When enabled, Website Pages will be included in the site search",
+    "required" : false,
+    "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "display_width" : null,
+    "default" : true
+  }, {
+    "id" : "3a278c1d-5ac6-3e5b-d19d-23a3915bdbd3",
+    "name" : "landing_pages",
+    "label" : "Landing pages",
+    "inline_help_text" : "When enabled, Landing Pages will be included in the site search",
+    "required" : false,
+    "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "display_width" : null,
+    "default" : true
+  }, {
+    "id" : "66f0f92b-8913-8c51-80b5-2af326354f81",
+    "name" : "blog_posts",
+    "label" : "Blog posts",
+    "inline_help_text" : "When enabled, Blog Posts will be included in the site search",
+    "required" : false,
+    "locked" : false,
+    "display" : "toggle",
+    "type" : "boolean",
+    "display_width" : null,
+    "default" : true
+  } ],
+  "tab" : "CONTENT",
+  "expanded" : false,
+  "group_occurrence_meta" : null,
+  "type" : "group",
+  "display_width" : null,
+  "default" : {
+    "placeholder" : "Enter keywords",
+    "website_pages" : true,
+    "landing_pages" : true,
+    "blog_posts" : true
+  }
+} ]

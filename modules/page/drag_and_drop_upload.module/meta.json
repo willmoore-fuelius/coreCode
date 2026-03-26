@@ -1,0 +1,21 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE",
+    "BLOG_POST"
+  ],
+  "host_template_types": [
+    "PAGE",
+    "BLOG_LISTING",
+    "BLOG_POST"
+  ],
+  "module_id": 93821380813,
+  "label": "Drag and drop upload",
+  "icon": "fontawesome-5.14.0:Upload:SOLID",
+  "is_available_for_new_content": true,
+  "categories": [
+    "FORMS_AND_BUTTONS"
+  ],
+  "description": "Drag-and-drop file upload zone using Dropzone.js library"
+}

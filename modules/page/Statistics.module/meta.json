@@ -1,0 +1,42 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE"
+  ],
+  "host_template_types": [
+    "PAGE"
+  ],
+  "module_id": 75666794740,
+  "css_assets": [
+    {
+      "autoload": true,
+      "path": "../../../css/modules/heading.css",
+      "name": "modules.heading.css"
+    },
+    {
+      "autoload": true,
+      "path": "../../../css/vendor/odometer.css",
+      "name": "vendor.odometer.css"
+    }
+  ],
+  "js_assets": [
+    {
+      "autoload": true,
+      "path": "../../../js/vendor/odometer.js",
+      "name": "vendor.odometer.js"
+    },
+    {
+      "autoload": true,
+      "path": "../../../js/modules/statistics.js",
+      "name": "modules.statistics.js"
+    }
+  ],
+  "label": "Statistics",
+  "icon": "fontawesome-5.14.0:Percent:SOLID",
+  "is_available_for_new_content": true,
+  "categories": [
+    "BODY_CONTENT"
+  ],
+  "description": "Statistics cards grid displaying key metrics with labels"
+}

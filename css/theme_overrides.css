@@ -1,0 +1,16 @@
+:root {
+	--containerWidth: {{ theme.spacing.max_width ~ 'px' }};
+	--moduleTopSpacing: {{ theme.spacing.mobile.vertical_spacing ~ 'px' }};
+	--moduleRightSpacing: {{ theme.spacing.mobile.horizontal_spacing ~ 'px' }};
+	--moduleBottomSpacing: {{ theme.spacing.mobile.vertical_spacing ~ 'px' }};
+	--moduleLeftSpacing: {{ theme.spacing.mobile.horizontal_spacing ~ 'px' }};
+}
+
+@media (width >= 992px){
+	:root {
+		--moduleTopSpacing: {{ theme.spacing.desktop.vertical_spacing ~ 'px' }};
+		--moduleRightSpacing: {{ theme.spacing.desktop.horizontal_spacing ~ 'px' }};
+		--moduleBottomSpacing: {{ theme.spacing.desktop.vertical_spacing ~ 'px' }};
+		--moduleLeftSpacing: {{ theme.spacing.desktop.horizontal_spacing ~ 'px' }};
+	}
+}

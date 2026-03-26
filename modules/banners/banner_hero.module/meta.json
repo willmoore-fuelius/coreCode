@@ -1,0 +1,18 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE"
+  ],
+  "host_template_types": [
+    "PAGE"
+  ],
+  "module_id": 75665145325,
+  "label": "Banner - Hero",
+  "icon": "fontawesome-5.14.0:Laptop:SOLID",
+  "is_available_for_new_content": true,
+  "categories": [
+    "BODY_CONTENT"
+  ],
+  "description": "Full-width hero banner with image/video background, heading, summary, and CTA buttons"
+}

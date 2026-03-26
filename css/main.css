@@ -1,0 +1,59 @@
+/* Theme base styles
+This file should only import styles that are essential for the global layout of the website.
+These should be placed inside the global folder.
+*/
+
+/* Accessibility - Respect user motion preferences (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Tools
+Any animations, or functions used throughout the project.
+Note: _macros.css needs to be imported into each stylesheet where macros are used and not included here
+*/
+
+/* Generic
+This is where reset, normalize & box-sizing styles go.
+*/
+
+{% include './global/generic/reset.css' %}
+
+/* Objects
+Non-cosmetic design patterns including grid and layout classes)
+*/
+
+{% include './global/objects/utilities.css' %}
+{% include './global/objects/containers_dnd.css' %}
+
+/* Components
+Specific pieces of UI that are stylized. Typically used for global partial styling
+*/
+
+{# header.css is inlined as critical CSS in templates/layouts/base.html — not duplicated here #}
+{% include './global/components/footer.css' %}
+{% include './global/components/default_modules.css' %}
+
+/* Elements
+Base HMTL elements are styled in this section (<body<, <h1>, <a>, <p>, <button> etc.)
+*/
+
+{% include './global/elements/typography.css' %}
+{% include './global/elements/buttons.css' %}
+{% include './global/elements/forms.css' %}
+{% include './global/elements/tables.css' %}
+{% include './global/elements/images.css' %}
+{% include './global/elements/page.css' %}
+{% include './global/elements/skip-link.css' %}
+
+/* Modules */
+
+{% include './modules/tags.css' %}
+{% include './modules/video.css' %}

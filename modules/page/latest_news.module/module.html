@@ -1,0 +1,94 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-latestNews">
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				{{ text_helpers.render_heading(module.module_heading, module.enable_module_heading) }}
+
+				<div class="m-latestNews">
+					<div class="m-latestNews__list">
+						{% set blog_id = module.blog_options.blog_field ? module.blog_options.blog_field : "default" %}
+						{% set tag_posts = blog_recent_tag_posts(blog_id, module.blog_options.tag_field ? module.blog_options.tag_field : blog_tags("default", 3), 3) %}
+
+						{% if tag_posts %}
+
+						{% for item in tag_posts %}
+
+						<article class="m-latestNews__item">
+
+							{% if item.featured_image %}
+							<div class="m-latestNews__imageWrapper">
+								<img class="m-latestNews__image" src="{{ resize_image_url(item.featured_image, 0, 0, 250) }}" height="{{ image_height }}" width="{{ image_width }}" alt="{{ item.featuredImageAltText }}" loading="lazy">
+							</div>
+							{% endif %}
+
+							<div class="m-latestNews__contentWrapper">
+
+								{% if item.title %}
+								<h3 class="m-latestNews__heading h4">
+									<a class="m-latestNews__headingLink" href="{{ item.url }}">{{ item.title }}</a>
+								</h3>
+								{% endif %}
+
+								{% if module.blog_options.display_date or module.blog_options.display_tags %}
+
+								<div>
+
+									{% if module.blog_options.display_date %}
+									<div class="m-latestNews__date">
+										<div>
+											<time>{{ item.publish_date|datetimeformat('%d.%m.%y') }}</time>
+										</div>
+									</div>
+									{% endif %}
+
+									{% if module.blog_options.display_tags %}
+									<ul class="m-tags">
+										{% for tag in item.topic_list %}
+										<li>
+											<a class="m-latestNews__tag m-tags__tag" href="{{ blog_tag_url(blog_id, tag.slug) }}">{{ tag.name }}{{ ',' if !loop.last }}</a>
+										</li>
+										{% endfor %}
+									</ul>
+									{% endif %}
+
+									{% endif %}
+
+								</div>                   
+
+								{% if module.blog_options.display_summary %}
+								{% if item.post_summary %}
+								<p class="m-latestNews__summary">
+									{{ item.post_summary|truncatehtml(155, "..." , false)|striptags }}
+								</p>
+								{% elif item.post_body %}
+								<p class="m-latestNews__summary">
+									{{ item.post_body|truncatehtml(155, "..." , false)|striptags }}
+								</p>
+								{% endif %}
+								{% endif %}                      
+
+							</div>
+
+						</article> 
+
+						{% endfor %}
+
+						{% endif %}
+
+					</div>
+
+				</div>
+
+				{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+			</div>
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}

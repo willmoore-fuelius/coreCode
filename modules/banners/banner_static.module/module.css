@@ -1,0 +1,32 @@
+.m-bannerStatic {
+
+}
+
+.m-bannerStatic__inner {
+
+}
+
+.m-bannerStatic__content {
+
+}
+
+.m-bannerStatic__summary {
+
+}
+
+.m-bannerStatic__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--gridGutters);
+	margin-top: var(--space20);
+}
+
+.m-bannerStatic__media {
+	position: relative;
+}
+
+.m-bannerStatic__image {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}

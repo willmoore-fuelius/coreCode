@@ -1,0 +1,69 @@
+<!--
+templateType: "none"
+isAvailableForNewContent: false
+-->
+
+{% macro render_responsive_images(item, class) %}
+
+{% if item.desktop.desktop_image.src or item.tablet.tablet_image.src or item.mobile.mobile_image.src %}
+
+<picture class="{{ class }}-wrapper">
+
+	{% set loadingAttr = item.mobile.mobile_image.loading != 'disabled' ? 'loading="{{ item.mobile.mobile_image.loading }}"' : '' %}
+
+	{% if item.mobile.mobile_image.src %}
+	{% set sizeAttrs = 'width="{{ item.mobile.mobile_image.width }}" height="{{ item.mobile.mobile_image.height }}"' %}
+	{% set width = item.desktop.desktop_image.width ? item.mobile.mobile_image.width : 767 %}
+	{# WebP source for better compression (HubSpot auto-converts server-side) #}
+	<source class="{{ class }}" type="image/webp" srcset="{{ resize_image_url(item.mobile.mobile_image.src, 0, 0, 767) }} {{width}}w" media="(max-width: 767px)">
+	{# Original format fallback #}
+	<source class="{{ class }}" {{get_file_type(item.mobile.mobile_image.src)}} srcset="{{ resize_image_url(item.mobile.mobile_image.src, 0, 0, 767) }} {{width}}w" media="(max-width: 767px)">
+	{% endif %}
+
+	{% if item.tablet.tablet_image.src %}
+	{% set sizeAttrs = 'width="{{ item.tablet.tablet_image.width }}" height="{{ item.tablet.tablet_image.height }}"' %}
+	{% set width = item.tablet.tablet_image.width ? item.tablet.tablet_image.width : 991 %}
+	{# WebP source for better compression #}
+	<source class="{{ class }}" type="image/webp" srcset="{{ resize_image_url(item.tablet.tablet_image.src, 0, 0, 991) }} {{width}}w" media="(max-width: 991px)">
+	{# Original format fallback #}
+	<source class="{{ class }}" {{get_file_type(item.tablet.tablet_image.src)}} srcset="{{ resize_image_url(item.tablet.tablet_image.src, 0, 0, 991) }} {{width}}w" media="(max-width: 991px)">
+	{% endif %}
+
+	{% if item.desktop.desktop_image.src %}
+	{% set sizeAttrs = 'width="{{ item.desktop.desktop_image.width }}" height="{{ item.desktop.desktop_image.height }}"' %}
+	{% set width = item.desktop.desktop_image.width ? item.desktop.desktop_image.width : 1200 %}
+	{# WebP source for better compression #}
+	<source class="{{ class }}" type="image/webp" srcset="{{ resize_image_url(item.desktop.desktop_image.src, 0, 0, 1200) }} {{width}}w" media="(min-width: 992px)">
+	{# Original format fallback #}
+	<source class="{{ class }}" {{get_file_type(item.desktop.desktop_image.src)}} srcset="{{ resize_image_url(item.desktop.desktop_image.src, 0, 0, 1200) }} {{width}}w" media="(min-width: 992px)">
+	{% endif %}
+
+	<img class="{{ class }}" src="{{ resize_image_url(item.fallback_image.default_image.src, 0, 0, 1200) }}" alt="{{ item.fallback_image.default_image.alt | default('Image related to content') | striptags }}" width="{{ item.fallback_image.default_image.width }}" height="{{ item.fallback_image.default_image.height }}" decoding="async" {{ get_loading_type(item.fallback_image.default_image) }} {{ loadingAttr }}  />
+
+</picture>
+
+{% else %}
+<img class="{{ class }}" src="{{ resize_image_url(item.fallback_image.default_image.src, 0, 0, 1200) }}" alt="{{ item.fallback_image.default_image.alt | default('Image related to content') | striptags }}" {{ get_loading_type(item.fallback_image.default_image) }} {{ get_image_size(item.fallback_image.default_image) }} />
+{% endif %}
+
+{% endmacro %}
+
+{% macro get_image_size(image) %}
+{% set sizeAttrs = 'width="{{ image.width }}" height="{{ image.height }}"' %}
+{% if image.size_type == 'auto' %}
+{% set sizeAttrs = 'style="max-width: 100%; height: auto;"' %}
+{% elif image.size_type == 'auto_custom_max' %}
+{% set sizeAttrs = 'width="{{ image.max_width }}" height="{{ image.max_height }}" style="max-width: 100%; height: auto;"' %}
+{% endif %}
+{{ sizeAttrs }}
+{% endmacro %}
+
+{% macro get_loading_type(image) %}
+{% set loadingAttr = image.loading != 'disabled' ? 'loading="{{ image.loading }}"' : '' %}
+{{ loadingAttr }}
+{% endmacro %}
+
+{% macro get_file_type(src) %}
+{% set segments = src|split('.') %}
+{{ 'type="image/' ~ segments|last ~ '"' }}
+{% endmacro %}

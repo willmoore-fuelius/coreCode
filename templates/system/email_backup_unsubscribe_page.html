@@ -1,0 +1,26 @@
+<!--
+templateType: "email_backup_unsubscribe_page"
+label: Amplify - backup-unsubscribe
+isAvailableForNewContent: true
+-->
+
+{% extends "../layouts/base.html" %}
+{% block body %}
+
+{{ require_css(get_asset_url("../../css/templates/communication-preferences.css")) }}
+
+{# HubSpot internal static asset — path is hardcoded because it is not available via get_asset_url. #}
+{# If subscription preferences stop working, check whether the version number (static-1.1) needs updating. #}
+{% require_js position='footer' %}
+<script src="/hs/hsstatic/SubscriptionPreferences/static-1.1/subscription_preferences_asset.js"></script>
+{% end_require_js %}
+
+<div class="o-wrapper o-wrapper--module">
+
+    <div class="m-communicationPreferences">
+        {% email_simple_subscription "email_simple_subscription" input_help_text='Email unsubscribe', input_placeholder='email@example.com', header='', button_text='Unsubscribe', label='Backup Unsubscribe' %}
+    </div>
+
+</div>
+
+{% endblock body %}

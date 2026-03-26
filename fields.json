@@ -1,0 +1,104 @@
+[
+	{
+		"label": "Spacing",
+		"name": "spacing",
+		"type": "group",
+		"children": [
+			{
+				"label": "Mobile",
+				"name": "mobile",
+				"type": "group",
+				"children": [
+					{
+						"label": "Vertical spacing",
+						"name": "vertical_spacing",
+						"type": "number",
+						"display": "slider",
+						"max": 500,
+						"display_width": null,
+						"locked": false,
+						"step": 1,
+						"min": 0,
+						"required": false,
+						"default": 30
+					},
+					{
+						"label": "Horizontal spacing",
+						"name": "horizontal_spacing",
+						"type": "number",
+						"display": "slider",
+						"max": 500,
+						"display_width": null,
+						"locked": false,
+						"step": 1,
+						"min": 0,
+						"required": false,
+						"default": 24
+					}
+				],
+				"display_width": null,
+				"locked": false,
+				"tab": "CONTENT",
+				"expanded": false,
+				"required": false
+			},
+			{
+				"label": "Desktop",
+				"name": "desktop",
+				"type": "group",
+				"children": [
+					{
+						"label": "Vertical spacing",
+						"name": "vertical_spacing",
+						"type": "number",
+						"display": "slider",
+						"max": 500,
+						"display_width": null,
+						"locked": false,
+						"step": 1,
+						"min": 0,
+						"required": false,
+						"default": 80
+					},
+					{
+						"label": "Horizontal spacing",
+						"name": "horizontal_spacing",
+						"type": "number",
+						"display": "slider",
+						"max": 500,
+						"display_width": null,
+						"locked": false,
+						"step": 1,
+						"min": 0,
+						"required": false,
+						"default": 40
+					}
+				],
+				"display_width": null,
+				"locked": false,
+				"tab": "CONTENT",
+				"expanded": false,
+				"required": false
+			},
+			{
+				"label": "Container max width",
+				"name": "max_width",
+				"type": "number",
+				"display": "slider",
+				"min": 1200,
+				"max": 2000,
+				"step": 10,
+				"display_width": null,
+				"locked": false,
+				"required": false,
+				"default": 1440,
+				"help_text": "Maximum width of content containers"
+			}
+		],
+		"display_width": null,
+		"locked": false,
+		"tab": "CONTENT",
+		"expanded": false,
+		"required": false
+	}
+]

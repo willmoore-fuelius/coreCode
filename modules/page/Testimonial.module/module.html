@@ -1,0 +1,158 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-testimonial" data-lazy-init>
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				{{ text_helpers.render_heading(module.module_heading,
+    module.enable_module_heading) }}
+
+				{% if module.testimonials|length > 0 %}
+				<div class="m-testimonial__inner splide js-rotator" data-rotator="{{ name }}">
+					<div class="splide__track">
+						<div class="splide__list">
+					{% for item in module.testimonials %}
+
+					{% if item.custom_quotation_marks_
+      == 'true' %}
+					<style>
+
+						#{{name}} .m-testimonial__text--{{ loop.index }}:before {
+							content: '{{ item.open_testimonial }}';
+						}
+
+						#{{name}} .m-testimonial__text--{{ loop.index }}:after {
+							content: '{{ item.close_testimonial }}';
+						}
+					</style>
+					{% endif %}
+
+					<div class="m-testimonial__slide splide__slide js-rotator__item">				
+						<blockquote>
+							{% if item.image.image_field.src %}
+							<div class="m-testimonial__column m-testimonial__column--image m-testimonial__column--image-{{ loop.index }}">
+								{% set sizeAttrs = 'width="{{ item.image.image_field.width|escape_attr }}" height="{{ item.image.image_field.height|escape_attr }}"' %}
+								{% if item.image.image_field.size_type == 'auto' %}
+								{% set sizeAttrs = 'width="{{ item.image.image_field.width|escape_attr }}" height="{{ item.image.image_field.height|escape_attr }}" style="max-width: 100%; height: auto;"' %}
+								{% elif item.image.image_field.size_type == 'auto_custom_max' %}
+								{% set sizeAttrs = 'width="{{ item.image.image_field.max_width|escape_attr }}" height="{{ item.image.image_field.max_height|escape_attr }}" style="max-width: 100%; height: auto;"' %}
+								{% endif %}
+								{% set loadingAttr = item.image.image_field.loading != 'disabled' ? 'loading="{{ item.image.image_field.loading|escape_attr }}"' : '' %}
+								<img
+									 class="m-testimonial__image"
+									 src="{{ resize_image_url(item.image.image_field.src, 470, 405) }}"
+									 alt="{{ item.image.image_field.alt }}"
+									 {{ loadingAttr }}
+									 />
+							</div>
+							{% endif %}
+
+							<div class="m-testimonial__column">
+								<div class="m-testimonial__content">
+									<div
+										 class="m-testimonial__text m-testimonial__text--{{ loop.index }}"
+										 itemprop="reviewBody"
+										 >
+										{{ item.testimonial_text }}
+									</div>
+
+									<div class="m-testimonial__footer">
+										{% if item.author.avatar.src %}
+										{% set loadingAttr = item.author.avatar.loading != 'disabled' ? 'loading="{{ item.author.avatar.loading|escape_attr }}"' : '' %}
+										<img
+											 class="m-testimonial__authorImage"
+											 src="{{ resize_image_url(item.author.avatar.src, 48, 48) }}"
+											 alt="{{ item.author.avatar.alt }}"
+											 {{ loadingAttr }}
+											 />
+										{% endif %}
+
+										<cite class="m-testimonial__source">
+											<div class="m-testimonial__author" itemprop="name">
+												{{ item.author.author }}
+											</div>
+											<div class="m-testimonial__authorSource">
+												{{ item.author.author_source }}
+											</div>
+										</cite>
+									</div>
+								</div>
+							</div>
+						</blockquote>
+					</div>
+
+					{% endfor %}
+						</div>
+					</div>
+
+					{% if module.testimonials|length > 1 %}
+					<div id="{{ name }}__controls" class="m-testimonial__controls splide__arrows">
+						<button class="m-imageGallery__arrow m-imageGallery__arrow--prev m-arrows__arrow js-testimonialprev">
+							<span class="show-for-sr">Previous image</span>
+							{% icon name="chevron-left" style="SOLID" width="16" %}
+						</button>
+						<button class="m-imageGallery__arrow m-imageGallery__arrow--next m-arrows__arrow js-testimonialnext">
+							<span class="show-for-sr">Next image</span>
+							{% icon name="chevron-right" style="SOLID" width="16" %}
+						</button>
+					</div>
+					{% endif %}
+				</div>
+
+				{% if module.testimonials|length > 1 %}
+				{{ require_css(get_asset_url('../../../css/vendor/vendor.splide.css')) }}
+				{{ require_css(get_asset_url('../../../css/modules/modules.dots.css')) }}
+				{{ require_css(get_asset_url('../../../css/modules/modules.arrows.css')) }}
+				{{ require_js(get_asset_url('../../../js/vendor/vendor.splide.js'), { position: "footer", async: true }) }}
+				{% require_js position='footer' %}
+				<script>
+					window.lazyModuleInit('{{ name }}', function() {
+						const testimonialSlider = document.querySelector('#{{ name }} .js-rotator');
+						if (!testimonialSlider) return;
+
+						const splide = new Splide(testimonialSlider, {
+							type: 'slide',
+							perPage: 1,
+							perMove: 1,
+							arrows: false,
+							pagination: false,
+							{% if module.autoplay %}
+							autoplay: true,
+							{% endif %}
+							{% if module.autoplay_speed %}
+							interval: {{ module.autoplay_speed }},
+							{% endif %}
+						});
+
+						const prevBtn = document.querySelector('#{{ name }} .js-testimonialprev');
+						const nextBtn = document.querySelector('#{{ name }} .js-testimonialnext');
+
+						if (prevBtn) {
+							prevBtn.addEventListener('click', function() { splide.go('<'); });
+						}
+						if (nextBtn) {
+							nextBtn.addEventListener('click', function() { splide.go('>'); });
+						}
+
+						splide.mount();
+					});
+				</script>
+				{% end_require_js %}
+
+				{% endif %}
+
+				{% elif is_in_editor %}
+				{% editor_placeholder %}
+				{% endif %}
+
+				{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+			</div>
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}

@@ -1,0 +1,151 @@
+{% for item in module.banner_slides.slide %}
+{% if loop.first %}
+
+{% if item.media_type and item.image_field.src and item.image_field.loading == 'eager' %}
+{% require_head %}
+<link rel="preload" href="{{ resize_image_url(item.image_field.src, 0, 0, 1200) }}" as="image" fetchpriority="high" imagesrcset="{{ resize_image_url(item.image_field.src, 0, 0, 767) }} 767w, {{ resize_image_url(item.image_field.src, 0, 0, 1200) }} 1200w" />
+{% end_require_head %}
+{% endif %}
+
+{% endif %}
+{% endfor %}
+
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+{% endif %}
+
+	<section id="{{ name }}" class="m-bannerHero">
+
+		<div class="m-bannerHero__inner o-wrapper o-wrapper--module {% if module.banner_slides.slide|length > 1 %}splide js-rotator{% endif %}">
+
+			{% if module.banner_slides.slide|length > 1 %}
+			<div class="splide__track">
+				<div class="splide__list">
+			{% endif %}
+
+			{% for item in module.banner_slides.slide %}
+
+			<div class="m-bannerHero__slide {% if module.banner_slides.slide|length > 1 %}splide__slide{% endif %} js-rotator__item">
+				<div class="m-bannerHero__content {% if module.banner_slides.slide|length > 1 %}m-bannerHero__content--slide{% endif %}">
+
+					<div class="m-bannerHero__headings">
+
+						<h1 class="m-bannerHero__title">{{ item.heading }}</h1>
+
+						{% if item.subheading %}
+						<h2 class="m-bannerHero__subheading h2">
+							{{ item.subheading }}
+						</h2>
+						{% endif %}
+
+					</div>
+
+					{% if item.summary %}
+					<div class="m-bannerHero__summary">{{ item.summary }}</div>
+					{% endif %}
+
+					{% if item.buttons|length > 0 %}
+					<div class="m-bannerHero__actions">
+						{% for button in item.buttons %}
+						{{ link_helper.render_button(button, name ~ '__button_' ~ loop.index) }}
+						{% endfor %}
+					</div>
+					{% endif %}
+
+				</div>
+				<div class="m-bannerHero__media">
+
+					{% if item.media_type == 'image' %}
+
+					{% if item.image_field.src %}
+					{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}"' %}
+					{% if item.image_field.size_type == 'auto' %}
+					{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}" style="max-width: 100%; height: auto;"' %}
+					{% elif item.image_field.size_type == 'auto_custom_max' %}
+					{% set sizeAttrs = 'width="{{ item.image_field.max_width }}" height="{{ item.image_field.max_height }}" style="max-width: 100%; height: auto;"' %}
+					{% endif %}
+					{% set loadingAttr = item.image_field.loading != 'disabled' ? 'loading="{{ item.image_field.loading|escape_attr }}"' : '' %}
+					{# Use picture element for WebP support and responsive images #}
+					<picture class="m-bannerHero__image-wrapper">
+						<source srcset="{{ resize_image_url(item.image_field.src, 0, 0, 767) }}" media="(max-width: 767px)" type="image/webp">
+						<source srcset="{{ resize_image_url(item.image_field.src, 0, 0, 1200) }}" media="(min-width: 768px)" type="image/webp">
+						<img class="m-bannerHero__image" src="{{ item.image_field.src }}" alt="{{ item.image_field.alt }}" {{ sizeAttrs }} fetchpriority="high" {{ loadingAttr }}>
+					</picture>
+					{% endif %}
+
+					{% endif %}
+
+					{% if item.media_type == 'video' %}
+
+					<!-- Schema -->
+					<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "VideoObject",
+	"name": "{{ item.schema.title }}",
+	"description": "{{ item.schema.summary }}",
+	"thumbnailUrl": "{{ item.schema.thumbnail_url }}",
+	"duration": "PT{{ item.schema.duration }}",
+	"contentUrl": "{{ item.video_url }}",
+	"uploadDate": "{{ item.schema.date_field }}"
+}
+					</script>
+					<!-- End Schema -->
+
+					{% set mp4_href = item.video_url %}
+
+					<video class="m-bannerHero__video" width="100%" height="100%" preload="metadata" autoplay muted loop playsinline>
+						<source src="{{ mp4_href }}" type="video/mp4">
+					</video>
+					{% endif %}
+
+				</div>
+			</div>
+
+			{% endfor %}
+
+			{% if module.banner_slides.slide|length > 1 %}
+				</div>
+			</div>
+			<div class="splide__pagination m-dots"></div>
+			{% endif %}
+
+		</div>
+
+		{% if module.banner_slides.slide|length > 1 %}
+
+		{{ require_css(get_asset_url('../../../css/vendor/vendor.splide.css')) }}
+		{{ require_js(get_asset_url('../../../js/vendor/vendor.splide.js'), { position: "footer", async: true }) }}
+
+		{% require_js position='footer' %}
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				const bannerSlider = document.querySelector('#{{ name }} .js-rotator');
+				if (!bannerSlider) return;
+
+				const splide = new Splide(bannerSlider, {
+					type: 'slide',
+					perPage: 1,
+					perMove: 1,
+					arrows: false,
+					pagination: true,
+					{% if module.autoplay %}
+					autoplay: true,
+					{% endif %}
+					{% if module.autoplay_speed %}
+					interval: {{ module.autoplay_speed }},
+					{% endif %}
+				});
+
+				splide.mount();
+			});
+		</script>
+		{% end_require_js %}
+
+		{% endif %}
+
+	</section>
+
+{% if module.scrollid %}
+</div>
+{% endif %}

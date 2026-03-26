@@ -1,0 +1,10 @@
+**/node_modules/
+**/Assets
+**/es5/
+**/.git/
+**/bin/
+*.yml
+[Bb]in/
+**/[Aa]ssets/
+**/frontend_assets/
+package.json

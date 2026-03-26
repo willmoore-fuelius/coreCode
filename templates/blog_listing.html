@@ -1,0 +1,18 @@
+<!--
+templateType: blog_listing
+isAvailableForNewContent: true
+label: Blog listing
+-->
+{% extends "./layouts/base.html" %}
+{% block body %}
+
+<main id="main-content" class="m-blogListing">
+
+    {% module "blog-listing-banner" path="../modules/banners/Banner - Blog Listing", label="Banner" %}
+
+    {% module "blog-filters" path='/CoreCode/modules/blog/blog_filters', label="Blog filters", no_wrapper=True %}
+
+    {% module "blog-listing" path='/CoreCode/modules/blog/blog_listing', label="Blog Listing", no_wrapper=True %}
+
+</main>
+{% endblock body %}

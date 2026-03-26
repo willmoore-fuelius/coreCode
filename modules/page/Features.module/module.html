@@ -1,0 +1,106 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-features">
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				{{ text_helpers.render_heading(module.module_heading,
+    module.enable_module_heading) }}
+
+				{% if module.features|length > 0 %}
+				<div class="m-features__inner">
+					<div class="m-features__column m-features__column--content">
+						<ul class="m-features__features">
+							{% for item in module.features %}
+							<li class="m-features__featureItem">
+								{% if item.media_type != 'none' %}
+								<div
+									 class="m-features__featureMedia m-features__featureMedia--{{ item.media_type }} m-features__linkmedia--{{ loop.index }}"
+									 >
+									{% if item.media_type == 'icon' %} {% icon name="{{
+              item.icon_field.name }}" style="{{ item.icon_field.type }}"
+              unicode="{{ item.icon_field.unicode }}" icon_set="{{
+              item.icon_field.icon_set }}" width="{{ item.icon_size }}" %} {%
+              elif item.media_type == 'image' %} {% if item.image_field.src %}
+									{% set sizeAttrs = 'width="{{ item.image_field.width }}"
+              height="{{ item.image_field.height }}"' %} {% if
+              item.image_field.size_type == 'auto' %} {% set sizeAttrs =
+              'width="{{ item.image_field.width }}" height="{{
+              item.image_field.height }}" style="max-width: 100%; height:
+              auto;"' %} {% elif item.image_field.size_type == 'auto_custom_max'
+              %} {% set sizeAttrs = 'width="{{ item.image_field.max_width }}"
+              height="{{ item.image_field.max_height }}" style="max-width: 100%;
+              height: auto;"' %} {% endif %} {% set loadingAttr =
+              item.image_field.loading != 'disabled' ? 'loading="{{
+              item.image_field.loading }}"' : '' %}
+									<img
+										 class="m-features__featureImage"
+										 src="{{ resize_image_url(item.image_field.src, 60, 60) }}"
+										 alt="{{ item.image_field.alt }}"
+										 {{
+                loadingAttr
+                }}
+										 />
+									{% endif %} {% endif %}
+								</div>
+								{% endif %}
+
+								<div class="m-features__featureContent">
+									<p class="m-features__featureHeading">
+										{{ item.feature_heading }}
+									</p>
+
+									<div class="m-features__featureSummary">
+										{{ item.feature_summary }}
+									</div>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</div>
+
+					{% if module.image.image_field %}
+					<div class="m-features__column m-features__column--image">
+						{% if module.image.image_field.src %} {% set sizeAttrs = 'width="{{
+        module.image.image_field.width }}" height="{{
+        module.image.image_field.height }}"' %} {% if
+        module.image.image_field.size_type == 'auto' %} {% set sizeAttrs =
+        'width="{{ module.image.image_field.width }}" height="{{
+        module.image.image_field.height }}" style="max-width: 100%; height:
+        auto;"' %} {% elif module.image.image_field.size_type ==
+        'auto_custom_max' %} {% set sizeAttrs = 'width="{{
+        module.image.image_field.max_width }}" height="{{
+        module.image.image_field.max_height }}" style="max-width: 100%; height:
+        auto;"' %} {% endif %} {% set loadingAttr =
+        module.image.image_field.loading != 'disabled' ? 'loading="{{
+        module.image.image_field.loading }}"' : '' %}
+						<img
+							 class="m-features__image"
+							 src="{{ resize_image_url(module.image.image_field.src, 580, 580) }}"
+							 alt="{{ module.image.image_field.alt }}"
+							 {{
+          loadingAttr
+          }}
+							 />
+
+						{% endif %} 
+
+					</div>
+					{% endif %}
+				</div>
+
+				{% elif is_in_editor %}
+				{% editor_placeholder %}
+				{% endif %}
+
+				{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+			</div>
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}

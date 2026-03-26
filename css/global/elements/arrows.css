@@ -1,0 +1,27 @@
+.m-arrows {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--gridGutters);
+}
+
+.m-arrows__button {
+	background: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 44px;
+	height: 44px;
+	border-radius: 100%;
+	border: var(--border1) solid;
+	transition: border var(--transitionSpeed);
+	cursor: pointer;
+}
+
+.m-arrows__button:hover {
+
+}
+
+.m-arrows__buttonicon {
+
+}

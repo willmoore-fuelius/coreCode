@@ -1,0 +1,143 @@
+html {
+	font-size: 16px;
+}
+
+body {
+	word-break: break-word;
+	line-height: 150%;
+}
+
+body.disable-scroll{
+	overflow-y: hidden;
+}
+
+html[lang^="ja"] body,
+html[lang^="zh"] body,
+html[lang^="ko"] body {
+	line-break: strict;
+	word-break: break-all;
+}
+
+/* Paragraphs */
+
+p {
+	margin: 0;
+}
+
+/* Anchors */
+
+a {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+a:hover,
+a:focus,
+a:active {
+	text-decoration: underline;
+}
+
+/* Headings */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: var(--space20) 0;
+}
+
+h1 {
+	font-size: clamp(var(--h1Min), 4vw + 1rem, var(--h1));
+	line-height: 120%;
+}
+
+h2 {
+	font-size: clamp(var(--h2Min), 4vw + 1rem, var(--h2));
+	line-height: 120%;
+}
+
+h3 {
+	font-size: clamp(var(--h3Min), 4vw + 1rem, var(--h3));
+	line-height: 120%;
+}
+
+h4 {
+	font-size: clamp(var(--h4Min), 4vw + 1rem, var(--h4));
+	line-height: 140%;
+}
+
+h5 {
+	font-size: clamp(var(--h5Min), 4vw + 1rem, var(--h5));
+	line-height: 140%;
+}
+
+h6 {
+	font-size: clamp(var(--h6Min), 4vw + 1rem, var(--h6));
+	line-height: 140%;
+}
+
+@media (width >= 992px) {
+
+	h4 {
+		line-height: 130%;
+	}
+
+}
+
+/* Lists */
+
+ul:not([class]),
+ol:not([class]) {
+	margin: 1rem 0;
+	padding: 0;
+	list-style: none;
+}
+
+ol:not([class]) {
+	counter-reset: default-counter;
+}
+
+ol:not([class]) > li {
+	counter-increment: default-counter;
+}
+
+ul:not([class]) > li,
+ol:not([class]) > li {
+	position: relative;
+	padding-left: var(--space20);
+}
+
+ul:not([class]) > li:before,
+ol:not([class]) > li:before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 7px;
+}
+
+ul:not([class]) > li:before{
+	width: 0.625rem;
+	height: 0.625rem;
+	border-width: var(--border1);
+	border-style: solid;
+}
+
+ol:not([class]) > li:before{
+	content: counter(default-counter);
+	width: 0.625rem;
+	height: 0.625rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Horizontal rules */
+
+hr {
+	background-color: var(--grey30);
+	border: none;
+	color: var(--grey30);
+	height: var(--border1);
+}

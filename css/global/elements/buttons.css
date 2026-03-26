@@ -1,0 +1,56 @@
+.e-button,
+.hs-button,
+.cta_button,
+input[type=submit]:not(.normalise) {
+    position: relative;
+    cursor: pointer;
+    display: inline-flex;
+    border: 0;
+    white-space: normal;
+}
+
+/* Focus visible styles for accessibility (WCAG 2.4.7) */
+.e-button:focus-visible,
+.hs-button:focus-visible,
+.cta_button:focus-visible,
+input[type=submit]:focus-visible {
+    outline: 2px solid var(--primaryColour, #0066cc);
+    outline-offset: 2px;
+}
+
+/* Fallback for browsers without :focus-visible */
+.e-button:focus:not(:active),
+.hs-button:focus:not(:active),
+.cta_button:focus:not(:active),
+input[type=submit]:focus:not(:active) {
+    outline: 2px solid var(--primaryColour, #0066cc);
+    outline-offset: 2px;
+}
+
+button:disabled,
+.e-button:disabled,
+.cta_button:disabled {
+    opacity: .5;
+}
+
+{# Spacing #}
+
+@media (width < 576px){
+
+    .e-button + .e-button {
+        margin-top: var(--space12);
+    }
+
+}
+
+@media (width >= 576px){
+
+    .e-button + .e-button {
+        margin-left: var(--space12);
+    }
+
+}
+
+.hs-cta-button {
+    display: inline-block;
+}

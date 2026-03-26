@@ -1,0 +1,135 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-tabsHorizontal" data-lazy-init>
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				{{ text_helpers.render_heading(module.module_heading,
+    module.enable_module_heading) }}
+
+				<ul role="tablist" class="m-tabsHorizontal__titles">
+					{% for item in module.tabbed_content %}
+					<li class="m-tabsHorizontal__titleItem" role="presentation">
+						<a
+						   href="#{{ name }}-section-{{ loop.index }}"
+						   role="tab"
+						   id="{{ name }}-tab-{{ loop.index }}"
+						   aria-controls="{{ name }}-section-{{ loop.index }}"
+						   aria-selected="true"
+						   class="m-tabsHorizontal__title tabs-trigger js-tabsTrigger"
+						   >
+							<div class="m-tabsHorizontal__titleInner">{{ item.tab_title }}</div>
+						</a>
+					</li>
+					{% endfor %}
+				</ul>
+
+				<div class="m-tabsHorizontal__panels">
+					{% for item in module.tabbed_content %}
+					<section
+							 id="{{ name }}-section-{{ loop.index }}"
+							 role="tabpanel"
+							 aria-labelledby="{{ name }}-tab-{{ loop.index }}"
+							 class="m-tabsHorizontal__tab tabs-panel js-tabsPanel"
+							 tabindex="-1"
+							 {% if not loop.first %}aria-hidden="true"{% endif %}
+							 >
+						<div
+							 class="m-tabsHorizontal__title m-tabsHorizontal__title--accordion js-accordionTrigger"
+							 aria-controls="{{ name }}-section-{{ loop.index }}" tabindex="0"
+							 >
+							<span class="">{{ item.tab_title }}</span>
+							<div class="m-tabsHorizontal__titleStatus">
+								{% icon name="Chevron-down" style="SOLID"
+            icon_set="fontawesome-5.14.0" width="12" %}
+							</div>
+						</div>
+
+						<div
+							 class="m-tabsHorizontal__inner m-tabsHorizontal__inner--{{ loop.index }} js-tabContent o-rte"
+							 aria-hidden="false"
+							 >
+							{{ item.richtext_field }}
+						</div>
+					</section>
+					{% endfor %}
+				</div>
+
+				<style>
+
+					@media (max-width: 991px){
+
+						#{{ name }} .m-tabsHorizontal__tab.is-open .m-tabsHorizontal__titleStatus svg {
+							transform: rotate(180deg);
+						}
+
+						#{{ name }} .m-tabsHorizontal__inner.is-hidden {
+							display: none;
+						}
+
+						#{{ name }} .m-tabsHorizontal__inner.is-open {
+							display: block;
+						}
+
+					}
+
+					@media (min-width: 992px){
+
+						#{{ name }}.tabs-allowed .tabs-trigger {
+							display: flex;
+							flex-direction: column;
+							justify-content: flex-end;
+						}
+
+						#{{ name }} .m-tabsHorizontal__title--accordion,
+						#{{ name }}.tabs-allowed .tabs-panel,
+						#{{ name }}.tabs-allowed .tabs-panel.is-hidden,
+						#{{ name }} .tabs-panel.is-hidden .js-tabContent,
+						#{{ name }}.tabs-allowed .accordion-trigger {
+							display: none;
+						}
+
+						/* Focus visible styles for accessibility (WCAG 2.4.7) */
+						#{{ name }} .tabs-trigger:focus-visible {
+							outline: 2px solid var(--primary-color, #0066cc);
+							outline-offset: 2px;
+						}
+
+						#{{ name }}.is-initialized.tabs-allowed .tabs-panel {
+							display: inherit;
+						}
+
+					}
+				</style>
+
+				{{ require_js(get_asset_url('../../../js/vendor/vendor.tabs-accordion.js'), { position: "footer", async: true }) }}
+
+				{% require_js position='footer' %}
+				<script>
+					window.lazyModuleInit('{{ name }}', function() {
+						const tabs = document.getElementById("{{ name }}");
+						if (!tabs) return;
+
+						if (typeof AccordionTabs !== 'undefined') {
+							new AccordionTabs(tabs, {
+								breakpoint: 992,
+								tabsAllowed: true,
+								selectedTab: 0,
+								startCollapsed: false
+							});
+						}
+					});
+				</script>
+				{% end_require_js %}
+
+				{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+			</div>	
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}

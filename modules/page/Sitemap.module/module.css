@@ -1,0 +1,4 @@
+/* A catch for the root page which has no slug to populate the sitemap list */
+.m-sitemap a:empty:before {
+	content: "Homepage"; 
+}

@@ -1,0 +1,26 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE"
+  ],
+  "host_template_types": [
+    "PAGE"
+  ],
+  "module_id": 75666794724,
+  "css_assets": [
+    {
+      "autoload": true,
+      "path": "../../../css/modules/heading.css",
+      "name": "modules.heading.css"
+    }
+  ],
+  "js_assets": [],
+  "label": "Form",
+  "icon": "fontawesome-5.14.0:Edit:SOLID",
+  "is_available_for_new_content": true,
+  "categories": [
+    "FORMS_AND_BUTTONS"
+  ],
+  "description": "HubSpot form embed with configurable form selection and styling"
+}

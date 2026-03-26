@@ -1,0 +1,85 @@
+.m-iconGrid {
+    --iconGridIconSize: 30px;
+}
+
+.m-iconGrid__primaryItems,
+.m-iconGrid__secondaryItems {
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	gap: var(--gridGutters);
+}
+
+.m-iconGrid__secondaryItems {
+	margin-top: var(--space24);
+}
+
+.m-iconGrid__primaryItemIcon,
+.m-iconGrid__secondaryItemIcon {
+	width: var(--iconGridIconSize);
+	height: var(--iconGridIconSize);
+}
+
+.m-iconGrid__primaryItemIcon svg,
+.m-iconGrid__secondaryItemIcon svg {
+	width: 100%;
+	height: 100%;
+}
+
+.m-iconGrid__primaryItem--linked,
+.m-iconGrid__secondaryItem--linked {
+	position: relative;
+}
+
+.m-iconGrid__headingLink {
+	color: inherit;
+	text-decoration: none;
+}
+
+.m-iconGrid__headingLink::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+}
+
+.m-iconGrid__headingLink:focus-visible {
+	outline: none;
+}
+
+.m-iconGrid__primaryItem--linked:has(.m-iconGrid__headingLink:focus-visible),
+.m-iconGrid__secondaryItem--linked:has(.m-iconGrid__headingLink:focus-visible) {
+	outline: 2px solid var(--primaryColour, #0066cc);
+	outline-offset: 2px;
+}
+
+.m-iconGrid__primaryItemLinkWrapper,
+.m-iconGrid__secondaryItemLinkWrapper {
+	position: relative;
+	z-index: 2;
+}
+
+@media (width >= 768px) {
+
+	.m-iconGrid__primaryItems,
+	.m-iconGrid__secondaryItems {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.m-iconGrid__secondaryItems {
+		margin-top: var(--space24);
+	}
+
+}
+
+@media (width >= 992px) {
+
+	.m-iconGrid__primaryItems {
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	}
+
+	.m-iconGrid__secondaryItems {
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	}
+
+}
+

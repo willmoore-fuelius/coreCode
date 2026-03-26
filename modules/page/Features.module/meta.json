@@ -1,0 +1,25 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE"
+  ],
+  "host_template_types": [
+    "PAGE"
+  ],
+  "module_id": 75666185916,
+  "css_assets": [
+    {
+      "autoload": true,
+      "path": "../../../css/modules/heading.css",
+      "name": "modules.heading.css"
+    }
+  ],
+  "label": "Features",
+  "icon": "fontawesome-5.14.0:th-list:SOLID",
+  "is_available_for_new_content": true,
+  "categories": [
+    "BODY_CONTENT"
+  ],
+  "description": "Feature cards grid showcasing key product or service highlights"
+}

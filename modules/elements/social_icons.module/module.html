@@ -1,0 +1,67 @@
+{% if module.social_links|length > 0 %}
+{% set warp_positions = ['top-right', 'top-left', 'bottom-left', 'bottom-right', 'top-right-alt', 'top-left-alt', 'bottom-right-alt', 'bottom-left-alt'] %}
+  <div id="{{name}}">
+    <ul class="m-socialLinks">
+      {% for item in module.social_links %}
+      {% if module.social_sharing %}
+        {% if item.social_account == 'twitter' %}
+        {% set href = 'https://www.twitter.com/share?url=' ~ content.absolute_url %}
+        {% elif item.social_account == 'facebook-f' %}
+        {% set href = 'https://www.facebook.com/sharer/sharer.php?u=' ~ content.absolute_url %}
+        {% elif item.social_account == 'instagram' %}
+        {% set href = 'https://www.instagram.com/sharer.php?u=' ~ content.absolute_url %}
+        {% elif item.social_account == 'linkedin-in' %}
+        {% set href = 'https://www.linkedin.com/sharing/share-offsite/?url=' ~ content.absolute_url %}
+        {% endif %}
+      {% else %}
+        {% set href = item.social_link.url.href %}
+        {% if item.social_link.url.type is equalto "EMAIL_ADDRESS" %}
+        {% set href = "mailto:" + href %}
+        {% endif %}
+        {% set rel = [] %}
+        {% if item.social_link.no_follow %}
+        {% do rel.append("nofollow") %}
+        {% endif %}
+        {% if item.social_link.open_in_new_tab %}
+        {% do rel.append("noopener") %}
+        {% endif %}
+      {% endif %}
+
+      {% if item.social_account != 'custom_icon' %}
+      {% set social_icon = item.social_account %}
+      {% else %}
+      {% set social_icon = item.custom_icon.name %}
+      {% endif %}
+      <li class="m-socialLinks__item">
+        <div class="m-socialLinks__itemInner">
+          <a class="m-socialLinks__link m-socialLinks__link--{{loop.index}} button button--primary warp warp--{{ warp_positions|random }} warp--purple" href="{{ href }}"
+            {% if item.social_link.open_in_new_tab %}target="_blank"{% endif %}
+            {% if rel %}rel="{{ rel|join(' ') }}"{% endif %}>
+            {% icon
+              extra_classes='m-socialLinks__icon',
+              name='{{ social_icon }}',
+              purpose='semantic',
+              style='SOLID',
+              title='{{ item.accessibility.title }}',
+              unique_in_loop=True
+            %}
+          </a>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <style>
+    {% for item in module.social_links %}
+    #{{name}} .m-socialLinks__link--{{loop.index}}:hover,
+    #{{name}} .m-socialLinks__link--{{loop.index}}:focus,
+    #{{name}} .m-socialLinks__link--{{loop.index}}:active,
+    #{{name}} .m-socialLinks__link--{{loop.index}}:hover:before{
+      background-color: {{ item.color_field.color }};
+    }
+    {% endfor %}
+  </style>
+{% elif is_in_editor %}
+{% editor_placeholder %}
+{% endif %}

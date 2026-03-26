@@ -1,0 +1,140 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-iconGrid">
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				{{ text_helpers.render_heading(module.module_heading, module.enable_module_heading) }}
+
+				<div class="m-iconGrid__primaryItems">
+
+					{% for item in module.content.primary_grid_items %}
+					{%- set primaryHasLink = item.add_link_cta_ and item.button.button_type == 'link' and item.button.link_settings.link_field.url.href -%}
+
+					<div class="m-iconGrid__primaryItem{% if primaryHasLink %} m-iconGrid__primaryItem--linked{% endif %}">
+
+						<div class="m-iconGrid__primaryItemIcon" style="--iconGridIconSize: {{ item.icon_size ~ 'px' }};">
+
+							{% if item.custom_icon %}
+
+							{% if item.icon.src %}
+							{% set sizeAttrs = 'width="{{ item.icon.width }}" height="{{ item.icon.height }}"' %}
+							{% if item.icon.size_type == 'auto' %}
+							{% set sizeAttrs = 'width="{{ item.icon.width }}" height="{{ item.icon.height }}" style="max-width: 100%; height: auto;"' %}
+							{% elif item.icon.size_type == 'auto_custom_max' %}
+							{% set sizeAttrs = 'width="{{ item.icon.max_width }}" height="{{ item.icon.max_height }}" style="max-width: 100%; height: auto;"' %}
+							{% endif %}
+							{% set loadingAttr = item.icon.loading != 'disabled' ? 'loading="{{ item.icon.loading }}"' : '' %}
+							<img class="m-iconGrid__primaryItemIconCustom" src="{{ item.icon.src }}" alt="{{ item.icon.alt }}" {{ loadingAttr }} {{ sizeAttrs }}>
+							{% endif %}
+
+							{% else %}
+
+							{% icon
+		name="{{ item.icon_field.name }}"
+		style="{{ item.icon_field.type }}"
+		unicode="{{ item.icon_field.unicode }}"
+		icon_set="{{ item.icon_field.icon_set }}"
+		width="{{ item.icon_size }}"
+	%}
+
+							{% endif %}
+
+						</div>
+
+						{% if item.heading %}
+						<p class="m-iconGrid__primaryItemTitle">
+							{%- if primaryHasLink -%}
+							<a class="m-iconGrid__headingLink" href="{{ item.button.link_settings.link_field.url.href }}"{% if item.button.link_settings.link_field.open_in_new_tab %} target="_blank" rel="noopener"{% endif %}>{{ item.heading }}</a>
+							{%- else -%}
+							{{ item.heading }}
+							{%- endif -%}
+						</p>
+						{% endif %}
+
+						{% if item.summary %}
+						<p class="m-iconGrid__primaryItemSummary">{{ item.summary }}</p>
+						{% endif %}
+
+						{% if item.add_link_cta_ %}
+						<div class="m-iconGrid__primaryItemLinkWrapper">
+							{{ link_helper.render_button(item.button, name ~ '__button_' ~ loop.index) }}
+						</div>
+						{% endif %}
+
+					</div>
+
+					{% endfor %}
+				</div>
+
+				<div class="m-iconGrid__secondaryItems">
+
+					{% for item2 in module.content.secondary_grid_items %}
+					{%- set secondaryHasLink = item2.add_link_cta_ and item2.button.button_type == 'link' and item2.button.link_settings.link_field.url.href -%}
+
+					<div class="m-iconGrid__secondaryItem{% if secondaryHasLink %} m-iconGrid__secondaryItem--linked{% endif %}">
+
+						<div class="m-iconGrid__secondaryItemIcon" style="--iconGridIconSize: {{ item2.icon_size ~ 'px' }};">
+
+							{% if item2.custom_icon %}
+
+							{% if item2.icon.src %}
+							{% set sizeAttrs = 'width="{{ item2.icon.width }}" height="{{ item2.icon.height }}"' %}
+							{% if item2.icon.size_type == 'auto' %}
+							{% set sizeAttrs = 'width="{{ item2.icon.width }}" height="{{ item2.icon.height }}" style="max-width: 100%; height: auto;"' %}
+							{% elif item2.icon.size_type == 'auto_custom_max' %}
+							{% set sizeAttrs = 'width="{{ item2.icon.max_width }}" height="{{ item2.icon.max_height }}" style="max-width: 100%; height: auto;"' %}
+							{% endif %}
+							{% set loadingAttr = item2.icon.loading != 'disabled' ? 'loading="{{ item2.icon.loading }}"' : '' %}
+							<img class="m-iconGrid__secondaryItemIconCustom" src="{{ item2.icon.src }}" alt="{{ item2.icon.alt }}" {{ loadingAttr }} {{ sizeAttrs }}>
+							{% endif %}
+
+							{% else %}
+
+							{% icon
+		name="{{ item2.icon_field.name }}"
+		style="{{ item2.icon_field.type }}"
+		unicode="{{ item2.icon_field.unicode }}"
+		icon_set="{{ item2.icon_field.icon_set }}"
+		width="{{ item2.icon_size }}"
+	%}
+
+							{% endif %}
+
+						</div>
+
+						{% if item2.heading %}
+						<p class="m-iconGrid__secondaryItemTitle">
+							{%- if secondaryHasLink -%}
+							<a class="m-iconGrid__headingLink" href="{{ item2.button.link_settings.link_field.url.href }}"{% if item2.button.link_settings.link_field.open_in_new_tab %} target="_blank" rel="noopener"{% endif %}>{{ item2.heading }}</a>
+							{%- else -%}
+							{{ item2.heading }}
+							{%- endif -%}
+						</p>
+						{% endif %}
+
+						{% if item2.summary %}
+						<p class="m-iconGrid__secondaryItemSummary">{{ item2.summary }}</p>
+						{% endif %}
+
+						{% if item2.add_link_cta_ %}
+						<div class="m-iconGrid__secondaryItemLinkWrapper">
+							{{ link_helper.render_button(item2.button, name ~ '__button_' ~ loop.index) }}
+						</div>
+						{% endif %}
+
+					</div>
+					{% endfor %}
+				</div>
+
+				{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+			</div>
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}

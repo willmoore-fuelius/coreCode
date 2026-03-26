@@ -1,0 +1,28 @@
+.m-pagination {
+    margin-top: var(--space20);
+}
+
+.m-pagination__links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.m-pagination__linksitem {
+
+}
+
+.m-pagination__link {
+
+}
+
+.m-pagination__link--active {
+
+}
+
+.m-pagination__link--active,
+.m-pagination__link--disabled,
+.m-pagination__arrow--disabled {
+    user-select: none;
+    pointer-events: none;
+}

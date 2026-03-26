@@ -1,0 +1,19 @@
+/* Critical Layout Styles - Above the fold only */
+/* Extracted from css/global/objects/containers_dnd.css */
+
+.o-wrapper {
+	container-type: inline-size;
+	container-name: o-wrapper;
+	position: relative;
+	padding: 0;
+	width: 100%;
+}
+
+.o-wrapper--module {
+	padding: var(--moduleTopSpacing) var(--moduleLeftSpacing) var(--moduleBottomSpacing);
+}
+
+.o-container {
+	max-width: var(--containerWidth);
+	margin-inline: auto;
+}

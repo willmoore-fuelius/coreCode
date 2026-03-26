@@ -1,0 +1,5 @@
+.m-blogFilters__inner {
+    display: grid;
+    grid-template-columns: minmax(450px, max-content) minmax(320px, max-content) minmax(115px, max-content);
+    gap: var(--gridGutters);
+}

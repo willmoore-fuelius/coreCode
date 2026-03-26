@@ -1,0 +1,113 @@
+<!--
+templateType: global_partial
+label: Site header
+-->
+
+{% boolean "search_toggle" label="Enable/disable Site Search", value=True, no_wrapper=True, export_to_template_context=True %}
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<header class="m-siteHeader js-siteheader">
+	<div class="o-container">
+		<div class="m-siteHeader__inner">
+
+			<div class="m-siteHeader__logo">
+				{% module 'logo' path='../../modules/elements/Logo', label='Logo', no_wrapper=True %}
+			</div>
+
+			<div class="m-siteHeader__navigationgroup">
+
+				<button type="button"
+					class="m-siteHeader__toggle js-header__navigation-toggle"
+					aria-expanded="false"
+					aria-controls="site-navigation"
+					aria-label="Toggle navigation menu">
+					<span class="show-for-sr">Menu</span>
+				</button>
+
+				<div id="site-navigation" class="m-siteHeader__navigation js-header__navigation" role="navigation" aria-label="Main navigation">
+					{% module 'navigation' path='../../modules/menus/Mega menu', label='Navigation', no_wrapper=True %}
+				</div>
+
+				{% if widget_data.search_toggle.value %}
+				<div class="m-siteHeader__search">
+					{% module "site-search" path='../../modules/components/Search Box.module', label="Site Search", no_wrapper=True
+      %}  
+				</div>
+
+			</div>
+
+			{% endif %}
+
+		</div>	
+	</div>
+</header>
+
+{% require_js position='footer' %}
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+
+		const body = document.body;
+		const navigation = document.querySelector('.js-header__navigation');
+		const menuToggle = document.querySelector('.js-header__navigation-toggle');
+		let resizeTimeout;
+
+		// Mobile menu toggle
+		if (menuToggle && navigation) {
+			menuToggle.addEventListener('click', function() {
+				const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
+				menuToggle.setAttribute('aria-expanded', !isExpanded);
+				menuToggle.classList.toggle('active');
+				body.classList.toggle('navigation-active');
+				body.classList.toggle('disable-scroll');
+				navigation.classList.toggle('active');
+
+				// Focus management (WCAG 2.4.3)
+				if (!isExpanded) {
+					// Menu opening — move focus to first focusable item
+					const firstFocusable = navigation.querySelector('a, button');
+					if (firstFocusable) {
+						firstFocusable.focus();
+					}
+				} else {
+					// Menu closing — restore focus to toggle button
+					menuToggle.focus();
+				}
+			});
+
+			// Reset menu on resize to desktop
+			window.addEventListener('resize', function() {
+				if (window.innerWidth >= 1200 && menuToggle.classList.contains('active')) {
+					menuToggle.setAttribute('aria-expanded', 'false');
+					menuToggle.classList.remove('active');
+					body.classList.remove('navigation-active', 'disable-scroll');
+					navigation.classList.remove('active');
+					navigation.style.display = '';
+				}
+			});
+		}
+
+		// Sticky header height
+		const siteHeader = document.querySelector('.js-siteheader');
+		if (siteHeader && !document.documentElement.classList.contains('hs-inline-edit')) {
+			const setSiteHeader = function() {
+				const siteHeaderHeight = siteHeader.offsetHeight;
+				body.style.paddingTop = siteHeaderHeight + 'px';
+			};
+
+			setSiteHeader();
+
+			window.addEventListener('resize', function() {
+				clearTimeout(resizeTimeout);
+				resizeTimeout = setTimeout(setSiteHeader, 200);
+			});
+
+			window.addEventListener('orientationchange', function() {
+				clearTimeout(resizeTimeout);
+				resizeTimeout = setTimeout(setSiteHeader, 200);
+			});
+		}
+
+	});
+</script>
+{% end_require_js %}

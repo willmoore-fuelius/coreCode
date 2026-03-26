@@ -1,0 +1,110 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-logoSection" data-lazy-init>
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				{{ text_helpers.render_heading(module.module_heading, module.enable_module_heading) }}
+
+				{% if module.logos|length > 0 %}
+
+				<div class="m-logoSection__column">
+					{% if module.display_type == 'carousel' %}
+					<div class="m-logoSection__logos splide js-carousel" data-rotator="{{ name }}">
+						<div class="splide__track">
+							<div class="splide__list">
+								{% for item in module.logos %}
+								{% if item.image_field.src %}
+								<div class="m-logoSection__item splide__slide">
+									{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}"' %}
+									{% if item.image_field.size_type == 'auto' %}
+									{% set sizeAttrs = 'style="max-width: 100%; height: auto;"' %}
+									{% elif item.image_field.size_type == 'auto_custom_max' %}
+									{% set sizeAttrs = 'width="{{ item.image_field.max_width }}" height="{{ item.image_field.max_height }}" style="max-width: 100%; height: auto;"' %}
+									{% endif %}
+									{% set loadingAttr = item.image_field.loading != 'disabled' ? 'loading="{{ item.image_field.loading|escape_attr }}"' : '' %}
+									<img class="m-logoSection__image" src="{{ item.image_field.src }}" alt="{{ item.image_field.alt }}" {{ sizeAttrs }} {{ loadingAttr }}>
+								</div>
+								{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+						<div class="m-logoSection__dots splide__pagination m-dots"></div>
+					</div>
+					{% else %}
+					<div class="m-logoSection__logos m-logoSection__logos--grid">
+						{% for item in module.logos %}
+						{% if item.image_field.src %}
+						<div class="m-logoSection__item">
+							{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}"' %}
+							{% if item.image_field.size_type == 'auto' %}
+							{% set sizeAttrs = 'style="max-width: 100%; height: auto;"' %}
+							{% elif item.image_field.size_type == 'auto_custom_max' %}
+							{% set sizeAttrs = 'width="{{ item.image_field.max_width }}" height="{{ item.image_field.max_height }}" style="max-width: 100%; height: auto;"' %}
+							{% endif %}
+							{% set loadingAttr = item.image_field.loading != 'disabled' ? 'loading="{{ item.image_field.loading|escape_attr }}"' : '' %}
+							<img class="m-logoSection__image" src="{{ item.image_field.src }}" alt="{{ item.image_field.alt }}" {{ sizeAttrs }} {{ loadingAttr }}>
+						</div>
+						{% endif %}
+						{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+				{% elif is_in_editor %}
+				{% editor_placeholder %}
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}
+
+{% if module.logos|length > 0 and module.display_type == 'carousel' %}
+
+{{ require_css(get_asset_url('../../../css/vendor/vendor.splide.css')) }}
+{{ require_css(get_asset_url('../../../css/modules/modules.dots.css')) }}
+{{ require_js(get_asset_url('../../../js/vendor/vendor.splide.js'), { position: "footer", async: true }) }}
+
+{% require_js position='footer' %}
+<script>
+	window.lazyModuleInit('{{ name }}', function() {
+		const rotator = document.querySelector('#{{ name }} .js-carousel');
+		if (!rotator) return;
+
+		const splide = new Splide(rotator, {
+			type: 'loop',
+			perPage: 3,
+			perMove: 1,
+			arrows: false,
+			pagination: true,
+			gap: '1rem',
+			{% if module.autoplay %}
+			autoplay: true,
+			{% endif %}
+			{% if module.autoplay_speed %}
+			interval: {{ module.autoplay_speed }},
+			{% endif %}
+			pauseOnHover: false,
+			breakpoints: {
+				992: {
+					perPage: 6
+				},
+				768: {
+					perPage: 5
+				},
+				520: {
+					perPage: 4
+				}
+			}
+		});
+
+		splide.mount();
+	});
+</script>
+{% end_require_js %}
+{% endif %}

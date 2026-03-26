@@ -1,0 +1,24 @@
+/* Table */
+
+table {
+  border: var(--border1) solid;
+  margin-bottom: var(--space20);
+  overflow-wrap: break-word;
+}
+
+/* Table Cells */
+
+th,
+td {
+  border: var(--border1) solid;
+  padding: var(--space8);
+  vertical-align: top;
+}
+
+/* Table Header */
+
+thead th,
+thead td {
+  border-bottom: var(--border2) solid;
+  vertical-align: bottom;
+}

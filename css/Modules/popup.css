@@ -1,0 +1,62 @@
+/* Native Dialog-based Popup Styles */
+.m-popup {
+    border: none;
+    padding: 0;
+    max-width: 1200px;
+    width: calc(100% - 2rem);
+    aspect-ratio: 16/9;
+    background: transparent;
+    overflow: visible;
+}
+
+.m-popup::backdrop {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.m-popup__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.m-popup__close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--black);
+    border: none;
+    font-weight: bold;
+    font-size: 1.375rem;
+    color: var(--white);
+    opacity: 1;
+    line-height: 44px;
+    cursor: pointer;
+    transform: translateY(-100%) translateY(-20px);
+    transition: background var(--transitionSpeed);
+    z-index: 1;
+}
+
+.m-popup__close:hover {
+    background: var(--grey90);
+}
+
+.m-popup__close:focus {
+    outline: 2px solid var(--white);
+    outline-offset: 2px;
+}
+
+.m-popup__content {
+    width: 100%;
+    height: 100%;
+    background: var(--black);
+}
+
+.m-popup iframe,
+.m-popup video,
+.m-popup lite-youtube,
+.m-popup lite-vimeo {
+    width: 100%;
+    height: 100%;
+}

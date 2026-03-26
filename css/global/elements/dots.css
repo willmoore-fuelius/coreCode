@@ -1,0 +1,26 @@
+.m-dots {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--gridGutters);
+}
+
+.m-dots li,
+.m-dots button {
+	width: 24px;
+	height: 24px;
+}
+
+.m-dots button {
+	background: none;
+	border: var(--border1) solid var(--black);
+	border-radius: 100%;
+	text-indent: -999em;
+}
+
+.m-dots li.splide__pagination__page.is-active button,
+.m-dots li.is-active button {
+    background-color: var(--black);
+}

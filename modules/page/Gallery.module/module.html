@@ -1,0 +1,136 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-gallery" data-lazy-init>
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				{{ text_helpers.render_heading(module.module_heading, module.enable_module_heading) }}
+
+				{% if module.images|length > 0 %}
+				<div class="m-gallery__images splide js-imagegallery" data-rotator="{{ name }}">
+					<div class="splide__track">
+						<div class="splide__list">
+							{% for item in module.images %}
+							{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}"' %}
+							{% if item.image_field.size_type == 'auto' %}
+							{% set sizeAttrs = 'style="max-width: 100%; height: auto;"' %}
+							{% elif item.image_field.size_type == 'auto_custom_max' %}
+							{% set sizeAttrs = 'width="{{ item.image_field.max_width }}" height="{{ item.image_field.max_height }}" style="max-width: 100%; height: auto;"' %}
+							{% endif %}
+							{% set loadingAttr = item.image_field.loading != 'disabled' and !loop.first ? 'loading="{{ item.image_field.loading }}"' : '' %}
+							<div class="splide__slide">
+								<img class="m-gallery__image" src="{{ resize_image_url(item.image_field.src, 1160, 773) }}" alt="{{ item.image_field.alt }}" {{ loadingAttr }}>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+
+					{% if module.images|length > 1 %}
+					<div class="m-gallery__arrows m-arrows splide__arrows">
+						<button class="m-arrows__button splide__arrow splide__arrow--prev js-imageprev">
+							<span class="show-for-sr">Previous image</span>
+							<div class="m-arrows__buttonicon">
+								{% icon name="chevron-left" style="SOLID" width="16" %}
+							</div>
+						</button>
+
+						<button class="m-arrows__button splide__arrow splide__arrow--next js-imagenext">
+							<span class="show-for-sr">Next image</span>
+							<div class="m-arrows__buttonicon">
+								{% icon name="chevron-right" style="SOLID" width="16" %}
+							</div>
+						</button>
+					</div>
+					<div class="m-gallery__dots splide__pagination m-dots js-imagedots"></div>
+					{% endif %}
+				</div>
+
+				<div class="m-gallery__imageCaptions splide js-imagegallery-captions">
+					<div class="splide__track">
+						<div class="splide__list">
+							{% for item in module.images %}
+							<div class="splide__slide">
+								<p class="m-gallery__captionText">
+									{{ item.caption }}
+								</p>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+
+				{% elif is_in_editor %}
+				{% editor_placeholder %}
+				{% endif %}
+
+				{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+				{% if module.images|length > 1 %}
+
+				{{ require_css(get_asset_url('../../../css/vendor/vendor.splide.css')) }}
+				{{ require_css(get_asset_url('../../../css/modules/modules.dots.css')) }}
+				{{ require_css(get_asset_url('../../../css/modules/modules.arrows.css')) }}
+				{{ require_js(get_asset_url('../../../js/vendor/vendor.splide.js'), { position: "footer", async: true }) }}
+
+				{% require_js position='footer' %}
+				<script>
+					window.lazyModuleInit('{{ name }}', function() {
+						const imageGalleryEl = document.querySelector('#{{ name }} .js-imagegallery');
+						const captionsEl = document.querySelector('#{{ name }} .js-imagegallery-captions');
+
+						if (!imageGalleryEl || !captionsEl) return;
+
+						const imageGallery = new Splide(imageGalleryEl, {
+							type: 'fade',
+							perPage: 1,
+							perMove: 1,
+							arrows: false,
+							pagination: true,
+							rewind: true,
+							{% if module.autoplay %}
+							autoplay: true,
+							{% endif %}
+							{% if module.autoplay_speed %}
+							interval: {{ module.autoplay_speed }},
+							{% endif %}
+						});
+
+						const captions = new Splide(captionsEl, {
+							type: 'fade',
+							perPage: 1,
+							perMove: 1,
+							arrows: false,
+							pagination: false,
+							rewind: true,
+						});
+
+						// Sync the two sliders
+						imageGallery.sync(captions);
+						imageGallery.mount();
+						captions.mount();
+
+						// Custom arrow controls
+						const prevBtn = document.querySelector('#{{ name }} .js-imageprev');
+						const nextBtn = document.querySelector('#{{ name }} .js-imagenext');
+
+						if (prevBtn) {
+							prevBtn.addEventListener('click', function() { imageGallery.go('<'); });
+						}
+						if (nextBtn) {
+							nextBtn.addEventListener('click', function() { imageGallery.go('>'); });
+						}
+					});
+				</script>
+				{% end_require_js %}
+
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}

@@ -1,0 +1,24 @@
+.m-heading {
+  margin-top: var(--headingMarginTopMobile, 0px);
+  margin-bottom: var(--headingMarginBottomMobile, 40px);
+}
+
+@media (width >= 992px) {
+  .m-heading {
+    margin-top: var(--headingMarginTopDesktop, 0px);
+    margin-bottom: var(--headingMarginBottomDesktop, 40px);
+  }
+}
+
+.m-heading__text {
+  margin: 0;
+  padding: 0;
+}
+
+.m-heading__text + .m-heading__summary {
+  margin-top: var(--space20);
+}
+
+.m-heading__cta {
+  margin-top: var(--space20);
+}

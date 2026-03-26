@@ -1,0 +1,57 @@
+<div id="{{ name }}" class="m-grid">
+	<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+		<div class="o-container">
+
+			{{ text_helpers.render_heading(module.module_heading, module.enable_module_heading) }}
+
+			{% if module.grid_items|length > 0 %}
+			<ul class="m-grid__grid">
+				{% for item in module.grid_items %}
+				{%- set gridHasLink = item.button.button_type == 'link' and item.button.link_settings.link_field.url.href -%}
+				<li class="m-grid__griditem{% if gridHasLink %} m-grid__griditem--linked{% endif %}">
+
+					{% if item.image_field.src %}
+					{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}"' %}
+					{% if item.image_field.size_type == 'auto' %}
+					{% set sizeAttrs = 'width="{{ item.image_field.width }}" height="{{ item.image_field.height }}" style="max-width: 100%; height: auto;"' %}
+					{% elif item.image_field.size_type == 'auto_custom_max' %}
+					{% set sizeAttrs = 'width="{{ item.image_field.max_width }}" height="{{ item.image_field.max_height }}" style="max-width: 100%; height: auto;"' %}
+					{% endif %}
+					{% set loadingAttr = item.image_field.loading != 'disabled' ? 'loading="{{ item.image_field.loading }}"' : '' %}
+					<img src="{{ item.image_field.src }}" alt="{{ item.image_field.alt }}" {{ loadingAttr }}>
+					{% endif %}
+
+					{% if item.heading %}
+					<h2 class="m-grid__heading">
+						{%- if gridHasLink -%}
+						<a class="m-grid__headingLink" href="{{ item.button.link_settings.link_field.url.href }}"{% if item.button.link_settings.link_field.open_in_new_tab %} target="_blank" rel="noopener"{% endif %}>{{ item.heading }}</a>
+						{%- else -%}
+						{{ item.heading }}
+						{%- endif -%}
+					</h2>
+					{% endif %}
+
+					{% if item.summary %}
+					<div class="o-rte">
+						{{ item.summary }}
+					</div>
+					{% endif %}
+
+					{% if item.button.button_type != 'none' %}
+					<div class="m-grid__cta">
+						{{ link_helper.render_button(item.button) }}
+					</div>
+					{% endif %}
+
+				</li>
+				{% endfor %}
+			</ul>
+			{% elif is_in_editor %}
+			{% editor_placeholder %}
+			{% endif %}
+
+			{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+		</div>
+	</div>
+</div>

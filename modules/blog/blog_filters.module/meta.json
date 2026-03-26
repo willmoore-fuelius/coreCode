@@ -1,0 +1,18 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE"
+  ],
+  "host_template_types": [
+    "PAGE"
+  ],
+  "module_id": 75664320755,
+  "label": "Blog filters",
+  "icon": "fontawesome-5.14.0:Newspaper",
+  "is_available_for_new_content": false,
+  "categories": [
+    "BLOG"
+  ],
+  "description": "Blog topic filter with search input for filtering blog posts by tag"
+}

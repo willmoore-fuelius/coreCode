@@ -1,0 +1,28 @@
+<!--
+templateType: "none"
+isAvailableForNewContent: false
+-->
+
+{% macro sanitize_rich_text(content) %}
+{% if content and content|length > 0 %}
+    {{ content | safe }}
+{% else %}
+    <p>Content coming soon</p>
+{% endif %}
+{% endmacro %}
+
+{% macro render_aria_section(content, label, name) %}
+<section role="region"
+         aria-labelledby="{{ name }}__heading"
+         aria-label="{{ label | default('Content Section') }}">
+    {{ content }}
+</section>
+{% endmacro %}
+
+{% macro render_sr_only(text) %}
+<span class="show-for-sr">{{ text }}</span>
+{% endmacro %}
+
+{% macro render_decorative_icon(icon_class) %}
+<i class="{{ icon_class }}" aria-hidden="true" focusable="false"></i>
+{% endmacro %}

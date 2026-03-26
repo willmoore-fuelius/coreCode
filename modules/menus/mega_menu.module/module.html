@@ -1,0 +1,412 @@
+<nav aria-label="Main menu" class="m-siteNavigation">
+
+	<ul class="m-siteNavigation__links">
+
+		{% for item in module.links %}
+
+		{% set href = item.link_field.url.href %}
+		{% if item.link_field.url.type is equalto "EMAIL_ADDRESS" %}
+		{% set href = "mailto:" + href %}
+		{% endif %}
+
+		<li class="m-siteNavigation__item m-siteNavigation__item--toplevel js-hover js-toplevelhover {% if item.level_2 is iterable %}m-siteNavigation__item--haschildren{% endif %}">
+
+			<a class="m-siteNavigation__link m-siteNavigation__link--toplevel" href="{{ href }}"
+			   {% if item.level_2 is iterable %}aria-haspopup="true" aria-expanded="false" aria-label="{{ item.link_label }} (has submenu)"{% endif %}>
+				{{ item.link_label }}
+			</a>
+
+			<button class="m-siteNavigation__link m-siteNavigation__link--toplevel js-advancemenulevel"
+				aria-expanded="false"
+				aria-label="Expand {{ item.link_label }} menu">
+
+				{{ item.link_label }}
+
+				<div class="m-siteNavigation__linkIcon m-siteNavigation__linkIcon--mobile">
+					{% icon name="arrow-right" style="SOLID" width="12" %}
+				</div>
+
+			</button>
+
+			<div class="m-siteNavigation__megaMenu js-megamenu">
+
+				<div class="js-mminner">
+					<div class="m-siteNavigation__megaMenuInner">
+
+						<div class="m-siteNavigation__megaMenuColumns">
+
+							<button class="m-siteNavigation__menuBack js-retreattofirst" aria-label="Back to main menu">
+
+								<span aria-hidden="true">{% icon name="arrow-left" style="SOLID" width="12" %}</span>
+
+								{% if item.link_label %}
+								<span class="m-siteNavigation__menuBackLabel">{{ item.link_label }}</span>
+								{% endif %}
+
+							</button>
+
+							{% if item.level_2|length > 0 %}
+
+							<ul class="m-siteNavigation__megaMenuColumnsLinks js-submenu">
+
+								{% for item2 in item.level_2 %}
+
+								{% set href2 = item2.link_field.url.href %}
+								{% if item2.link_field.url.type is equalto "EMAIL_ADDRESS" %}
+								{% set href2 = "mailto:" + href2 %}
+								{% endif %}
+
+								<li class="m-siteNavigation__megaMenuColumnsItem js-hover">
+
+									{% if href2 %}
+									<a class="m-siteNavigation__link m-siteNavigation__link--level2" href="{{ href2 }}"
+									   {% if item2.link_field.open_in_new_tab %}target="_blank"{% endif %}
+									   {% if item2.link_field.rel %}rel="{{ item2.link_field.rel }}"{% endif %}
+									   >
+										{{ item2.link_label }}
+
+										{% if item2.level_3|length > 0 %}
+										<div class="m-siteNavigation__linkIcon m-siteNavigation__linkIcon--desktop">
+											{% icon name="arrow-right" style="SOLID" width="12" %}
+										</div>
+										{% endif %} 
+									</a>
+
+									{% if item2.level_3|length > 0 %}	
+									<button class="m-siteNavigation__linkIcon m-siteNavigation__linkIcon--mobile js-advancemenulevel">
+										{% icon name="arrow-right" style="SOLID" width="12" %}
+									</button>
+									{% endif %}
+
+									{% endif %}
+
+									{% if item2.level_3|length > 0 %}	
+									<div class="m-siteNavigation__subLinks m-siteNavigation__subLinks--level2 js-submenu">
+
+										<button class="m-siteNavigation__menuBack js-retreatmenulevel" aria-label="Back to previous menu">
+											<span aria-hidden="true">{% icon name="arrow-left" style="SOLID" width="12" %}</span>
+											{% if item2.link_label %}
+											<span class="m-siteNavigation__menuBackLabel">{{ item2.link_label }}</span>
+											{% endif %}
+										</button>
+
+										<ul class="m-siteNavigation__subLinksList js-submenu">
+
+											{% for item3 in item2.level_3 %}
+
+											{% set href3 = item3.link_field.url.href %}
+											{% if item3.link_field.url.type is equalto "EMAIL_ADDRESS" %}
+											{% set href3 = "mailto:" + href3 %}
+											{% endif %}
+
+											<li class="m-siteNavigation__subLinksItem js-hover">
+
+												{% if href3 %}
+												<a class="m-siteNavigation__link m-siteNavigation__link--level3" href="{{ href3 }}"
+
+												   {% if item3.link_field.open_in_new_tab %}target="_blank"{% endif %}
+												   {% if item3.link_field.rel %}rel="{{ item3.link_field.rel }}"{% endif %}
+												   >
+													{{ item3.link_label }}
+													<div class="m-siteNavigation__linkIcon m-siteNavigation__linkIcon--desktop">
+														{% icon name="arrow-right" style="SOLID" width="12" %}
+													</div>
+												</a>
+
+												<button class="m-siteNavigation__linkIcon m-siteNavigation__linkIcon--mobile js-advancemenulevel">
+													{% icon name="arrow-right" style="SOLID" width="12" %}
+												</button>									
+												{% endif %}
+								
+												<div class="m-siteNavigation__subLinks m-siteNavigation__subLinks--level3 js-submenu">
+
+													<button class="m-siteNavigation__menuBack js-retreatmenulevel" aria-label="Back to previous menu">
+														<span aria-hidden="true">{% icon name="arrow-left" style="SOLID" width="12" %}</span>
+														{% if item3.link_label %}
+														<span class="m-siteNavigation__menuBackLabel">{{ item3.link_label }}</span>
+														{% endif %}
+													</button>
+
+													<div class="m-siteNavigation__details js-submenu">
+
+														<div class="m-siteNavigation__detailsDetails">
+
+															<div class="m-siteNavigation__detailsContent">
+
+																{% if item3.details.heading %}
+																<h3 class="m-siteNavigation__detailsHeading h4">
+																	{{ item3.details.heading }}
+																</h3>
+																{% endif %}
+
+																{% if item3.details.summary %}
+																<p class="m-siteNavigation__detailsSummary">{{ item3.details.summary }}</p>
+																{% endif %}
+
+																{% if href3 and item3.details.link_label %}
+																<div class="m-siteNavigation__detailsLink">
+																	<a class="e-button e-button--primary" href="{{ href3 }}">
+																		{{ item3.details.link_label }}
+																	</a>
+																</div>
+																{% endif %}
+
+															</div>
+
+															{% if item3.details.image_field.src %}
+															{% set sizeAttrs = 'width="{{ item3.details.image_field.width }}" height="{{ item3.details.image_field.height }}"' %}
+															{% if item3.details.image_field.size_type == 'auto' %}
+															{% set sizeAttrs = 'width="{{ item3.details.image_field.width }}" height="{{ item3.details.image_field.height }}" style="max-width: 100%; height: auto;"' %}
+															{% elif item3.details.image_field.size_type == 'auto_custom_max' %}
+															{% set sizeAttrs = 'width="{{ item3.details.image_field.max_width }}" height="{{ item3.details.image_field.max_height }}" style="max-width: 100%; height: auto;"' %}
+															{% endif %}
+															{% set loadingAttr = item3.details.image_field.loading != 'disabled' ? 'loading="{{ item3.details.image_field.loading|escape_attr }}"' : '' %}
+
+															<img class="m-siteNavigation__detailsImage" src="{{ resize_image_url(item3.details.image_field.src, 0, 0, 340) }}" alt="{{ item3.details.image_field.alt }}" {{ loadingAttr }}>													
+
+															{% endif %}
+
+														</div>
+
+													</div>
+
+												</div>
+
+
+											</li>
+
+											{% endfor %}
+
+										</ul>
+
+									</div>
+
+									{% endif %}
+
+								</li>
+
+								{% endfor %}
+
+							</ul>
+
+							{% endif %}
+
+						</div>
+
+						{% if item.add_cta_ %}
+						<div class="m-siteNavigation__megaMenuCta">				
+
+							{% if item.cta.image.src %}
+							{% set sizeAttrs = 'width="{{ item.cta.image.width }}" height="{{ item.cta.image.height }}"' %}
+							{% if item.cta.image.size_type == 'auto' %}
+							{% set sizeAttrs = 'width="{{ item.cta.image.width }}" height="{{ item.cta.image.height }}" style="max-width: 100%; height: auto;"' %}
+							{% elif item.cta.image.size_type == 'auto_custom_max' %}
+							{% set sizeAttrs = 'width="{{ item.cta.image.max_width }}" height="{{ item.cta.image.max_height }}" style="max-width: 100%; height: auto;"' %}
+							{% endif %}
+							{% set loadingAttr = item.cta.image.loading != 'disabled' ? 'loading="{{ item.cta.image.loading }}"' : '' %}
+							<img class="m-siteNavigation__megaMenuCtaImage" src="{{ resize_image_url(item.cta.image.src, 300, 455) }}" alt="{{ item.cta.image.alt }}" {{ loadingAttr }}>					
+							{% endif %}
+
+							<div class="m-siteNavigation__megaMenuCtaContent">
+
+								{% if item.cta.tag %}
+								<span class="m-siteNavigation__megaMenuCtaTag">{{ item.cta.tag }}</span>
+								{% endif %}
+
+								{% if item.cta.copy %}
+								<p class="m-siteNavigation__megaMenuCtaCopy">
+									{{ item.cta.copy }}	
+								</p>
+								{% endif %}
+
+								{% set href = item.cta.link_field_1.url.href %}
+								{% if item.cta.link_field_1.url.type is equalto "EMAIL_ADDRESS" %}
+								{% set href = "mailto:" + href %}
+								{% endif %}
+
+								{% if href %}
+								<a class="m-siteNavigation__megaMenuCtaLink e-button e-button--tertiary" href="{{ href }}"
+								   {% if item.cta.link_field_1.open_in_new_tab %}target="_blank"{% endif %}
+								   {% if item.cta.link_field_1.rel %}rel="{{ item.cta.link_field_1.rel }}"{% endif %}
+								   >
+									{{ item.cta.link_label }}
+									<div class="e-button__icon">
+										{% icon name="arrow-right" style="SOLID" width="12" %}	
+									</div>
+								</a>
+								{% endif %}
+
+							</div>
+
+						</div>
+						{% endif %}				
+
+					</div>
+
+				</div>		
+
+			</div>
+
+		</li>		
+
+		{% endfor %}
+
+	</ul>
+
+</nav>
+
+{% require_js position='footer' %}
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+
+		const mediaQuery = '(min-width: 992px)';
+		const mediaQueryList = window.matchMedia(mediaQuery);
+		const activeClass = 'active';
+
+		// Drilldown navigation
+		const retreatToFirst = document.querySelectorAll('.js-retreattofirst');
+		const advanceMenuLevel = document.querySelectorAll('.js-advancemenulevel');
+		const retreatMenuLevel = document.querySelectorAll('.js-retreatmenulevel');
+		const megaMenus = document.querySelectorAll('.js-megamenu');
+		const megaMenuInners = document.querySelectorAll('.js-mminner');
+
+		retreatToFirst.forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				megaMenus.forEach(function(menu) {
+					menu.classList.remove(activeClass);
+				});
+			});
+		});
+
+		advanceMenuLevel.forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				const sibling = this.parentElement.querySelector('.js-submenu');
+				if (sibling) {
+					const isActive = sibling.classList.contains(activeClass);
+					sibling.classList.toggle(activeClass);
+					// Update ARIA expanded state
+					this.setAttribute('aria-expanded', !isActive);
+					if (!isActive) {
+						sibling.setAttribute('aria-hidden', 'false');
+					} else {
+						sibling.setAttribute('aria-hidden', 'true');
+					}
+				}
+			});
+		});
+
+		retreatMenuLevel.forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				const closestSubmenu = this.closest('.js-submenu');
+				if (closestSubmenu) {
+					closestSubmenu.classList.remove(activeClass);
+					closestSubmenu.setAttribute('aria-hidden', 'true');
+					// Find the button that opened this submenu and update its aria-expanded
+					const parentItem = closestSubmenu.parentElement;
+					if (parentItem) {
+						const expandButton = parentItem.querySelector('.js-advancemenulevel');
+						if (expandButton) {
+							expandButton.setAttribute('aria-expanded', 'false');
+						}
+					}
+				}
+			});
+		});
+
+		// Hover intent implementation (vanilla JS)
+		function hoverIntent(elements, overCallback, outCallback, delay) {
+			delay = delay || 200;
+
+			elements.forEach(function(el) {
+				let timeout = null;
+				let isHovering = false;
+
+				el.addEventListener('mouseenter', function() {
+					const target = this;
+					clearTimeout(timeout);
+					timeout = setTimeout(function() {
+						isHovering = true;
+						overCallback.call(target);
+					}, delay);
+				});
+
+				el.addEventListener('mouseleave', function() {
+					const target = this;
+					clearTimeout(timeout);
+					if (isHovering) {
+						isHovering = false;
+						outCallback.call(target);
+					}
+				});
+			});
+		}
+
+		// Hover callbacks for mega menu height adjustment
+		function onHoverOver() {
+			const topLevel = this.closest('.js-toplevelhover');
+			const subMenuFirst = topLevel ? topLevel.querySelector('.js-submenu') : null;
+			const subMenuFirstHeight = subMenuFirst ? subMenuFirst.offsetHeight : 0;
+
+			this.classList.add('hovering');
+
+			const currentSubmenu = this.querySelector('.js-submenu');
+			const currentHeight = currentSubmenu ? currentSubmenu.offsetHeight : 0;
+			const trackingHeight = this.parentElement ? this.parentElement.offsetHeight : 0;
+
+			const newHeight = Math.max(subMenuFirstHeight, currentHeight, trackingHeight);
+
+			megaMenuInners.forEach(function(inner) {
+				inner.style.height = newHeight + 'px';
+			});
+		}
+
+		function onHoverOut() {
+			this.classList.remove('hovering');
+		}
+
+		// Keyboard support
+		function enableKeyboardSupport() {
+			const hoverTargets = document.querySelectorAll('.js-hover');
+
+			advanceMenuLevel.forEach(function(btn) {
+				btn.addEventListener('focus', function() {
+					hoverTargets.forEach(function(t) {
+						t.classList.remove(activeClass);
+					});
+					this.parentElement.classList.add(activeClass);
+				});
+
+				btn.addEventListener('focusout', function() {
+					const parent = this.parentElement;
+					if (parent && parent === parent.parentElement.lastElementChild) {
+						hoverTargets.forEach(function(t) {
+							t.classList.remove(activeClass);
+						});
+					}
+				});
+			});
+		}
+
+		// Initialize
+		function initDesktopMenu() {
+			const hoverTargets = document.querySelectorAll('.js-hover');
+			hoverIntent(hoverTargets, onHoverOver, onHoverOut, 200);
+			hoverTargets.forEach(function(t) {
+				t.classList.remove(activeClass);
+			});
+			enableKeyboardSupport();
+		}
+
+		mediaQueryList.addEventListener('change', function(event) {
+			if (event.matches) {
+				initDesktopMenu();
+			}
+		});
+
+		if (window.matchMedia(mediaQuery).matches) {
+			initDesktopMenu();
+		}
+
+	});
+</script>
+{% end_require_js %}

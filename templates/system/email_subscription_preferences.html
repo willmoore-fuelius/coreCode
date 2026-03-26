@@ -1,0 +1,25 @@
+<!--
+templateType: "email_subscription_preferences_page"
+label: Amplify - email subscription preferences
+isAvailableForNewContent: true
+-->
+
+{% extends "../layouts/base.html" %}
+{% block body %}
+
+{{ require_css(get_asset_url("../../css/templates/communication-preferences.css")) }}
+
+{# HubSpot internal static asset — path is hardcoded because it is not available via get_asset_url. #}
+{# If subscription preferences stop working, check whether the version number (static-1.1) needs updating. #}
+{% require_js position='footer' %}
+<script src="/hs/hsstatic/SubscriptionPreferences/static-1.1/subscription_preferences_asset.js"></script>
+{% end_require_js %}
+
+<div class="o-wrapper o-wrapper--module">
+
+  <div class="m-communicationPreferences">
+    {% email_subscriptions "email_subscriptions" resubscribe_button_text='Yes, resubscribe me!', unsubscribe_all_option='No more calls, no more texts - we\'re breaking up.', unsubscribe_all_unsubbed_text='You are presently unsubscribed from all of our emails. Would you like to receive our emails again?', subheader_text='<p>\n    If this is not your email address, please ignore this page since the email associated with this page was most likely forwarded to you.\n</p>', unsubscribe_single_text='Uncheck the types of emails you do not want to receive:', header='Communication Preferences', button_text='Update communications preferences', unsubscribe_all_text='Or check here to never receive any emails', label='Subscription Preferences' %} 
+  </div>
+</div>
+
+{% endblock body %}

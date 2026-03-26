@@ -1,0 +1,265 @@
+[
+  {
+    "id": "f4216bad-a854-b51e-494b-e8fc149bcc7e",
+    "name": "social_sharing",
+    "label": "Social Sharing",
+    "required": false,
+    "locked": false,
+    "display": "toggle",
+    "type": "boolean",
+    "display_width": null,
+    "default": false
+  },
+  {
+    "id": "social_links",
+    "name": "social_links",
+    "label": "Social links",
+    "required": false,
+    "locked": false,
+    "occurrence": {
+      "min": 1,
+      "max": null,
+      "sorting_label_field": "social_account",
+      "default": 4
+    },
+    "children": [
+      {
+        "id": "social_account",
+        "name": "social_account",
+        "label": "Social account",
+        "required": true,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "facebook-f",
+            "Facebook"
+          ],
+          [
+            "twitter",
+            "Twitter"
+          ],
+          [
+            "instagram",
+            "Instagram"
+          ],
+          [
+            "linkedin-in",
+            "LinkedIn"
+          ],
+          [
+            "youtube",
+            "YouTube"
+          ],
+          [
+            "pinterest-p",
+            "Pinterest"
+          ],
+          [
+            "envelope",
+            "Email"
+          ],
+          [
+            "link",
+            "Website"
+          ],
+          [
+            "whatsapp",
+            "Whatsapp"
+          ],
+          [
+            "custom_icon",
+            "Custom icon"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "facebook-f"
+      },
+      {
+        "id": "social_links.custom_icon",
+        "name": "custom_icon",
+        "label": "Custom icon",
+        "required": true,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "social_account",
+          "controlling_field_path": null,
+          "controlling_value_regex": "custom_icon",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "icon_set": "fontawesome-5.0.10",
+        "type": "icon",
+        "display_width": null,
+        "default": {
+          "name": "hubspot"
+        }
+      },
+      {
+        "id": "social_links.social_link",
+        "name": "social_link",
+        "label": "Social link",
+        "required": true,
+        "locked": false,
+        "supported_types": [
+          "EXTERNAL",
+          "EMAIL_ADDRESS"
+        ],
+        "show_advanced_rel_options": false,
+        "type": "link",
+        "display_width": null,
+        "default": {
+          "no_follow": false,
+          "open_in_new_tab": true,
+          "url": {
+            "content_id": null,
+            "href": "https://www.facebook.com",
+            "type": "EXTERNAL"
+          }
+        }
+      },
+      {
+        "id": "a42af156-766c-4b46-a760-88eab9a4b988",
+        "name": "color_field",
+        "label": "Color",
+        "required": false,
+        "locked": false,
+        "type": "color",
+        "display_width": null,
+        "default": {
+          "color": "#3b5998",
+          "opacity": 100
+        }
+      },
+      {
+        "id": "social_links.accessibility",
+        "name": "accessibility",
+        "label": "Accessibility options",
+        "required": false,
+        "locked": false,
+        "children": [
+          {
+            "id": "social_links.accessibility.title",
+            "name": "title",
+            "label": "Title",
+            "required": true,
+            "locked": false,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null,
+            "default": "Follow us on Facebook",
+            "placeholder": "Enter title"
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "title": "Follow us on Facebook"
+        }
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": [
+      {
+        "social_account": "facebook-f",
+        "custom_icon": {
+          "name": "hubspot"
+        },
+        "social_link": {
+          "no_follow": false,
+          "open_in_new_tab": true,
+          "url": {
+            "content_id": null,
+            "href": "https://www.facebook.com",
+            "type": "EXTERNAL"
+          }
+        },
+        "accessibility": {
+          "title": "Follow us on Facebook"
+        },
+        "color_field": {
+          "color": "#3b5998",
+          "opacity": 100
+        }
+      },
+      {
+        "social_account": "linkedin-in",
+        "custom_icon": {
+          "name": "hubspot"
+        },
+        "social_link": {
+          "no_follow": false,
+          "open_in_new_tab": true,
+          "url": {
+            "content_id": null,
+            "href": "https://www.linkedin.com",
+            "type": "EXTERNAL"
+          }
+        },
+        "accessibility": {
+          "title": "Follow us on LinkedIn"
+        },
+        "color_field": {
+          "color": "#3b5998",
+          "opacity": 100
+        }
+      },
+      {
+        "social_account": "twitter",
+        "custom_icon": {
+          "name": "hubspot"
+        },
+        "social_link": {
+          "no_follow": false,
+          "open_in_new_tab": true,
+          "url": {
+            "content_id": null,
+            "href": "https://www.twitter.com",
+            "type": "EXTERNAL"
+          }
+        },
+        "accessibility": {
+          "title": "Follow us on Twitter"
+        },
+        "color_field": {
+          "color": "#3b5998",
+          "opacity": 100
+        }
+      },
+      {
+        "social_account": "instagram",
+        "custom_icon": {
+          "name": "hubspot"
+        },
+        "social_link": {
+          "no_follow": false,
+          "open_in_new_tab": true,
+          "url": {
+            "content_id": null,
+            "href": "https://www.instagram.com",
+            "type": "EXTERNAL"
+          }
+        },
+        "accessibility": {
+          "title": "Follow us on Instagram"
+        },
+        "color_field": {
+          "color": "#3b5998",
+          "opacity": 100
+        }
+      }
+    ]
+  }
+]

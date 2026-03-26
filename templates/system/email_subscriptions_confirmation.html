@@ -1,0 +1,26 @@
+<!--
+templateType: "email_subscriptions_confirmation_page"
+label: Amplify - email subscription confirmation
+isAvailableForNewContent: true
+-->
+
+{% extends "../layouts/base.html" %}
+{% block body %}
+
+{{ require_css(get_asset_url("../../css/templates/communication-preferences.css")) }}
+
+{# HubSpot internal static asset — path is hardcoded because it is not available via get_asset_url. #}
+{# If subscription preferences stop working, check whether the version number (static-1.1) needs updating. #}
+{% require_js position='footer' %}
+<script src="/hs/hsstatic/SubscriptionPreferences/static-1.1/subscription_preferences_asset.js"></script>
+{% end_require_js %}
+
+<div class="o-wrapper o-wrapper--module">
+
+    <div class="m-communicationPreferences">
+        {% email_subscriptions_confirmation "email_subscriptions_confirmation" subscription_update_success='You have successfully updated your email preferences.', header='Email Unsubscribe', subheader_text='<p>\n    If this is not your email address, please ignore this page since the email associated with this page was most likely forwarded to you.\n</p>', unsubscribe_all_success='You have successfully unsubscribed from all email communications.', label='Subscriptions Update Confirmation' %}
+    </div>
+
+</div>
+
+{% endblock body %}

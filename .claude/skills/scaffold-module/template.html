@@ -1,0 +1,54 @@
+{# ============================================================
+   HubSpot Module Template — Core Code Boilerplate
+   Replace [moduleName] with camelCase module name
+   Replace [module_name] references as needed
+   ============================================================ #}
+
+{%- if module.scrollid -%}
+<div id="{{ module.scrollid }}" class="js-module">
+{%- endif -%}
+
+<section id="{{ name }}" class="m-[moduleName]">
+  <div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+    <div class="o-container">
+
+      {# Module heading — safe macro #}
+      {{ text_helpers.render_heading(module.module_heading, module.enable_module_heading, name) }}
+
+      {# Main content #}
+      {%- if module.items -%}
+        {% for item in module.items %}
+          {# Item content here #}
+        {% endfor %}
+      {%- else -%}
+        {%- if is_in_editor -%}
+          {% editor_placeholder %}
+        {%- endif -%}
+      {%- endif -%}
+
+      {# Inline footer CTA — do NOT use link_helper.render_module_footer_cta() #}
+      {%- set footer = module.module_footer_cta -%}
+      {%- if footer.button_type == 'link' and footer.link_settings.link_field.url.href and footer.link_settings.link_text -%}
+      <div class="m-moduleFooter">
+        <a id="{{ name }}__footer_cta"
+           class="e-button e-button--{{ footer.button_style|default('primary') }}"
+           href="{{ footer.link_settings.link_field.url.href }}"
+           {% if footer.link_settings.link_field.open_in_new_tab %}target="_blank" rel="noopener" aria-label="{{ footer.link_settings.link_text }} (opens in new window)"{% else %}aria-label="{{ footer.link_settings.link_text }}"{% endif %}>
+          {{ footer.link_settings.link_text }}
+        </a>
+      </div>
+      {%- elif footer.button_type == 'cta' and footer.cta_settings.cta_field -%}
+      <div class="m-moduleFooter">
+        {% cta guid="{{ footer.cta_settings.cta_field }}" %}
+      </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{%- if module.scrollid -%}
+</div>
+{%- endif -%}
+
+{# Module spacing is handled via inline style attribute on .o-wrapper--module above #}

@@ -1,0 +1,75 @@
+<div id="{{ name }}" class="m-breadcrumbs">
+	<div class="o-wrapper o-wrapper--module">
+
+		{% if is_in_editor %}
+		{% editor_placeholder %}
+		{% else %}
+
+		{% set breadcrumbs = request.path|split('/') %}
+
+		{% set domainLanguage = domain_settings.content_language %}
+		
+		{% if content.language != null %}
+		
+		{% set currentLanguage = content.language %}
+
+		{% if domainLanguage != currentLanguage %}
+		{% set languageVariant = true %}
+		{% endif %}
+		
+		{% endif %}
+
+		<ul class="m-breadcrumbs__links">
+
+			<li class="m-breadcrumbs__item">
+				<a class="m-breadcrumbs__link" href="{{ request.full_url|replace(request.path, '')}}">		
+					{{ module.home_label }}
+				</a>
+				<span class="m-breadcrumbs__itemDivider">/</span>
+			</li>
+
+			{% for item in breadcrumbs %}
+
+			{% set outerLoopIndex = loop.index %}
+
+			{% set tempArray = [] %}
+
+			{% for item in breadcrumbs %}
+
+			{% if loop.index <= outerLoopIndex %}
+			{% set _dummy = tempArray.append(item) %}
+			{% endif %}
+
+			{% endfor %}
+
+			{% if languageVariant and loop.index == 1 %}
+			{% set breadcrumbLanguageSlug = true %}
+			{% endif %}
+
+			<li class="m-breadcrumbs__item {% if breadcrumbLanguageSlug %}hide{% endif %}" {% if breadcrumbLanguageSlug %}aria-hidden="true"{% endif %}>
+				
+				{% unless loop.last %}
+
+				<a href="/{{ tempArray|join("/") }}">{{ item|replace('-',' ')|capitalize }}</a>
+				<span class="m-breadcrumbs__itemDivider">/</span>
+				{% else %}
+
+				{% if module.page_label %}
+				{{ module.page_label }}
+				{% else %}
+				{{ item|replace('-',' ')|capitalize }}
+				{% endif %}
+
+				{% endunless %}
+			</li>
+			
+			{% set breadcrumbLanguageSlug = false %}
+			
+			{% endfor %}
+
+		</ul>
+
+		{% endif %}
+
+	</div>
+</div>

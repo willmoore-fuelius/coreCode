@@ -1,0 +1,35 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE"
+  ],
+  "host_template_types": [
+    "PAGE"
+  ],
+  "module_id": 75666794730,
+  "css_assets": [
+    {
+      "autoload": true,
+      "path": "../../../css/modules/heading.css",
+      "name": "modules.heading.css"
+    },
+    {
+      "autoload": true,
+      "path": "../../../css/global/elements/arrows.css",
+      "name": "_arrows.css"
+    },
+    {
+      "autoload": true,
+      "path": "../../../css/global/elements/dots.css",
+      "name": "_dots.css"
+    }
+  ],
+  "label": "Gallery",
+  "icon": "fontawesome-5.14.0:Image",
+  "is_available_for_new_content": true,
+  "categories": [
+    "MEDIA"
+  ],
+  "description": "Image gallery carousel with thumbnail navigation and captions"
+}

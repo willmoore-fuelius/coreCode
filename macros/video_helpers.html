@@ -1,0 +1,51 @@
+<!--
+ templateType: none
+ isAvailableForNewContent: false
+-->
+
+{% macro render_video(id, settings) %}
+{% if settings.video_url %}
+<div class="m-video-player" id="{{id}}_wrapper">
+	<video
+		id="{{id}}"
+		class="m-video-player__video"
+		preload="metadata"
+		controls
+		crossorigin
+		playsinline
+		{% if settings.video_poster.src %}poster="{{ settings.video_poster.src }}"{% endif %}>
+		{# WebM source for better compression (if available) #}
+		{% if settings.video_webm_url %}
+		<source src="{{ settings.video_webm_url.href }}" type="video/webm" />
+		{% endif %}
+		{# MP4 fallback #}
+		<source src="{{ settings.video_url.href }}" type="video/mp4" />
+
+		{% if settings.video_caption %}
+		<track
+			kind="captions"
+			src="{{ settings.video_caption }}"
+			srclang="en"
+			label="English"
+			default>
+		{% endif %}
+	</video>
+</div>
+
+{{ require_js(get_asset_url('../js/vendor/vendor.plyr.js'), { position: "footer", async: true }) }}
+{% require_js position='footer' %}
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		if (typeof Plyr !== 'undefined') {
+			new Plyr('#{{id}}', {
+				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'fullscreen'],
+				ratio: '16:9'
+			});
+		}
+	});
+</script>
+{% end_require_js %}
+
+{{ require_css(get_asset_url('../css/vendor/vendor.plyr.css')) }}
+{% endif %}
+{% endmacro %}

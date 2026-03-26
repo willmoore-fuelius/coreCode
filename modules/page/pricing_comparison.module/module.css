@@ -1,0 +1,141 @@
+.m-pricingComparison {
+}
+
+/* Hide non-first slides before Splide initializes */
+.m-pricingComparison__rotator:not(.is-initialized)
+  .m-pricingComparison__rotatorItem:not(:first-of-type) {
+  display: none;
+}
+
+.m-pricingComparison__desktop {
+  display: none;
+}
+
+.m-pricingComparison__mobile {
+  position: relative;
+  display: block;
+  --staticColumnWidth: 150px;
+}
+
+.m-pricingComparison__features {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--staticColumnWidth);
+  z-index: 2;
+  box-shadow: 14px 0 14px -10px rgba(0, 0, 0, 0.2);
+}
+
+.m-pricingComparison__rotatorWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.m-pricingComparison__rotator {
+  padding-left: var(--staticColumnWidth);
+}
+
+.m-pricingComparison__heading {
+  padding: var(--space20);
+}
+
+.m-pricingComparison__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.m-pricingComparison__listItem {
+  display: flex;
+  align-items: center;
+  column-gap: var(--gridGutters);
+  padding: var(--space20);
+  border-bottom: var(--border1) solid;
+  min-height: 3em;
+}
+
+.m-pricingComparison__listItem:last-child {
+  border-bottom: 0;
+}
+
+.m-pricingComparison__featureName.bold {
+  font-weight: var(--fontBold);
+}
+
+.m-pricingComparison__featureName.underline {
+  text-decoration: underline;
+}
+
+.m-pricingComparison__featureName.italic {
+  font-style: italic;
+}
+
+.m-pricingComparison__dots {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space20);
+  padding-bottom: var(--space20);
+}
+
+.m-pricingComparison__button {
+  width: 100%;
+}
+
+.m-pricingComparison__icon {
+  display: inline-flex;
+  line-height: 0;
+  margin-right: var(--space20);
+  flex-shrink: 0;
+}
+
+@media (width >= 992px) {
+  .m-pricingComparison__mobile {
+    display: none;
+  }
+
+  .m-pricingComparison__desktop {
+    display: block;
+  }
+
+  .m-pricingComparison__table {
+    width: 100%;
+    border: 0;
+    border-collapse: collapse;
+    padding: var(--space20);
+  }
+
+  .m-pricingComparison__table tr {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+
+  .m-pricingComparison__table tr:last-of-type,
+  .m-pricingComparison__table tr:nth-last-child(2) {
+    border-bottom: 0;
+  }
+
+  .m-pricingComparison__table th {
+    border: 0;
+    padding: var(--space20);
+    text-align: left;
+  }
+
+  .m-pricingComparison__table td {
+    border: 0;
+    text-align: left;
+    padding: var(--space20);
+  }
+
+  .m-pricingComparison__table tbody tr td:first-of-type {
+    font-weight: var(--fontBold);
+  }
+
+  .m-pricingComparison__table tbody tr:last-of-type td:first-of-type {
+    background-color: transparent;
+  }
+
+  .m-pricingComparison__icon {
+    vertical-align: bottom;
+  }
+}

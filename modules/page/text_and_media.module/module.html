@@ -1,0 +1,230 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-textMedia {% if module.display_variations.options == 'reverse' %}m-textMedia--reverse{% endif %}" style="background-color: {{ module.style.background.color_field.color }}">
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				<div class="m-textMedia__inner {% if not module.image_field or module.hide_media_on_devices is containing 'desktop' %}m-textMedia__inner--nomedia{% endif %}">
+
+					<div class="m-textMedia__column m-textMedia__column--content">
+
+						{% if module.subheading %}
+						<h3 class="m-textMedia__subheading h6">
+							{{ module.subheading }}
+						</h3>
+						{% endif %}
+
+						<{{ module.heading_type }} class="m-textMedia__heading">{{ module.heading }}</{{ module.heading_type }}>
+
+							{% if module.summary %}
+							<div class="m-textMedia__summary">
+						{{ module.summary }}
+					</div>
+					{% endif %}
+
+					{% if module.link_cta %}
+					<div class="m-textMedia__ctas">
+						{{ link_helper.render_button(module.link_cta, name ~ '__button') }}
+
+						{% if module.video.play_video_in_popup_ %}
+
+						{{ require_css(get_asset_url("../../../css/modules/modules.popup.css")) }}
+
+						{{ link_helper.render_button(module.video.popup_button, name ~ '_video', 'js-popup-trigger') }}
+
+						<template id="{{ name }}_video_popup">
+							{% if module.video.video_type == 'embed' %}
+
+							{% if module.video.platform_options.platform == 'youtube' %}
+							<script src="{{ get_asset_url('../../../js/vendor/vendor.lite-youtube.js') }}"></script>
+							<lite-youtube class="m-textMedia__litevideo" videoid="{{ module.video.platform_options.youtube_video_id }}" {% if module.video.platform_options.video_poster.src %}style="background-image:url('{{ module.video.platform_options.video_poster.src }}');"{% endif %} autoload>
+
+								<a href="https://youtube.com/watch?v={{ module.video.platform_options.youtube_video_id }}" class="m-textMedia__playbutton m-playbutton">
+									<div class="m-playbutton__icon">
+										{% icon name="Play" style="SOLID" icon_set="fontawesome-5.14.0" width="30" %}
+										<span class="show-for-sr">Play video</span>
+									</div>
+
+								</a>
+							</lite-youtube>
+							{% endif %}
+
+							{% if module.video.platform_options.platform == 'vimeo' %}
+							<script type="module" src="https://cdn.jsdelivr.net/npm/@slightlyoff/lite-vimeo@0.1.1/lite-vimeo.js"></script>
+							<lite-vimeo class="m-textMedia__litevideo" videoid="{{ module.video.platform_options.vimeo_video_id }}"></lite-vimeo>
+							{% endif %}
+
+							{% elif module.video.video_type == 'hubspot_video' %}
+
+							{% if module.video.hubspot_video.video_url %}
+							{{ video_helper.render_video(name ~ '_video_popup_', module.video.hubspot_video) }}
+							{% endif %}
+
+							{% endif %}
+						</template>
+
+						{% require_js position='footer' %}
+						<script>
+							document.addEventListener('DOMContentLoaded', function() {
+								const trigger = document.querySelector('#{{ name }} .js-popup-trigger');
+								const template = document.getElementById('{{ name }}_video_popup');
+
+								if (!trigger || !template) return;
+
+								let dialog = null;
+
+								trigger.addEventListener('click', function(e) {
+									e.preventDefault();
+
+									if (!dialog) {
+										dialog = document.createElement('dialog');
+										dialog.className = 'm-popup';
+										dialog.innerHTML = '<div class="m-popup__inner">' +
+											'<button class="m-popup__close" aria-label="Close">&times;</button>' +
+											'<div class="m-popup__content">' + template.innerHTML + '</div>' +
+											'</div>';
+										document.body.appendChild(dialog);
+
+										// Close button handler
+										dialog.querySelector('.m-popup__close').addEventListener('click', function() {
+											closeDialog();
+										});
+
+										// Close on backdrop click
+										dialog.addEventListener('click', function(event) {
+											if (event.target === dialog) {
+												closeDialog();
+											}
+										});
+
+										// Handle escape key close
+										dialog.addEventListener('close', function() {
+											pauseVideos();
+										});
+									}
+
+									dialog.showModal();
+									playVideos();
+								});
+
+								function closeDialog() {
+									pauseVideos();
+									dialog.close();
+								}
+
+								function playVideos() {
+									const videos = dialog.querySelectorAll('video');
+									videos.forEach(function(video) {
+										video.play();
+									});
+								}
+
+								function pauseVideos() {
+									const videos = dialog.querySelectorAll('video');
+									videos.forEach(function(video) {
+										video.pause();
+									});
+
+									// Reset lite-youtube/lite-vimeo
+									const liteEmbeds = dialog.querySelectorAll('lite-youtube iframe, lite-vimeo iframe');
+									liteEmbeds.forEach(function(iframe) {
+										iframe.remove();
+									});
+								}
+							});
+						</script>
+						{% end_require_js %}
+
+						{% endif %}
+
+					</div>
+					{% endif %}
+
+				</div>
+
+				<div class="m-textMedia__column m-textMedia__column--media">
+
+					{% if module.media_type == 'image'%}
+
+					{% if module.image_field.src %}
+					{% set sizeAttrs = 'width="{{ module.image_field.width }}" height="{{ module.image_field.height }}"' %}
+					{% if module.image_field.size_type == 'auto' %}
+					{% set sizeAttrs = 'style="max-width: 100%; height: auto;"' %}
+					{% elif module.image_field.size_type == 'auto_custom_max' %}
+					{% set sizeAttrs = 'width="{{ module.image_field.max_width }}" height="{{ module.image_field.max_height }}" style="max-width: 100%; height: auto;"' %}
+					{% endif %}
+					{% set loadingAttr = module.image_field.loading != 'disabled' ? 'loading="{{ module.image_field.loading }}"' : '' %}
+					<div class="m-textMedia__media_wrapper">
+						<img class="m-textMedia__image" src="{{ resize_image_url(module.image_field.src, 580, 580) }}" alt="{{ module.image_field.alt }}" {{ loadingAttr }} {{ sizeAttrs }}>
+					</div>
+					{% endif %}
+
+					{% elif module.video %}
+
+					<!-- Schema -->
+					<script type="application/ld+json">
+{
+	"@context": "https://schema.org",
+	"@type": "VideoObject",
+	"name": "{{ module.video.schema.title }}",
+	"description": "{{ module.video.schema.summary }}",
+	"thumbnailUrl": "{{ module.video.schema.thumbnail_url }}",
+	"duration": "PT{{ module.video.schema.duration }}",
+	"contentUrl": "{% if module.video.video_type == 'embed' and module.video.platform_options.platform == 'vimeo' %}https://player.vimeo.com/{{ module.video.platform_options.vimeo_video_id }}{% endif %}{% if module.video.video_type == 'embed' and module.video.platform_options.platform == 'youtube' %}https://www.youtube.com/{{ module.video.platform_options.youtube_video_id }}{% endif %}{% if module.video.video_type == 'hubspot_video' and module.video.video_type == 'hubspot_video' %}{{ module.video.hubspot_video.video_url.href }}{% endif %}",
+	"embedUrl": "{% if module.video.video_type == 'embed' and module.video.platform_options.platform == 'vimeo' %}https://player.vimeo.com/video/{{ module.video.platform_options.vimeo_video_id }}{% endif %}{% if module.video.video_type == 'embed' and module.video.platform_options.platform == 'youtube' %}https://www.youtube.com/embed/{{ module.video.platform_options.youtube_video_id }}{% endif %}{% if module.video.video_type == 'hubspot_video' %}{{ module.video.hubspot_video.video_url.href }}{% endif %}",
+	"uploadDate": "{{ module.video.schema.date_field }}"
+}
+					</script>
+					<!-- End Schema -->
+
+					{% if module.video.video_type == 'embed' %}
+					<div class="m-textMedia__media_wrapper">
+						{% if module.video.platform_options %}
+
+						{% if module.video.platform_options.platform == 'youtube' %}
+						<script src="{{ get_asset_url('../../../js/vendor/vendor.lite-youtube.js') }}"></script>
+						<lite-youtube class="m-textMedia__litevideo" videoid="{{ module.video.platform_options.youtube_video_id }}" {% if module.video.platform_options.video_poster.src %}style="background-image:url('{{ module.video.platform_options.video_poster.src }}');"{% endif %} autoload>
+
+							<a href="https://youtube.com/watch?v={{ module.video.platform_options.youtube_video_id }}" class="m-textMedia__playbutton m-playbutton">
+								<div class="m-playbutton__icon">
+									{% icon name="Play" style="SOLID" icon_set="fontawesome-5.14.0" width="30" %}
+									<span class="show-for-sr">Play video</span>
+								</div>
+
+							</a>
+						</lite-youtube>
+						{% endif %}
+
+						{% if module.video.platform_options.platform == 'vimeo' %}
+						<script type="module" src="https://cdn.jsdelivr.net/npm/@slightlyoff/lite-vimeo@0.1.1/lite-vimeo.js"></script>
+						<lite-vimeo class="m-textMedia__litevideo" videoid="{{ module.video.platform_options.vimeo_video_id }}"></lite-vimeo>
+						{% endif %}
+
+						{% endif %}
+					</div>
+					{% elif module.video.video_type == 'hubspot_video' %}
+					{% if module.video.hubspot_video.video_url %}
+					<div class="m-textMedia__media_wrapper">
+						{{ video_helper.render_video(name ~ '_video_', module.video.hubspot_video) }}
+					</div>
+					{% endif %}
+
+					{% endif %}
+
+					{% endif %}
+
+				</div>
+
+			</div>
+
+			{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+		</div>
+	</div>
+</div>
+
+{% if module.scrollid %}
+</div>
+{% endif %}

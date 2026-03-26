@@ -1,0 +1,50 @@
+{% if module.scrollid %}
+<div id="{{ module.scrollid }}" class="js-module">
+	{% endif %}
+
+	<div id="{{ name }}" class="m-documentsListing">
+		<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+			<div class="o-container">
+
+				{{ text_helpers.render_heading(module.module_heading, module.enable_module_heading) }}
+
+				{% for item in module.documents %}
+
+				<section class="m-documentsListing__item">
+
+					<div class="m-documentsListing__content">
+						<h1 class="m-documentsListing__name">{{ item.file_name }}</h1>
+						<p class="m-documentsListing__summary">{{ item.file_summary }}</p>  
+					</div>
+
+					<div class="m-documentsListing__actions">
+
+						{% if item.view_type == 'download' %}
+						<a class="m-documentsListing__action e-button e-button--primary" href="{{ item.file_field }}" download>
+							<span class="e-button__inner">
+								Download {% if item.file_extension %}{{ item.file_extension }}{% endif %}{% if item.file_size %} | {{ item.file_size }}</span>{% endif %}
+
+						</a>
+						{% else %}
+						{% if item.url_field %}
+						<a class="m-documentsListing__action e-button e-button--primary" href="{{ item.url_field.href }}">
+							<span class="e-button__inner">View online</span>                   
+						</a>
+						{% endif %}
+						{% endif %} 
+
+					</div>
+
+				</section>
+
+				{% endfor %}
+
+				{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
+
+			</div>
+		</div>
+	</div>
+
+	{% if module.scrollid %}
+</div>
+{% endif %}

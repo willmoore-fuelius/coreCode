@@ -1,0 +1,35 @@
+<div id="{{ name }}" class="m-blogFilters">
+
+    <div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">   
+
+        <form class="m-blogFilters__inner js-filterForm" data-blogname="{{ group.slug }}">
+
+            <div>  
+                <input class="js-blog_filterTerm" type="text" name="term" value="{{ request.query_dict.term }}" aria-label="Search" placeholder="Search">
+                <input type="hidden" name="type" value="BLOG_POST" />
+            <input type="hidden" name="groupId" value="{{ group.id }}" />
+            </div>
+
+            <div>
+                {% set my_topics = blog_topics('default', 250) %}
+				<label for="tag" class="show-for-sr">Filter by topic:</label>
+                <select id="tag" name="tag" class="js-filterTags">
+                    <option {% if !tag %}selected{% endif %} value="all">All</option>
+                    {% for item in my_topics %}
+                    <option value="{{ item|replace(" ", "-")|lower }}">
+                        {{ item }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <button type="submit">
+                    Search
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

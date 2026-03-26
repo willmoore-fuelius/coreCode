@@ -1,0 +1,156 @@
+<div id="{{ name }}" class="m-blogListingGrid">
+
+	<div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+
+		{# Text search: route to the site search page via the search_results template. #}
+		{# Tag filtering: the blog_filters form submits ?tag= to this same URL. #}
+		{# Both are handled natively by HubSpot — do not replicate search logic here. #}
+
+		{# Build post list — multi-blog aggregation requires fetching per blog field #}
+		{# because the native `contents` object only covers a single blog group. #}
+		{% set all_posts = [] %}
+		{% for item in module.blog_options.blog_field %}
+		{% set fetched = blog_recent_posts(item, 200) %}
+		{% for innerItem in fetched.objects %}
+		{% do all_posts.append(innerItem) %}
+		{% endfor %}
+		{% endfor %}
+
+		{% set sorted_posts = all_posts|sort(attribute='publish_date', reverse=true) %}
+		{% set total_posts = contents.total_count %}
+		{% set total_pages = contents.total_page_count %}
+
+		{% set display_direction = 'grid' %}
+
+		{% if sorted_posts|length > 0 %}
+
+		<div class="m-blogListingGrid m-blogListingGrid--{{ display_direction }}">
+			<div class="m-blogListingGrid__list m-blogListingGrid__list--{{ module.image_grid_item_settings_.number_of_columns }}">
+
+				{% for content in sorted_posts %}
+
+				<article class="m-blogListingGrid__item">
+					{% if content.featured_image %}
+					<img class="m-blogListingGrid__image"
+					     src="{{ resize_image_url(content.featured_image, 400, 250) }}"
+					     width="400"
+					     height="250"
+					     alt="{{ content.featured_image_alt_text }}"
+					     loading="lazy">
+					{% endif %}
+					<div class="m-blogListingGrid__contentWrapper">
+
+						<div>
+							{% if content.title %}
+							<h2 class="m-blogListingGrid__heading h4">
+								<a class="m-blogListingGrid__headingLink" href="{{ content.url }}">{{ content.title }}</a>
+							</h2>
+							{% endif %}
+
+							{% if module.blog_options.display_date or module.blog_options.display_tags %}
+							<div>
+								{% if module.blog_options.display_date %}
+								<div>
+									<time class="m-blogListingGrid__date">{{ content.publish_date|datetimeformat('%d.%m.%y') }}</time>
+								</div>
+								{% endif %}
+								{% if module.blog_options.display_tags %}
+								<ul class="m-tags">
+									{% for tag in content.topic_list %}
+									<li>
+										<a class="m-blogListingGrid__tag m-tags__tag" href="{{ blog_tag_url(group.id, tag.slug) }}">{{ tag.name }}{{ ',' if !loop.last }}</a>
+									</li>
+									{% endfor %}
+								</ul>
+								{% endif %}
+							</div>
+							{% endif %}
+
+							{% if module.blog_options.display_summary %}
+							{% if content.post_summary %}
+							<p class="m-blogListingGrid__summary">
+								{{ content.post_summary|truncatehtml(155, "..." , false)|striptags }}
+							</p>
+							{% elif content.post_body %}
+							<p class="m-blogListingGrid__summary">
+								{{ content.post_body|truncatehtml(155, "..." , false)|striptags }}
+							</p>
+							{% endif %}
+							{% endif %}
+						</div>
+					</div>
+
+				</article>
+				{% endfor %}
+
+			</div>
+
+		</div>
+
+		{% else %}
+		<p>No results found</p>
+		{% endif %}
+
+		{# Pagination #}
+
+		{% if total_pages > 1 %}
+
+		{{ require_css(get_asset_url('../../../css/modules/modules.pagination.css')) }}
+
+		<nav aria-label="Pagination navigation" role="navigation" class="m-pagination">
+
+			{% set page_list = [-2, -1, 0, 1, 2] %}
+			{% if total_pages - current_page_num == 1 %}{% set offset = -1 %}
+			{% elif total_pages - current_page_num == 0 %}{% set offset = -2 %}
+			{% elif current_page_num == 2 %}{% set offset = 1 %}
+			{% elif current_page_num == 1 %}{% set offset = 2 %}
+			{% else %}{% set offset = 0 %}{% endif %}
+
+			<ul class="m-pagination__links">
+
+				{% if total_pages > 5 %}
+				{% if current_page_num >= 4 %}
+				<li class="m-pagination__linksitem">
+					<a href="{{ blog_page_link(1) }}" class="m-pagination__link">1</a>
+				</li>
+				<li class="m-pagination__linksitem">
+					<a class="m-pagination__elipses" href="{% if current_page_num <= 5 %}{{ blog_page_link(1) }}{% else %}{{ blog_page_link(current_page_num - 5) }}{% endif %}">...</a>
+				</li>
+				{% endif %}
+				{% endif %}
+
+				{% for page in page_list %}
+				{% set this_page = current_page_num + page + offset %}
+				{% if this_page > 0 and this_page <= total_pages %}
+				<li class="m-pagination__linksitem">
+					<a class="m-pagination__link {% if this_page == current_page_num %}m-pagination__link--active{% endif %}" href="{{ blog_page_link(this_page) }}">{{ this_page }}</a>
+				</li>
+				{% endif %}
+				{% endfor %}
+
+				{% if total_pages > 5 %}
+				{% if total_pages - current_page_num > 2 %}
+				<li class="m-pagination__linksitem">
+					<a class="m-pagination__elipses" href="{% if total_pages - current_page_num <= 5 %}{{ total_pages }}{% else %}{{ blog_page_link(current_page_num + 5) }}{% endif %}">...</a>
+				</li>
+				<li class="m-pagination__linksitem">
+					<a href="{{ blog_page_link(total_pages) }}" class="m-pagination__link">{{ total_pages }}</a>
+				</li>
+				{% endif %}
+				{% endif %}
+
+			</ul>
+
+			<div class="m-pagination__arrows">
+				<a class="m-pagination__arrow m-pagination__arrow--prev {% if !last_page_num %}m-pagination__arrow--disabled{% endif %}" {% if last_page_num %}href="{{ blog_page_link(last_page_num) }}"{% endif %}>
+					{% icon name="arrow-left" style="SOLID" unicode="f061" width="18" %}
+				</a>
+				<a class="m-pagination__arrow m-pagination__arrow--next {% if !next_page_num %}m-pagination__arrow--disabled{% endif %}" {% if next_page_num %}href="{{ blog_page_link(current_page_num + 1) }}"{% endif %}>
+					{% icon name="arrow-right" style="SOLID" unicode="f060" width="18" %}
+				</a>
+			</div>
+		</nav>
+		{% endif %}
+
+	</div>
+</div>

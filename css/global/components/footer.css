@@ -1,0 +1,9 @@
+.m-siteFooter {
+
+}
+
+.m-siteFooter__inner {
+    max-width: var(--containerWidth);
+    margin-inline: auto;
+    padding: var(--space20);
+}

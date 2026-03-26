@@ -1,0 +1,19 @@
+<!-- https://www.dropzone.dev/ -->
+
+{% require_css %}
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+{% end_require_css %}
+
+<div class="o-wrapper o-wrapper--module">
+	<form action="/target" class="dropzone" id="my-dropzone"></form>
+</div>
+
+{% require_js position='footer' %}
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<script>
+	Dropzone.options.myDropzone = {
+		maxFiles: 1,
+		addRemoveLinks: true
+	};
+</script>
+{% end_require_js %}

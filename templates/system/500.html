@@ -1,0 +1,40 @@
+<!--
+  templateType: error_page
+  isAvailableForNewContent: true
+  label: Amplify - 500
+  screenshotPath: ../images/template-previews/theme-preview.png
+-->
+
+{% set template_css = '../../css/templates/system.css' %}
+{% extends '../layouts/base.html' %}
+
+{% block body %}
+<main id="main-content" class="body-container-wrapper">
+    <section class="o-wrapper o-wrapper--module">
+
+        <div class="error-page error-page--404">
+            <div class="error-page__inner">
+
+                <div class="error-page__inner o-rte">
+                    {% module 'content'
+          path='@hubspot/rich_text',
+          html='
+          <h1 class="h6">500 error</h1>
+          <h2>Well, this is unexpected ...</h2>
+          <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo.</p>'
+        %}
+                </div>
+
+                <div class="error-page__link">
+                    <a href="/" class="e-button">                     
+                        Return to homepage                                        
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+</main>
+{% endblock body %}

@@ -1,0 +1,21 @@
+.m-moduleFooter {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: var(--footerMarginTopMobile, 30px);
+  margin-bottom: var(--footerMarginBottomMobile, 0px);
+}
+
+@media (width >= 992px) {
+  .m-moduleFooter {
+    margin-top: var(--footerMarginTopDesktop, 50px);
+    margin-bottom: var(--footerMarginBottomDesktop, 0px);
+  }
+}
+
+.m-moduleFooter--center {
+  justify-content: center;
+}
+
+.m-moduleFooter--right {
+  justify-content: flex-end;
+}

@@ -1,0 +1,476 @@
+[
+  {
+    "id": "ebfb303f-3f60-7044-e431-cd40be91947d",
+    "name": "style",
+    "label": "Style",
+    "required": false,
+    "locked": false,
+    "children": [
+      {
+        "id": "5eeddcf9-2f5a-98f6-77d1-a39d215d4876",
+        "name": "spacing_alignment",
+        "label": "Spacing & alignment",
+        "inline_help_text": "Settings for customising the modules padding, vertical alignment and maximum width.",
+        "required": false,
+        "locked": false,
+        "children": [
+          {
+            "id": "e2b3e620-cffd-40e9-ab31-edd1ef3b9e0b",
+            "name": "spacing",
+            "label": "Spacing",
+            "required": false,
+            "locked": false,
+            "children": [
+              {
+                "id": "e6b25a9e-24ee-bb0a-9309-bcc7dd9330bc",
+                "name": "desktop",
+                "label": "Desktop",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "0df0f99f-70a5-37d0-c49f-78b13a76b0b9",
+                    "name": "padding_top",
+                    "label": "Top padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.desktop.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space above the module content (in pixels)."
+                  },
+                  {
+                    "id": "0df0f99f-70a5-37d0-c49f-78b13a76b0b5",
+                    "name": "padding_bottom",
+                    "label": "Bottom padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.desktop.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space below the module content (in pixels)."
+                  }
+                ],
+                "tab": "STYLE",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {}
+              },
+              {
+                "id": "3975b796-ec38-895f-c8b5-359a05f84f5a",
+                "name": "mobile",
+                "label": "Mobile",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "a466982c-244b-647c-ad1a-acae9877bb2e",
+                    "name": "padding_top",
+                    "label": "Top padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.mobile.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space above the module content (in pixels)."
+                  },
+                  {
+                    "id": "923e3b74-5ac4-e97e-7a87-a16893a5a3c4",
+                    "name": "padding_bottom",
+                    "label": "Bottom padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.mobile.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space below the module content (in pixels)."
+                  }
+                ],
+                "tab": "STYLE",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {}
+              }
+            ],
+            "tab": "STYLE",
+            "expanded": false,
+            "group_occurrence_meta": null,
+            "type": "group",
+            "display_width": null,
+            "default": {
+              "desktop": {},
+              "mobile": {}
+            }
+          }
+        ],
+        "tab": "STYLE",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "spacing": {
+            "desktop": {},
+            "mobile": {}
+          }
+        }
+      }
+    ],
+    "tab": "STYLE",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {
+      "spacing_alignment": {
+        "spacing": {
+          "desktop": {},
+          "mobile": {}
+        }
+      }
+    },
+    "inline_help_text": "Customise the visual appearance and layout of this module."
+  },
+  {
+    "id": "518939f2-b467-b803-12e1-c8b5580565f5",
+    "name": "image_field",
+    "label": "Image",
+    "required": true,
+    "locked": false,
+    "responsive": true,
+    "resizable": false,
+    "show_loading": false,
+    "type": "image",
+    "display_width": null,
+    "default": {
+      "size_type": "auto",
+      "src": "https://8135220.fs1.hubspotusercontent-na1.net/hubfs/8135220/musical-mycraphone-orange-background-178578480.jpg",
+      "alt": "musical-mycraphone-orange-background-178578480",
+      "loading": "lazy",
+      "width": 800,
+      "height": 533,
+      "max_width": 800,
+      "max_height": 533
+    },
+    "inline_help_text": "Recommended size varies by module. Use high-quality images for best results."
+  },
+  {
+    "id": "ee824c3b-6850-6fe0-21ec-f2e3dfb6101e",
+    "name": "heading",
+    "label": "Headline",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "Large image CTA ipsum dolor sit amet, sadipscing elitr",
+    "inline_help_text": "Main heading for this section. Keep concise for best readability.",
+    "placeholder": "Enter headline text"
+  },
+  {
+    "id": "0c3d3dba-6a2d-c5e3-7dea-e24f582664d6",
+    "name": "heading_type",
+    "label": "Heading level",
+    "required": true,
+    "locked": false,
+    "display": "select",
+    "choices": [
+      [
+        "h1",
+        "H1"
+      ],
+      [
+        "h2",
+        "H2"
+      ],
+      [
+        "h3",
+        "H3"
+      ],
+      [
+        "h4",
+        "H4"
+      ],
+      [
+        "h5",
+        "H5"
+      ],
+      [
+        "h6",
+        "H6"
+      ]
+    ],
+    "multiple": false,
+    "reordering_enabled": true,
+    "preset": null,
+    "type": "choice",
+    "display_width": null,
+    "default": "h2",
+    "inline_help_text": "H1 is largest, H6 is smallest. Use H2 for most section headings. Only one H1 per page for SEO."
+  },
+  {
+    "id": "ec0542c1-4f0e-696a-1970-b940f8866a7f",
+    "name": "summary",
+    "label": "Summary text",
+    "required": false,
+    "locked": false,
+    "enabled_features": [
+      "underline",
+      "link",
+      "bold",
+      "italic"
+    ],
+    "type": "richtext",
+    "display_width": null,
+    "default": "<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.&nbsp;</p>",
+    "inline_help_text": "Optional supporting text that appears below the headline."
+  },
+  {
+    "id": "a4a1c0e1-a8ad-fdff-714d-0bf0ffe503d3",
+    "name": "add_link_cta_",
+    "label": "Add Link(s)/CTA(s)?",
+    "inline_help_text": "Enables/disables the ability to add a CTA or link to follow the heading or heading text if populated.",
+    "required": false,
+    "locked": false,
+    "display": "toggle",
+    "type": "boolean",
+    "display_width": null,
+    "default": false
+  },
+  {
+    "id": "364ba08a-16b3-a492-5cc5-84839fe5254f",
+    "name": "link_cta",
+    "label": "Link / CTA",
+    "inline_help_text": "Settings for populating and customising a link or CTA element.",
+    "required": false,
+    "locked": false,
+    "occurrence": {
+      "min": null,
+      "max": null,
+      "sorting_label_field": "ef595903-91e4-45c2-9606-47c60041a690",
+      "default": null
+    },
+    "visibility": {
+      "controlling_field": "a4a1c0e1-a8ad-fdff-714d-0bf0ffe503d3",
+      "controlling_field_path": null,
+      "controlling_value_regex": "true",
+      "property": null,
+      "operator": "EQUAL",
+      "access": null
+    },
+    "children": [
+      {
+        "id": "ef595903-91e4-45c2-9606-47c60041a690",
+        "name": "button_type",
+        "label": "Button type",
+        "required": true,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "none",
+            "None"
+          ],
+          [
+            "link",
+            "Link"
+          ],
+          [
+            "cta",
+            "CTA"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "none",
+        "inline_help_text": "Choose \"Link\" for standard buttons or \"CTA\" to use a HubSpot CTA."
+      },
+      {
+        "id": "1a069c49-f46c-61f5-13d8-bb2f7bf02a14",
+        "name": "button_style",
+        "label": "Button style",
+        "required": true,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "tertiary",
+            "Tertiary"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "primary",
+        "inline_help_text": "Primary: main action. Secondary: alternative action. Tertiary: subtle link style."
+      },
+      {
+        "id": "32b4651b-b7e7-6943-07a2-79fccfb7ff66",
+        "name": "link_settings",
+        "label": "Link settings",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "ef595903-91e4-45c2-9606-47c60041a690",
+          "controlling_field_path": null,
+          "controlling_value_regex": "link",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "d4593462-24d5-40ee-c824-0bc1ec1c21b8",
+            "name": "link_field",
+            "label": "Button destination",
+            "required": true,
+            "locked": false,
+            "supported_types": [
+              "EXTERNAL",
+              "CONTENT",
+              "FILE",
+              "EMAIL_ADDRESS",
+              "BLOG",
+              "CALL_TO_ACTION"
+            ],
+            "show_advanced_rel_options": false,
+            "type": "link",
+            "display_width": null,
+            "default": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "https://www.fuelius.com",
+                "content_id": null
+              },
+              "open_in_new_tab": true,
+              "no_follow": false
+            },
+            "inline_help_text": "Where the button links to. Can be a page, external URL, file, or email."
+          },
+          {
+            "id": "45162f48-915d-7c70-59ca-22e8e5619a47",
+            "name": "link_text",
+            "label": "Button text",
+            "required": true,
+            "locked": false,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null,
+            "default": "Learn more",
+            "inline_help_text": "Text displayed on the button. Keep short and action-oriented.",
+            "placeholder": "Learn more"
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "link_field": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "https://www.fuelius.com",
+              "content_id": null
+            },
+            "open_in_new_tab": true,
+            "no_follow": false
+          },
+          "link_text": "Learn more"
+        }
+      },
+      {
+        "id": "40c5b30e-d30b-6945-c325-2f1400fb7611",
+        "name": "cta_settings",
+        "label": "CTA settings",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "ef595903-91e4-45c2-9606-47c60041a690",
+          "controlling_field_path": null,
+          "controlling_value_regex": "cta",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "aad555a6-20b4-ae11-aaaf-4fe14bf78d2a",
+            "name": "cta_field",
+            "label": "Select CTA",
+            "required": false,
+            "locked": false,
+            "type": "cta",
+            "display_width": null,
+            "inline_help_text": "Select a CTA created in Marketing > Lead Capture > CTAs."
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {}
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": []
+  },
+  {
+    "id": "1f43ecf8-8e64-c088-2d2c-0998781abdca",
+    "name": "scrollid",
+    "label": "Anchor ID",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "inline_help_text": "Optional anchor ID for in-page navigation links (e.g., \"features\" creates #features).",
+    "placeholder": "section-name"
+  }
+]

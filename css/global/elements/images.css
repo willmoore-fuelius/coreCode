@@ -1,0 +1,11 @@
+img {
+	max-width: 100%;
+	object-fit: cover;
+	font-size: 0.875rem; /* 14px */
+	word-break: normal;
+}
+
+.hs_cos_wrapper_type_linked_image{
+	display: block;
+	line-height: 0;
+}

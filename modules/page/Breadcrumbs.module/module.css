@@ -1,0 +1,26 @@
+.m-breadcrumbs__links {
+	list-style: none;
+	margin-inline: auto;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space20) var(--space20);
+	max-width: var(--containerWidth);
+}
+
+.m-breadcrumbs__item {
+	display: flex;
+	align-items: center;
+	gap: var(--gridGutters);
+	margin: 0;
+	color: inherit;
+}
+
+.m-breadcrumbs__item.hide {
+    display: none;
+}
+
+.m-breadcrumbs__link {
+	color: inherit;
+	text-decoration: none;
+}

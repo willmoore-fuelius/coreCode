@@ -1,0 +1,17 @@
+{
+  "global" : false,
+  "content_types" : [ "LANDING_PAGE", "SITE_PAGE" ],
+  "description" : "Image gallery with thumbnail navigation and lightbox preview",
+  "icon" : "fontawesome-5.14.0:Book%20Reader:SOLID",
+  "host_template_types" : [ "PAGE" ],
+  "module_id" : 75666794943,
+  "css_assets" : [ {
+    "autoload" : true,
+    "path" : "../../../css/Modules/modules.heading.css",
+    "name" : "modules.heading.css"
+  } ],
+  "js_assets" : [ ],
+  "label" : "Thumbnail Gallery",
+  "is_available_for_new_content" : true,
+  "categories" : [ "MEDIA" ]
+}

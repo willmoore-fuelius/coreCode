@@ -1,0 +1,12 @@
+<!--
+templateType: "none"
+isAvailableForNewContent: false
+-->
+
+{% set breakpointLarge = '992px' %}
+
+{% macro render_toggle(trigger) %}
+<input class="e-toggle e-toggle-light" id="{{ trigger }}" type="checkbox"/>
+<label class="e-toggle-btn" for="{{ trigger }}"></label>
+{{ require_css(get_asset_url('../css/modules/modules.toggle-button.css')) }}
+{% endmacro %}

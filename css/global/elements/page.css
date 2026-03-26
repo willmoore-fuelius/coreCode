@@ -1,0 +1,12 @@
+html {
+	scroll-behavior: smooth;
+	scroll-padding: calc(var(--siteHeaderHeight) + var(--stickyAnchorsHeight));
+}
+
+body {
+	scrollbar-gutter: stable;
+}
+
+body.disable-scroll {
+	overflow-y: hidden; 
+}

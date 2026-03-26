@@ -1,0 +1,30 @@
+[ {
+  "id" : "9d9c6525-5ceb-53ec-057a-bc796c26603c",
+  "name" : "logo_field",
+  "label" : "Logo",
+  "required" : true,
+  "locked" : false,
+  "show_loading" : false,
+  "type" : "logo",
+  "display_width" : null,
+  "default" : {
+    "override_inherited_src" : false,
+    "suppress_company_name" : true,
+    "src" : null,
+    "alt" : null
+  }
+}, {
+  "id" : "a80cc731-4dfd-5c4c-3fa6-316c666113d3",
+  "name" : "url_field",
+  "label" : "URL",
+  "required" : false,
+  "locked" : false,
+  "supported_types" : [ "EXTERNAL", "CONTENT", "FILE", "EMAIL_ADDRESS", "BLOG" ],
+  "type" : "url",
+  "display_width" : null,
+  "default" : {
+    "content_id" : null,
+    "href" : "",
+    "type" : "EXTERNAL"
+  }
+} ]

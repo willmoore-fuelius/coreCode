@@ -1,0 +1,73 @@
+{###########################################################################}
+{########################   HubSpot Helper Macros   ########################}
+{###########################################################################}
+
+{## Table of contents:
+
+  1. Color Field CSS Mapper
+  2. REM font size calculator
+
+##}
+
+{% set macros = true %}
+
+{###########################################################################}
+{########################   Color Field CSS Mapper   #######################}
+{###########################################################################}
+
+{#
+
+Creation of an rgba value that maps from a color field
+
+Usage:
+
+* Inside CSS block for an element, call macro using the base name for the color field in your fields.json file
+* The macro checks to see if opacity has a set value and uses '1' as a fallback should the parameter be hidden or unset.
+
+Example:
+
+.my-selector {
+  color: {{ color('theme.color_field_name') }}
+}
+
+#}
+
+{% macro color(value) %}
+  {%- set colorhex = value.color|convert_rgb -%}
+  {%- if value.opacity != null -%}
+    {% set coloropacity = value.opacity / 100 %}
+  {%- else -%}
+    {% set coloropacity = '1' %}
+  {%- endif -%}
+  rgba({{ colorhex }}, {{ coloropacity }})
+{%- endmacro -%}
+
+{###########################################################################}
+{########################   REM calculator for font sizes   #######################}
+{###########################################################################}
+
+{% macro remCalc(value) %}{{value / 16}}rem{% endmacro %}
+
+{% macro fluidTypography(selector, fontSize, property) %}
+
+{% set fontScaleRatio = 1.4 %}
+{% set minFontSizePx = 14 %} 
+{% set minSize = (fontSize / fontScaleRatio) >= minFontSizePx ? (fontSize / fontScaleRatio) : minFontSizePx %}
+{% set diff = fontSize - minSize %}
+
+{{selector}} {
+  {{property}}: {{ remCalc(minSize) }};
+}
+
+@media (width >= 576px) {
+  {{selector}} {
+    {{property}}: calc({{ remCalc(minSize) }} + {{ remCalc((diff))|replace('rem', '') }} * ((100vw - 34.875rem) / 60));
+  }
+}
+
+@media (width >= 1200px) {
+  {{selector}} {
+    {{property}}: {{ remCalc(fontSize) }};
+  }
+}
+{% endmacro %}

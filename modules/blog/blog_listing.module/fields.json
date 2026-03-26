@@ -1,0 +1,229 @@
+[
+  {
+    "id": "ebfb303f-3f60-7044-e431-cd40be91947d",
+    "name": "style",
+    "label": "Style",
+    "required": false,
+    "locked": false,
+    "children": [
+      {
+        "id": "5eeddcf9-2f5a-98f6-77d1-a39d215d4876",
+        "name": "spacing_alignment",
+        "label": "Spacing & alignment",
+        "inline_help_text": "Settings for customising the modules padding, vertical alignment and maximum width.",
+        "required": false,
+        "locked": false,
+        "children": [
+          {
+            "id": "e2b3e620-cffd-40e9-ab31-edd1ef3b9e0b",
+            "name": "spacing",
+            "label": "Spacing",
+            "required": false,
+            "locked": false,
+            "children": [
+              {
+                "id": "e6b25a9e-24ee-bb0a-9309-bcc7dd9330bc",
+                "name": "desktop",
+                "label": "Desktop",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "0df0f99f-70a5-37d0-c49f-78b13a76b0b9",
+                    "name": "padding_top",
+                    "label": "Top padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.desktop.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space above the module content (in pixels)."
+                  },
+                  {
+                    "id": "0df0f99f-70a5-37d0-c49f-78b13a76b0b5",
+                    "name": "padding_bottom",
+                    "label": "Bottom padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.desktop.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space below the module content (in pixels)."
+                  }
+                ],
+                "tab": "STYLE",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {}
+              },
+              {
+                "id": "3975b796-ec38-895f-c8b5-359a05f84f5a",
+                "name": "mobile",
+                "label": "Mobile",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "a466982c-244b-647c-ad1a-acae9877bb2e",
+                    "name": "padding_top",
+                    "label": "Top padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.mobile.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space above the module content (in pixels)."
+                  },
+                  {
+                    "id": "923e3b74-5ac4-e97e-7a87-a16893a5a3c4",
+                    "name": "padding_bottom",
+                    "label": "Bottom padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.mobile.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space below the module content (in pixels)."
+                  }
+                ],
+                "tab": "STYLE",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {}
+              }
+            ],
+            "tab": "STYLE",
+            "expanded": false,
+            "group_occurrence_meta": null,
+            "type": "group",
+            "display_width": null,
+            "default": {
+              "desktop": {},
+              "mobile": {}
+            }
+          }
+        ],
+        "tab": "STYLE",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "spacing": {
+            "desktop": {},
+            "mobile": {}
+          }
+        }
+      }
+    ],
+    "tab": "STYLE",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {
+      "spacing_alignment": {
+        "spacing": {
+          "desktop": {},
+          "mobile": {}
+        }
+      }
+    },
+    "inline_help_text": "Customise the visual appearance and layout of this module."
+  },
+  {
+    "id": "614eafdf-06c8-b21e-b1e5-9f666a191c08",
+    "name": "blog_options",
+    "label": "Blog Options",
+    "required": false,
+    "locked": false,
+    "children": [
+      {
+        "id": "3eee9332-63d7-bc1b-68bf-049d9933c76d",
+        "name": "blog_field",
+        "label": "Blogs",
+        "required": false,
+        "locked": false,
+        "occurrence": {
+          "min": 0,
+          "max": 4,
+          "sorting_label_field": null,
+          "default": 0
+        },
+        "type": "blog",
+        "display_width": null
+      },
+      {
+        "id": "3dd55bdd-1ea5-a6eb-b748-6598e4df2203",
+        "name": "display_summary",
+        "label": "Display Summary",
+        "required": false,
+        "locked": false,
+        "display": "toggle",
+        "type": "boolean",
+        "display_width": null,
+        "default": true
+      },
+      {
+        "id": "ec1d979c-be86-f63a-0361-050cb8310d70",
+        "name": "display_date",
+        "label": "Display date",
+        "required": false,
+        "locked": false,
+        "display": "toggle",
+        "type": "boolean",
+        "display_width": null,
+        "default": true
+      },
+      {
+        "id": "2aa794c9-1905-4694-85d3-5478b7bc8e99",
+        "name": "display_tags",
+        "label": "Display tags",
+        "required": false,
+        "locked": false,
+        "display": "toggle",
+        "type": "boolean",
+        "display_width": null,
+        "default": true
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {
+      "display_summary": true,
+      "display_date": true,
+      "display_tags": true
+    }
+  }
+]

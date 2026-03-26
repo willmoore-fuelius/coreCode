@@ -1,0 +1,22 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE",
+    "BLOG_LISTING",
+    "BLOG_POST"
+  ],
+  "host_template_types": [
+    "PAGE",
+    "BLOG_POST",
+    "BLOG_LISTING"
+  ],
+  "module_id": 75666185715,
+  "label": "Logo",
+  "icon": "fontawesome-5.14.0:Foursquare",
+  "is_available_for_new_content": false,
+  "categories": [
+    "DESIGN"
+  ],
+  "description": "Site logo element with responsive image and link to homepage"
+}

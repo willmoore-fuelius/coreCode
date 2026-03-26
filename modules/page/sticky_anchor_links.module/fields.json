@@ -1,0 +1,230 @@
+[
+  {
+    "id": "ebfb303f-3f60-7044-e431-cd40be91947d",
+    "name": "style",
+    "label": "Style",
+    "required": false,
+    "locked": false,
+    "children": [],
+    "tab": "STYLE",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {},
+    "inline_help_text": "Customise the visual appearance and layout of this module."
+  },
+  {
+    "id": "da8523b8-fa8b-b0d8-5152-5b70ec9662e3",
+    "name": "media_type",
+    "label": "Media type",
+    "required": true,
+    "locked": false,
+    "display": "select",
+    "choices": [
+      [
+        "none",
+        "None"
+      ],
+      [
+        "icon",
+        "Icon"
+      ],
+      [
+        "image",
+        "Image"
+      ]
+    ],
+    "multiple": false,
+    "reordering_enabled": true,
+    "preset": null,
+    "type": "choice",
+    "display_width": null,
+    "default": "icon",
+    "inline_help_text": "Choose the type of media to display in this section."
+  },
+  {
+    "id": "df578910-0cf9-8b12-3f49-36b601ba3c80",
+    "name": "icon_field",
+    "label": "Icon",
+    "required": true,
+    "locked": false,
+    "visibility": {
+      "controlling_field": null,
+      "controlling_field_path": "media_type",
+      "controlling_value_regex": "icon",
+      "property": null,
+      "operator": "EQUAL",
+      "access": null
+    },
+    "icon_set": "fontawesome-5.14.0",
+    "type": "icon",
+    "display_width": null,
+    "default": {
+      "name": "Globe with Europe shown",
+      "unicode": "f7a2",
+      "type": "SOLID"
+    }
+  },
+  {
+    "id": "4537dce3-50f8-c1e8-b571-0e69c27f6a13",
+    "name": "image_field",
+    "label": "Image",
+    "required": false,
+    "locked": false,
+    "visibility": {
+      "controlling_field": null,
+      "controlling_field_path": "media_type",
+      "controlling_value_regex": "image",
+      "property": null,
+      "operator": "EQUAL",
+      "access": null
+    },
+    "responsive": true,
+    "resizable": false,
+    "show_loading": false,
+    "type": "image",
+    "display_width": null,
+    "default": {
+      "size_type": "auto",
+      "src": "",
+      "alt": null,
+      "loading": "lazy"
+    },
+    "inline_help_text": "Recommended size varies by module. Use high-quality images for best results."
+  },
+  {
+    "id": "54071985-9e4f-f7f2-e368-af0f76c89ec9",
+    "name": "menu_label",
+    "label": "Label",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "Label text"
+  },
+  {
+    "id": "92367e5b-d967-8f24-4ae2-a31efa1e2efd",
+    "name": "links",
+    "label": "Links",
+    "required": false,
+    "locked": false,
+    "occurrence": {
+      "min": null,
+      "max": null,
+      "sorting_label_field": "79f7c518-c23c-1872-9797-640ba57d30e0",
+      "default": null
+    },
+    "children": [
+      {
+        "id": "025ef84d-7947-cea0-3d34-43ed760b94d7",
+        "name": "link_type",
+        "label": "Link type",
+        "required": false,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "anchor",
+            "Anchor"
+          ],
+          [
+            "page_link",
+            "Page link"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "anchor"
+      },
+      {
+        "id": "4412a971-4c28-d899-df06-ce426515041e",
+        "name": "link_field",
+        "label": "Button destination",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": null,
+          "controlling_field_path": "links.link_type",
+          "controlling_value_regex": "page_link",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "supported_types": [
+          "EXTERNAL",
+          "CONTENT",
+          "FILE",
+          "EMAIL_ADDRESS",
+          "BLOG",
+          "CALL_TO_ACTION",
+          "PHONE_NUMBER",
+          "WHATSAPP_NUMBER"
+        ],
+        "show_advanced_rel_options": false,
+        "type": "link",
+        "display_width": null,
+        "default": {
+          "url": {
+            "content_id": null,
+            "type": "EXTERNAL",
+            "href": ""
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "inline_help_text": "Where the button links to. Can be a page, external URL, file, or email."
+      },
+      {
+        "id": "af004709-2b57-b301-b435-7796eb602090",
+        "name": "target",
+        "label": "Target",
+        "inline_help_text": "This must be populated with the name given to the target module ScrollID value.",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": null,
+          "controlling_field_path": "links.link_type",
+          "controlling_value_regex": "anchor",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "allow_new_line": false,
+        "type": "text",
+        "display_width": null
+      },
+      {
+        "id": "79f7c518-c23c-1872-9797-640ba57d30e0",
+        "name": "link_label",
+        "label": "Label",
+        "required": false,
+        "locked": false,
+        "allow_new_line": false,
+        "type": "text",
+        "display_width": null
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": []
+  },
+  {
+    "id": "6f4600cd-2742-edd7-672d-c92bebd46111",
+    "name": "mobile_label",
+    "label": "Mobile label",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "Jump to section"
+  }
+]

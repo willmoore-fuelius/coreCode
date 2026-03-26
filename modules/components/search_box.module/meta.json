@@ -1,0 +1,18 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE"
+  ],
+  "host_template_types": [
+    "PAGE"
+  ],
+  "module_id": 75665145330,
+  "label": "Search box",
+  "icon": "fontawesome-5.14.0:Search:SOLID",
+  "is_available_for_new_content": false,
+  "categories": [
+    "FUNCTIONALITY"
+  ],
+  "description": "Site-wide search input with autocomplete suggestions dropdown"
+}

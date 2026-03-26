@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"c:\\\\Projects\\\\HubSpot\\\\CoreCode\" log --oneline -20)",
+      "Bash(git -C \"c:\\\\Projects\\\\HubSpot\\\\CoreCode\" branch -a)",
+      "Bash(git -C \"c:\\\\Projects\\\\HubSpot\\\\CoreCode\" log --all --oneline --grep=\"convention\\\\|naming\\\\|rule\")",
+      "Bash(git -C \"c:\\\\Projects\\\\HubSpot\\\\CoreCode\" show e6e7efd --stat)",
+      "Bash(git -C \"c:\\\\Projects\\\\HubSpot\\\\CoreCode\" log d4385f3 --format=\"%B\")",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(for dir in ./modules/page/*.module)",
+      "Bash(do if [ ! -f \"$dir/module.html\" ])",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  }
+}

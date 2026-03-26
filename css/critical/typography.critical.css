@@ -1,0 +1,59 @@
+/* Critical Typography Styles - Above the fold only */
+/* Extracted from css/global/elements/typography.css */
+
+html {
+	font-size: calc(var(--rootFontSize) * 1px);
+}
+
+body {
+	word-break: break-word;
+	line-height: 150%;
+}
+
+body.disable-scroll{
+	overflow-y: hidden;
+}
+
+html[lang^="ja"] body,
+html[lang^="zh"] body,
+html[lang^="ko"] body {
+	line-break: strict;
+	word-break: break-all;
+}
+
+/* Paragraphs */
+p {
+	margin: 0;
+}
+
+/* Anchors */
+a {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+a:hover,
+a:focus,
+a:active {
+	text-decoration: underline;
+}
+
+/* Headings - Critical above-the-fold only */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: var(--space20) 0;
+}
+
+h1 {
+	font-size: clamp(var(--h1Min), 4vw + 1rem, var(--h1));
+	line-height: 120%;
+}
+
+h2 {
+	font-size: clamp(var(--h2Min), 4vw + 1rem, var(--h2));
+	line-height: 120%;
+}

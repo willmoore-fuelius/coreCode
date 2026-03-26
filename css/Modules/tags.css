@@ -1,0 +1,14 @@
+.m-tags {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space8);
+}
+
+.m-tags__tag {
+	display: inline-grid;
+	min-width: 24px; /* Accessibility */
+	min-height: 24px; /* Accessibility */
+}

@@ -1,0 +1,27 @@
+<div class="m-searchBox js-searchWrapper">
+
+    <button type="button" class="m-searchBox__button js-searchToggle">
+        Toggle search
+        <span class="show-for-sr">Toggle site search</span>
+    </button>
+
+    <div class="m-searchBox__formWrapper js-searchFormWrapper">
+        <form class="m-searchBox__form js-searchForm" action="/{{ site_settings.content_search_results_page_path }}">
+            <input type="text" class="m-searchForm__input js-searchInput" name="term" autocomplete="off" aria-label="Search" placeholder="{{ module.search_settings.placeholder }}">
+            {% if module.search_settings.website_pages %}
+            <input type="hidden" name="type" value="SITE_PAGE">
+            {% endif %}
+            {% if module.search_settings.landing_pages %}
+            <input type="hidden" name="type" value="LANDING_PAGE">
+            {% endif %}
+            {% if module.search_settings.blog_posts %}
+            <input type="hidden" name="type" value="BLOG_POST">
+            <input type="hidden" name="type" value="LISTING_PAGE">
+            {% endif %}
+            <input type="hidden" name="portalId" value="{{hub_id}}">
+            <input type="hidden" name="property" value="title">     
+            <button type="submit">Search</button>
+        </form>
+        <ul class="m-searchBox__results js-searchFieldSuggestions"></ul>
+    </div>
+</div>

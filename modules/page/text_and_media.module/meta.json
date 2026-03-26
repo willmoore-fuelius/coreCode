@@ -1,0 +1,25 @@
+{
+  "global": false,
+  "content_types": [
+    "LANDING_PAGE",
+    "SITE_PAGE"
+  ],
+  "host_template_types": [
+    "PAGE"
+  ],
+  "module_id": 75666185936,
+  "js_assets": [
+    {
+      "autoload": true,
+      "path": "../../../js/vendor/vendor.plyr.js",
+      "name": "vendor.plyr.js"
+    }
+  ],
+  "label": "Text and media",
+  "icon": "fontawesome-5.14.0:th-list:SOLID",
+  "is_available_for_new_content": true,
+  "categories": [
+    "BODY_CONTENT"
+  ],
+  "description": "Side-by-side text and media layout with image or video popup"
+}

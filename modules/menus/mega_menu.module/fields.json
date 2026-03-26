@@ -1,0 +1,261 @@
+[
+  {
+    "id": "b0f436c4-fd63-d5ed-2d60-0ed897747eca",
+    "name": "links",
+    "label": "Links",
+    "required": false,
+    "locked": true,
+    "occurrence": {
+      "min": null,
+      "max": null,
+      "sorting_label_field": "2f1ab6ba-5408-d62d-552c-ea5c746bde1d",
+      "default": null
+    },
+    "children": [
+      {
+        "id": "ea0b0d85-54fb-d59e-afd5-9049a2d47de2",
+        "name": "link_field",
+        "label": "Button destination",
+        "required": false,
+        "locked": false,
+        "supported_types": [
+          "EXTERNAL",
+          "CONTENT",
+          "FILE",
+          "EMAIL_ADDRESS",
+          "BLOG",
+          "CALL_TO_ACTION",
+          "PHONE_NUMBER",
+          "WHATSAPP_NUMBER"
+        ],
+        "show_advanced_rel_options": false,
+        "type": "link",
+        "display_width": null,
+        "default": {
+          "url": {
+            "content_id": null,
+            "type": "EXTERNAL",
+            "href": ""
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "inline_help_text": "Where the button links to. Can be a page, external URL, file, or email."
+      },
+      {
+        "id": "2f1ab6ba-5408-d62d-552c-ea5c746bde1d",
+        "name": "link_label",
+        "label": "Link label",
+        "required": false,
+        "locked": false,
+        "allow_new_line": false,
+        "type": "text",
+        "display_width": null
+      },
+      {
+        "id": "ee722a25-01d9-db53-1211-ac33be3c412c",
+        "name": "level_2",
+        "label": "Level 2",
+        "required": false,
+        "locked": false,
+        "occurrence": {
+          "min": null,
+          "max": null,
+          "sorting_label_field": "dffb28f7-8075-e7b1-606c-e7e13e54f557",
+          "default": null
+        },
+        "children": [
+          {
+            "id": "e4aedce2-b3b4-cdb3-8b78-3bffec79ca7f",
+            "name": "link_field",
+            "label": "Button destination",
+            "required": false,
+            "locked": false,
+            "supported_types": [
+              "EXTERNAL",
+              "CONTENT",
+              "FILE",
+              "EMAIL_ADDRESS",
+              "BLOG",
+              "CALL_TO_ACTION",
+              "PHONE_NUMBER",
+              "WHATSAPP_NUMBER"
+            ],
+            "show_advanced_rel_options": false,
+            "type": "link",
+            "display_width": null,
+            "default": {
+              "url": {
+                "content_id": null,
+                "type": "EXTERNAL",
+                "href": ""
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            },
+            "inline_help_text": "Where the button links to. Can be a page, external URL, file, or email."
+          },
+          {
+            "id": "dffb28f7-8075-e7b1-606c-e7e13e54f557",
+            "name": "link_label",
+            "label": "Link label",
+            "required": false,
+            "locked": false,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null
+          },
+          {
+            "id": "ead0d5aa-b440-d8dc-7068-0200dfc9a856",
+            "name": "level_3",
+            "label": "Level 3",
+            "required": false,
+            "locked": false,
+            "occurrence": {
+              "min": null,
+              "max": null,
+              "sorting_label_field": "e8ecacbf-3169-64ed-f350-a8ec88b68698",
+              "default": null
+            },
+            "children": [
+              {
+                "id": "febf8947-9e5e-ecaf-8ba1-9d2e3fda7aed",
+                "name": "link_field",
+                "label": "Button destination",
+                "required": false,
+                "locked": false,
+                "supported_types": [
+                  "EXTERNAL",
+                  "CONTENT",
+                  "FILE",
+                  "EMAIL_ADDRESS",
+                  "BLOG",
+                  "CALL_TO_ACTION",
+                  "PHONE_NUMBER",
+                  "WHATSAPP_NUMBER"
+                ],
+                "show_advanced_rel_options": false,
+                "type": "link",
+                "display_width": null,
+                "default": {
+                  "url": {
+                    "content_id": null,
+                    "type": "EXTERNAL",
+                    "href": ""
+                  },
+                  "open_in_new_tab": false,
+                  "no_follow": false
+                },
+                "inline_help_text": "Where the button links to. Can be a page, external URL, file, or email."
+              },
+              {
+                "id": "e8ecacbf-3169-64ed-f350-a8ec88b68698",
+                "name": "link_label",
+                "label": "Link label",
+                "required": false,
+                "locked": false,
+                "allow_new_line": false,
+                "type": "text",
+                "display_width": null
+              },
+              {
+                "id": "c654834b-d957-5973-8231-28666540900a",
+                "name": "details",
+                "label": "Details",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "34ac7bbb-4c1f-913f-7ecf-c18bdce33a31",
+                    "name": "heading",
+                    "label": "Headline",
+                    "required": false,
+                    "locked": false,
+                    "allow_new_line": false,
+                    "type": "text",
+                    "display_width": null,
+                    "inline_help_text": "Main heading for this section. Keep concise for best readability.",
+                    "placeholder": "Enter headline text"
+                  },
+                  {
+                    "id": "7825b24f-8e0d-9690-e87b-1edf5f468b95",
+                    "name": "summary",
+                    "label": "Summary text",
+                    "required": false,
+                    "locked": false,
+                    "allow_new_line": false,
+                    "type": "text",
+                    "display_width": null,
+                    "inline_help_text": "Optional supporting text that appears below the headline."
+                  },
+                  {
+                    "id": "caefdfa8-af9e-9df7-3e09-3b3e7d21e997",
+                    "name": "image_field",
+                    "label": "Image",
+                    "inline_help_text": "Recommended image size is 215x215px or 280x340px depending on the use case(presence of available product ranges)",
+                    "required": false,
+                    "locked": false,
+                    "responsive": true,
+                    "resizable": false,
+                    "show_loading": true,
+                    "type": "image",
+                    "display_width": null,
+                    "default": {
+                      "size_type": "auto",
+                      "src": "",
+                      "alt": null,
+                      "loading": "lazy"
+                    }
+                  },
+                  {
+                    "id": "accd5cd6-797f-4aa2-843f-c8726ce44260",
+                    "name": "link_label",
+                    "label": "Link label",
+                    "required": true,
+                    "locked": false,
+                    "allow_new_line": false,
+                    "type": "text",
+                    "display_width": null,
+                    "default": "View product range"
+                  }
+                ],
+                "tab": "CONTENT",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {
+                  "image_field": {
+                    "size_type": "auto",
+                    "src": "",
+                    "alt": null,
+                    "loading": "lazy"
+                  },
+                  "link_label": "View product range"
+                }
+              }
+            ],
+            "tab": "CONTENT",
+            "expanded": false,
+            "group_occurrence_meta": null,
+            "type": "group",
+            "display_width": null,
+            "default": []
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": []
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": []
+  }
+]

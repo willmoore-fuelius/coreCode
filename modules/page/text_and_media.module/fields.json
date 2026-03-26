@@ -1,0 +1,1552 @@
+[
+  {
+    "id": "ebfb303f-3f60-7044-e431-cd40be91947d",
+    "name": "style",
+    "label": "Style",
+    "required": false,
+    "locked": false,
+    "children": [
+      {
+        "id": "5eeddcf9-2f5a-98f6-77d1-a39d215d4876",
+        "name": "spacing_alignment",
+        "label": "Spacing & alignment",
+        "inline_help_text": "Settings for customising the modules padding, vertical alignment and maximum width.",
+        "required": false,
+        "locked": false,
+        "children": [
+          {
+            "id": "e2b3e620-cffd-40e9-ab31-edd1ef3b9e0b",
+            "name": "spacing",
+            "label": "Spacing",
+            "required": false,
+            "locked": false,
+            "children": [
+              {
+                "id": "e6b25a9e-24ee-bb0a-9309-bcc7dd9330bc",
+                "name": "desktop",
+                "label": "Desktop",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "0df0f99f-70a5-37d0-c49f-78b13a76b0b9",
+                    "name": "padding_top",
+                    "label": "Top padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.desktop.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space above the module content (in pixels)."
+                  },
+                  {
+                    "id": "0df0f99f-70a5-37d0-c49f-78b13a76b0b5",
+                    "name": "padding_bottom",
+                    "label": "Bottom padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.desktop.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space below the module content (in pixels)."
+                  }
+                ],
+                "tab": "STYLE",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {}
+              },
+              {
+                "id": "3975b796-ec38-895f-c8b5-359a05f84f5a",
+                "name": "mobile",
+                "label": "Mobile",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "a466982c-244b-647c-ad1a-acae9877bb2e",
+                    "name": "padding_top",
+                    "label": "Top padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.mobile.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space above the module content (in pixels)."
+                  },
+                  {
+                    "id": "923e3b74-5ac4-e97e-7a87-a16893a5a3c4",
+                    "name": "padding_bottom",
+                    "label": "Bottom padding",
+                    "required": false,
+                    "locked": false,
+                    "display": "text",
+                    "inherited_value": {
+                      "default_value_path": "theme.spacing.mobile.vertical_spacing"
+                    },
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "inline_help_text": "Space below the module content (in pixels)."
+                  }
+                ],
+                "tab": "STYLE",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {}
+              }
+            ],
+            "tab": "STYLE",
+            "expanded": false,
+            "group_occurrence_meta": null,
+            "type": "group",
+            "display_width": null,
+            "default": {
+              "desktop": {},
+              "mobile": {}
+            }
+          }
+        ],
+        "tab": "STYLE",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "spacing": {
+            "desktop": {},
+            "mobile": {}
+          }
+        }
+      }
+    ],
+    "tab": "STYLE",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {
+      "spacing_alignment": {
+        "spacing": {
+          "desktop": {},
+          "mobile": {}
+        }
+      }
+    },
+    "inline_help_text": "Customise the visual appearance and layout of this module."
+  },
+  {
+    "id": "ad279a35-5564-438c-c533-27f6bc5b6d53",
+    "name": "subheading",
+    "label": "Subheadline",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "Subheading"
+  },
+  {
+    "id": "7b65ebfb-ea55-fcfb-6165-a3b28dc77acf",
+    "name": "heading",
+    "label": "Headline",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "Text & image ipsum dolor sit amet, consetetur",
+    "inline_help_text": "Main heading for this section. Keep concise for best readability.",
+    "placeholder": "Enter headline text"
+  },
+  {
+    "id": "efcb11c9-4965-bfb6-30a9-0abe0061da08",
+    "name": "heading_type",
+    "label": "Heading level",
+    "required": false,
+    "locked": false,
+    "display": "select",
+    "choices": [
+      [
+        "h1",
+        "H1"
+      ],
+      [
+        "h2",
+        "H2"
+      ],
+      [
+        "h3",
+        "H3"
+      ],
+      [
+        "h4",
+        "H4"
+      ],
+      [
+        "h5",
+        "H5"
+      ],
+      [
+        "h6",
+        "H6"
+      ]
+    ],
+    "multiple": false,
+    "reordering_enabled": true,
+    "preset": null,
+    "type": "choice",
+    "display_width": null,
+    "default": "h2",
+    "inline_help_text": "H1 is largest, H6 is smallest. Use H2 for most section headings. Only one H1 per page for SEO."
+  },
+  {
+    "id": "148092fb-4787-4f8a-2bb6-d82309fd3aa4",
+    "name": "summary",
+    "label": "Summary text",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "default": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam.",
+    "inline_help_text": "Optional supporting text that appears below the headline."
+  },
+  {
+    "id": "879970bc-a0a5-2dbd-5c52-1db932fc12eb",
+    "name": "add_link_cta_",
+    "label": "Add Link/CTA?",
+    "inline_help_text": "Enables/disables the ability to add a link or CTA to the module.",
+    "required": false,
+    "locked": false,
+    "display": "toggle",
+    "type": "boolean",
+    "display_width": null,
+    "default": false
+  },
+  {
+    "id": "f0861c56-8227-bf2d-90c9-21e9ff90da8c",
+    "name": "link_cta",
+    "label": "Link / CTA",
+    "inline_help_text": "Settings for populating and customising a link or CTA element.",
+    "required": false,
+    "locked": false,
+    "visibility": {
+      "controlling_field": "879970bc-a0a5-2dbd-5c52-1db932fc12eb",
+      "controlling_field_path": null,
+      "controlling_value_regex": "true",
+      "property": null,
+      "operator": "EQUAL",
+      "access": null
+    },
+    "children": [
+      {
+        "id": "c2519d8c-0733-9184-7649-7f7967cc6322",
+        "name": "button_type",
+        "label": "Button type",
+        "required": false,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "none",
+            "None"
+          ],
+          [
+            "link",
+            "Link"
+          ],
+          [
+            "cta",
+            "CTA"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "inline_help_text": "Choose \"Link\" for standard buttons or \"CTA\" to use a HubSpot CTA."
+      },
+      {
+        "id": "54be1d75-f730-5164-971e-5d1f7d518ac4",
+        "name": "button_style",
+        "label": "Button style",
+        "required": true,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "tertiary",
+            "Tertiary"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "primary",
+        "inline_help_text": "Primary: main action. Secondary: alternative action. Tertiary: subtle link style."
+      },
+      {
+        "id": "15953a25-39d5-83e7-e9d2-11cd8d2cf73b",
+        "name": "link_settings",
+        "label": "Link settings",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "c2519d8c-0733-9184-7649-7f7967cc6322",
+          "controlling_field_path": null,
+          "controlling_value_regex": "link",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "65547e36-92af-c393-536b-543c372d4db9",
+            "name": "link_field",
+            "label": "Button destination",
+            "required": true,
+            "locked": false,
+            "supported_types": [
+              "EXTERNAL",
+              "CONTENT",
+              "FILE",
+              "EMAIL_ADDRESS",
+              "BLOG"
+            ],
+            "show_advanced_rel_options": false,
+            "type": "link",
+            "display_width": null,
+            "default": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "https://www.fuelius.com",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            },
+            "inline_help_text": "Where the button links to. Can be a page, external URL, file, or email."
+          },
+          {
+            "id": "4ad8c9a7-1d75-cf74-6be6-4bc5898f7986",
+            "name": "link_text",
+            "label": "Button text",
+            "required": true,
+            "locked": false,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null,
+            "default": "Learn more",
+            "inline_help_text": "Text displayed on the button. Keep short and action-oriented.",
+            "placeholder": "Learn more"
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "link_field": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "https://www.fuelius.com",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          },
+          "link_text": "Learn more"
+        }
+      },
+      {
+        "id": "0ebcc4cf-68d5-438e-0f8e-08822678b7d1",
+        "name": "cta_settings",
+        "label": "CTA settings",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "c2519d8c-0733-9184-7649-7f7967cc6322",
+          "controlling_field_path": null,
+          "controlling_value_regex": "cta",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "3438e24b-45e7-aed2-6a24-38b999a1729e",
+            "name": "cta_field",
+            "label": "Select CTA",
+            "required": false,
+            "locked": false,
+            "type": "cta",
+            "display_width": null,
+            "inline_help_text": "Select a CTA created in Marketing > Lead Capture > CTAs."
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {}
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {
+      "button_style": "primary",
+      "link_settings": {
+        "link_field": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "https://www.fuelius.com",
+            "content_id": null
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "link_text": "Learn more"
+      },
+      "cta_settings": {}
+    }
+  },
+  {
+    "id": "ee96bde4-81ef-50e3-45ad-e7c13893a163",
+    "name": "media_type",
+    "label": "Media type",
+    "required": false,
+    "locked": false,
+    "display": "select",
+    "choices": [
+      [
+        "image",
+        "Image"
+      ],
+      [
+        "video",
+        "Video"
+      ]
+    ],
+    "multiple": false,
+    "reordering_enabled": true,
+    "preset": null,
+    "type": "choice",
+    "display_width": null,
+    "default": "image",
+    "inline_help_text": "Choose the type of media to display in this section."
+  },
+  {
+    "id": "2dcf883b-046b-93cb-c39e-256c1838d5cf",
+    "name": "video",
+    "label": "Video",
+    "required": false,
+    "locked": false,
+    "visibility": {
+      "controlling_field": "ee96bde4-81ef-50e3-45ad-e7c13893a163",
+      "controlling_field_path": null,
+      "controlling_value_regex": "video",
+      "property": null,
+      "operator": "EQUAL",
+      "access": null
+    },
+    "children": [
+      {
+        "id": "182aa227-315d-dd1c-6165-1b3695ec64f8",
+        "name": "video_type",
+        "label": "Video Type",
+        "required": false,
+        "locked": false,
+        "display": "radio",
+        "choices": [
+          [
+            "embed",
+            "Embed"
+          ],
+          [
+            "hubspot_video",
+            "Hubspot Video"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null
+      },
+      {
+        "id": "29448a03-b88e-f9d4-2947-86fcde20f2a0",
+        "name": "platform_options",
+        "label": "Platform Options",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "182aa227-315d-dd1c-6165-1b3695ec64f8",
+          "controlling_field_path": null,
+          "controlling_value_regex": "embed",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "7f18029d-aa7f-4a44-d8b5-397c331f6609",
+            "name": "platform",
+            "label": "Platform",
+            "required": false,
+            "locked": false,
+            "display": "select",
+            "choices": [
+              [
+                "youtube",
+                "Youtube"
+              ],
+              [
+                "vimeo",
+                "Vimeo"
+              ]
+            ],
+            "multiple": false,
+            "reordering_enabled": true,
+            "preset": null,
+            "type": "choice",
+            "display_width": null
+          },
+          {
+            "id": "3dfef9c3-05ae-9328-9487-90f38f0d39b1",
+            "name": "vimeo_video_id",
+            "label": "Vimeo Video ID",
+            "required": false,
+            "locked": false,
+            "visibility": {
+              "controlling_field": "7f18029d-aa7f-4a44-d8b5-397c331f6609",
+              "controlling_field_path": null,
+              "controlling_value_regex": "vimeo",
+              "property": null,
+              "operator": "EQUAL",
+              "access": null
+            },
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null
+          },
+          {
+            "id": "887f7ec4-e499-7ddd-c458-27074da5d670",
+            "name": "youtube_video_id",
+            "label": "YouTube Video ID",
+            "required": false,
+            "locked": false,
+            "visibility": {
+              "controlling_field": "7f18029d-aa7f-4a44-d8b5-397c331f6609",
+              "controlling_field_path": null,
+              "controlling_value_regex": "youtube",
+              "property": null,
+              "operator": "EQUAL",
+              "access": null
+            },
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null
+          },
+          {
+            "id": "7db0bd39-4945-9946-ef9a-d5ce4e320756",
+            "name": "video_poster",
+            "label": "Video poster",
+            "required": false,
+            "locked": false,
+            "visibility": {
+              "controlling_field": null,
+              "controlling_field_path": "video.platform_options.platform",
+              "controlling_value_regex": "youtube",
+              "property": null,
+              "operator": "EQUAL",
+              "access": null
+            },
+            "responsive": true,
+            "resizable": false,
+            "show_loading": false,
+            "type": "image",
+            "display_width": null,
+            "default": {
+              "size_type": "auto",
+              "src": "",
+              "alt": null,
+              "loading": "lazy",
+              "width": 600,
+              "height": 400
+            }
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "video_poster": {
+            "size_type": "auto",
+            "src": "",
+            "alt": null,
+            "loading": "lazy"
+          }
+        }
+      },
+      {
+        "id": "13a472af-ef4a-5f73-8bad-b7e5763ca3a1",
+        "name": "hubspot_video",
+        "label": "Hubspot Video",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "182aa227-315d-dd1c-6165-1b3695ec64f8",
+          "controlling_field_path": null,
+          "controlling_value_regex": "hubspot_video",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "31fdd0c4-1191-4637-f5d4-e8e9b5b9c38b",
+            "name": "video_url",
+            "label": "Video URL",
+            "inline_help_text": "The URL of the video asset uploaded to your HubSpot media library.",
+            "required": false,
+            "locked": false,
+            "supported_types": [
+              "EXTERNAL",
+              "FILE"
+            ],
+            "type": "url",
+            "display_width": null,
+            "default": {
+              "type": "EXTERNAL",
+              "href": "https://26119187.fs1.hubspotusercontent-eu1.net/hubfs/26119187/Alone%20-%2046637.mp4",
+              "content_id": null
+            }
+          },
+          {
+            "id": "753a53aa-7ebf-a346-89d4-7ea5b85a2bc1",
+            "name": "video_poster",
+            "label": "Video Poster",
+            "required": false,
+            "locked": false,
+            "responsive": true,
+            "resizable": true,
+            "show_loading": false,
+            "type": "image",
+            "display_width": null,
+            "default": {
+              "size_type": "auto",
+              "src": "",
+              "alt": null,
+              "loading": "lazy",
+              "width": 600,
+              "height": 400
+            }
+          },
+          {
+            "picker": "file",
+            "id": "8949cd40-8f23-0c5f-b593-c95947a65f08",
+            "name": "video_caption",
+            "label": "Video Caption",
+            "help_text": "",
+            "inline_help_text": "Filetype must be a .vtt format and UTF-8 encoded.",
+            "required": true,
+            "locked": false,
+            "type": "file",
+            "display_width": null
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "video_url": {
+            "type": "EXTERNAL",
+            "href": "https://26119187.fs1.hubspotusercontent-eu1.net/hubfs/26119187/Alone%20-%2046637.mp4",
+            "content_id": null
+          },
+          "video_poster": {
+            "size_type": "auto",
+            "src": "",
+            "alt": null,
+            "loading": "lazy"
+          }
+        }
+      },
+      {
+        "id": "ecac70a6-83af-4f20-fec3-2d8a8a072e63",
+        "name": "play_video_in_popup_",
+        "label": "Play video in popup?",
+        "required": false,
+        "locked": false,
+        "display": "toggle",
+        "type": "boolean",
+        "display_width": null,
+        "default": false
+      },
+      {
+        "id": "1a44f923-35ec-0b9b-0366-cd27b353a56c",
+        "name": "popup_button",
+        "label": "Popup button",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "ecac70a6-83af-4f20-fec3-2d8a8a072e63",
+          "controlling_field_path": null,
+          "controlling_value_regex": "true",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "d8e3ec2b-c0b3-7602-0c66-485dbbc0b0c0",
+            "name": "button_type",
+            "label": "Button type",
+            "required": true,
+            "locked": true,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null,
+            "default": "link",
+            "inline_help_text": "Choose \"Link\" for standard buttons or \"CTA\" to use a HubSpot CTA."
+          },
+          {
+            "id": "bd976f25-b2a5-93f0-c83b-14ad32286bd5",
+            "name": "button_style",
+            "label": "Button style",
+            "required": false,
+            "locked": false,
+            "display": "select",
+            "choices": [
+              [
+                "primary",
+                "Primary"
+              ],
+              [
+                "secondary",
+                "Secondary"
+              ],
+              [
+                "tertiary",
+                "Tertiary"
+              ]
+            ],
+            "multiple": false,
+            "reordering_enabled": true,
+            "preset": null,
+            "type": "choice",
+            "display_width": null,
+            "default": "primary",
+            "inline_help_text": "Primary: main action. Secondary: alternative action. Tertiary: subtle link style."
+          },
+          {
+            "id": "affcec4b-98f4-592d-d261-c4035f7b6cd2",
+            "name": "link_settings",
+            "label": "Link settings",
+            "required": false,
+            "locked": false,
+            "children": [
+              {
+                "id": "91c23c33-4b4a-e557-e97e-33653b0ec545",
+                "name": "link_text",
+                "label": "Button text",
+                "required": false,
+                "locked": false,
+                "allow_new_line": false,
+                "type": "text",
+                "display_width": null,
+                "default": "Watch video",
+                "inline_help_text": "Text displayed on the button. Keep short and action-oriented.",
+                "placeholder": "Learn more"
+              },
+              {
+                "id": "c95118e9-bd7d-8256-e758-f278fd772b31",
+                "name": "link_field",
+                "label": "Button destination",
+                "required": true,
+                "locked": true,
+                "supported_types": [
+                  "EXTERNAL"
+                ],
+                "show_advanced_rel_options": false,
+                "type": "link",
+                "display_width": null,
+                "default": {
+                  "url": {
+                    "type": "EXTERNAL",
+                    "href": "#{{ name }}_video_popup",
+                    "content_id": null
+                  },
+                  "open_in_new_tab": false,
+                  "no_follow": false
+                },
+                "inline_help_text": "Where the button links to. Can be a page, external URL, file, or email."
+              }
+            ],
+            "tab": "CONTENT",
+            "expanded": false,
+            "group_occurrence_meta": null,
+            "type": "group",
+            "display_width": null,
+            "default": {
+              "link_text": "Watch video",
+              "link_field": {
+                "url": {
+                  "type": "EXTERNAL",
+                  "href": "#{{ name }}_video_popup",
+                  "content_id": null
+                },
+                "open_in_new_tab": false,
+                "no_follow": false
+              }
+            }
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "button_type": "link",
+          "button_style": "primary",
+          "link_settings": {
+            "link_text": "Watch video",
+            "link_field": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "#{{ name }}_video_popup",
+                "content_id": null
+              },
+              "open_in_new_tab": false,
+              "no_follow": false
+            }
+          }
+        }
+      },
+      {
+        "id": "57069910-5c6a-cea1-47a3-fd0b2dc817f8",
+        "name": "schema",
+        "label": "Schema",
+        "required": false,
+        "locked": false,
+        "children": [
+          {
+            "id": "5108eb93-f36e-55f0-adc7-d1f4c1b2df0e",
+            "name": "title",
+            "label": "title",
+            "required": false,
+            "locked": false,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null,
+            "placeholder": "Enter title"
+          },
+          {
+            "id": "137c0943-8e02-2ab4-d14f-ea41e7b4fdc8",
+            "name": "summary",
+            "label": "Summary text",
+            "required": false,
+            "locked": false,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null,
+            "inline_help_text": "Optional supporting text that appears below the headline."
+          },
+          {
+            "id": "7fd59a26-f560-4c7b-43c8-0389ee5fbf6b",
+            "name": "thumbnail_url",
+            "label": "Thumbnail URL",
+            "required": false,
+            "locked": false,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null
+          },
+          {
+            "id": "ef66cd16-b528-1fa6-bdb3-ab2fa5125f0d",
+            "name": "duration",
+            "label": "Duration",
+            "required": false,
+            "locked": false,
+            "placeholder": "6M33S",
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null
+          },
+          {
+            "id": "e7a63e2b-192c-a506-6e54-8fde24608a4e",
+            "name": "date_field",
+            "label": "Date",
+            "required": false,
+            "locked": false,
+            "type": "date",
+            "display_width": null,
+            "default": 1702270800000
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "date_field": 1702270800000
+        }
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {
+      "platform_options": {
+        "video_poster": {
+          "size_type": "auto",
+          "src": "",
+          "alt": null,
+          "loading": "lazy"
+        }
+      },
+      "hubspot_video": {
+        "video_url": {
+          "type": "EXTERNAL",
+          "href": "https://26119187.fs1.hubspotusercontent-eu1.net/hubfs/26119187/Alone%20-%2046637.mp4",
+          "content_id": null
+        },
+        "video_poster": {
+          "size_type": "auto",
+          "src": "",
+          "alt": null,
+          "loading": "lazy"
+        }
+      },
+      "play_video_in_popup_": false,
+      "popup_button": {
+        "button_type": "link",
+        "button_style": "primary",
+        "link_settings": {
+          "link_text": "Watch video",
+          "link_field": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "#{{ name }}_video_popup",
+              "content_id": null
+            },
+            "open_in_new_tab": false,
+            "no_follow": false
+          }
+        }
+      },
+      "schema": {
+        "date_field": 1702270800000
+      }
+    }
+  },
+  {
+    "id": "0d26edab-8179-e9e3-724e-10992cb0a2f7",
+    "name": "image_field",
+    "label": "Image",
+    "required": true,
+    "locked": false,
+    "visibility": {
+      "controlling_field": "ee96bde4-81ef-50e3-45ad-e7c13893a163",
+      "controlling_field_path": null,
+      "controlling_value_regex": "image",
+      "property": null,
+      "operator": "EQUAL",
+      "access": null
+    },
+    "responsive": true,
+    "resizable": false,
+    "show_loading": false,
+    "type": "image",
+    "display_width": null,
+    "default": {
+      "size_type": "auto",
+      "src": "https://8135220.fs1.hubspotusercontent-na1.net/hubfs/8135220/red-and-yellow-paprika-peppers-on-flat-background-still-life-free-photo-1080x720.jpg",
+      "alt": "red-and-yellow-paprika-peppers-on-flat-background-still-life-free-photo-1080x720",
+      "loading": "lazy",
+      "width": 1080,
+      "height": 720,
+      "max_width": 1080,
+      "max_height": 720
+    },
+    "inline_help_text": "Recommended size varies by module. Use high-quality images for best results."
+  },
+  {
+    "id": "f8111068-1938-9d8e-34db-8402c644c018",
+    "name": "display_variations",
+    "label": "Display variations",
+    "required": false,
+    "locked": false,
+    "children": [
+      {
+        "id": "86d4ab0d-da06-51be-cb26-486f252cebaa",
+        "name": "options",
+        "label": "Options",
+        "required": false,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "default",
+            "Default"
+          ],
+          [
+            "reverse",
+            "Reversed layout"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "default"
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {
+      "options": "default"
+    }
+  },
+  {
+    "id": "ac3b323f-8f2f-ecb7-8943-b240c56e5e38",
+    "name": "module_footer_cta",
+    "label": "Footer button",
+    "inline_help_text": "Settings for populating and customising a link or CTA element to appear below the module.",
+    "required": false,
+    "locked": false,
+    "children": [
+      {
+        "id": "d551c743-b673-00ac-8fe2-e8694023b554",
+        "name": "button_type",
+        "label": "Button type",
+        "required": true,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "none",
+            "None"
+          ],
+          [
+            "link",
+            "Link"
+          ],
+          [
+            "cta",
+            "CTA"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "none",
+        "inline_help_text": "Choose \"Link\" for standard buttons or \"CTA\" to use a HubSpot CTA."
+      },
+      {
+        "id": "e430de01-6fc9-2577-aef6-ae2bd36d1025",
+        "name": "button_style",
+        "label": "Button style",
+        "required": true,
+        "locked": false,
+        "display": "select",
+        "placeholder": "",
+        "choices": [
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "tertiary",
+            "Tertiary"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "primary",
+        "inline_help_text": "Primary: main action. Secondary: alternative action. Tertiary: subtle link style."
+      },
+      {
+        "id": "b2eb139f-b27f-6ac0-bef6-5d9fc08a61e4",
+        "name": "button_theme",
+        "label": "Button colour theme",
+        "inline_help_text": "Change the colours of the button to match the global theme colours. 'Default' sets the button colours to those specified in the theme's 'Button' options",
+        "required": true,
+        "locked": false,
+        "display": "select",
+        "choices": [
+          [
+            "default",
+            "Default"
+          ],
+          [
+            "primary",
+            "Primary"
+          ],
+          [
+            "secondary",
+            "Secondary"
+          ],
+          [
+            "tertiary",
+            "Tertiary"
+          ],
+          [
+            "highlight",
+            "Highlight"
+          ]
+        ],
+        "multiple": false,
+        "reordering_enabled": true,
+        "preset": null,
+        "type": "choice",
+        "display_width": null,
+        "default": "default"
+      },
+      {
+        "id": "2023e20e-22df-d1c2-8b2c-39a7f03022d9",
+        "name": "link_settings",
+        "label": "Link settings",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "d551c743-b673-00ac-8fe2-e8694023b554",
+          "controlling_field_path": null,
+          "controlling_value_regex": "link",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "ebd4e141-266a-63bc-e4e3-9a35c49a1acc",
+            "name": "link_field",
+            "label": "Button destination",
+            "required": true,
+            "locked": false,
+            "supported_types": [
+              "EXTERNAL",
+              "CONTENT",
+              "FILE",
+              "EMAIL_ADDRESS",
+              "BLOG"
+            ],
+            "show_advanced_rel_options": false,
+            "type": "link",
+            "display_width": null,
+            "default": {
+              "url": {
+                "type": "EXTERNAL",
+                "href": "https://www.fuelius.com",
+                "content_id": null
+              },
+              "open_in_new_tab": true,
+              "no_follow": false
+            },
+            "inline_help_text": "Where the button links to. Can be a page, external URL, file, or email."
+          },
+          {
+            "id": "709c1859-4cd8-d6ed-ddbb-b04cd29a8c68",
+            "name": "link_text",
+            "label": "Button text",
+            "required": true,
+            "locked": false,
+            "allow_new_line": false,
+            "type": "text",
+            "display_width": null,
+            "default": "Button text",
+            "inline_help_text": "Text displayed on the button. Keep short and action-oriented.",
+            "placeholder": "Learn more"
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "link_field": {
+            "url": {
+              "type": "EXTERNAL",
+              "href": "https://www.fuelius.com",
+              "content_id": null
+            },
+            "open_in_new_tab": true,
+            "no_follow": false
+          },
+          "link_text": "Button text"
+        }
+      },
+      {
+        "id": "e286824d-c3fc-0a05-149d-5140e5fa3e28",
+        "name": "cta_settings",
+        "label": "CTA settings",
+        "required": false,
+        "locked": false,
+        "visibility": {
+          "controlling_field": "d551c743-b673-00ac-8fe2-e8694023b554",
+          "controlling_field_path": null,
+          "controlling_value_regex": "cta",
+          "property": null,
+          "operator": "EQUAL",
+          "access": null
+        },
+        "children": [
+          {
+            "id": "39dea855-d5ac-bf3b-45ea-e1dd5b3420bc",
+            "name": "cta_field",
+            "label": "Select CTA",
+            "required": false,
+            "locked": false,
+            "type": "cta",
+            "display_width": null,
+            "inline_help_text": "Select a CTA created in Marketing > Lead Capture > CTAs."
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {}
+      },
+      {
+        "id": "1154f89d-3231-bbe9-53e3-986211e553ef",
+        "name": "icon_settings",
+        "label": "Icon Settings",
+        "required": false,
+        "locked": false,
+        "children": [
+          {
+            "id": "3357b03e-be5e-3c55-9c0c-943e47f60025",
+            "name": "icon_field",
+            "label": "Icon",
+            "required": false,
+            "locked": false,
+            "icon_set": "fontawesome-5.14.0",
+            "type": "icon",
+            "display_width": null,
+            "default": {
+              "name": "Caret Right",
+              "unicode": "f0da",
+              "type": "SOLID"
+            }
+          },
+          {
+            "id": "6a3f978d-649e-2591-aa2d-d0cb2d5ead43",
+            "name": "icon_alignment",
+            "label": "Icon Alignment",
+            "required": false,
+            "locked": false,
+            "display": "select",
+            "choices": [
+              [
+                "left",
+                "Left"
+              ],
+              [
+                "right",
+                "Right"
+              ]
+            ],
+            "multiple": false,
+            "reordering_enabled": true,
+            "preset": null,
+            "type": "choice",
+            "display_width": null,
+            "default": "right"
+          },
+          {
+            "id": "af4aae86-63eb-5705-cd4c-56e7e3384dd2",
+            "name": "icon_size",
+            "label": "Icon Size",
+            "required": false,
+            "locked": false,
+            "display": "slider",
+            "min": 10,
+            "max": 50,
+            "step": 1,
+            "type": "number",
+            "display_width": null,
+            "default": 16
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "icon_field": {
+            "name": "Caret Right",
+            "unicode": "f0da",
+            "type": "SOLID"
+          },
+          "icon_alignment": "right",
+          "icon_size": 16
+        }
+      },
+      {
+        "id": "0f4fb7ef-eb06-57d5-38d3-354f7b561d26",
+        "name": "position",
+        "label": "Position",
+        "inline_help_text": "Settings for vertical spacing values for creating space above and below the module footer.",
+        "required": false,
+        "locked": false,
+        "children": [
+          {
+            "id": "75168b50-1d86-83c7-ad4c-fecfc224c5c8",
+            "name": "margin",
+            "label": "Margin",
+            "required": false,
+            "locked": false,
+            "children": [
+              {
+                "id": "72609844-aa14-4d15-589c-c9024eb6b6c3",
+                "name": "desktop",
+                "label": "Desktop",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "b9c0e222-ac6e-55fa-c751-a14f03748120",
+                    "name": "margin_top",
+                    "label": "Top margin",
+                    "required": false,
+                    "locked": false,
+                    "display": "slider",
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "default": 50
+                  },
+                  {
+                    "id": "03e1030a-7fcd-3e75-f84c-9dabd8d7701b",
+                    "name": "margin_bottom",
+                    "label": "Bottom margin",
+                    "required": true,
+                    "locked": false,
+                    "display": "slider",
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "default": 0
+                  }
+                ],
+                "tab": "CONTENT",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {
+                  "margin_top": 50,
+                  "margin_bottom": 0
+                }
+              },
+              {
+                "id": "2a128bb0-608c-af8e-1d1b-880efa91e50c",
+                "name": "mobile",
+                "label": "Mobile",
+                "required": false,
+                "locked": false,
+                "children": [
+                  {
+                    "id": "f1e7aff2-144b-04fe-a339-62bf00555dc6",
+                    "name": "margin_top",
+                    "label": "Top margin",
+                    "required": true,
+                    "locked": false,
+                    "display": "text",
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "default": 30
+                  },
+                  {
+                    "id": "16079694-aed2-8012-8b62-f43e30d59ff1",
+                    "name": "margin_bottom",
+                    "label": "Bottom margin",
+                    "required": true,
+                    "locked": false,
+                    "display": "text",
+                    "min": 0,
+                    "step": 1,
+                    "suffix": "px",
+                    "type": "number",
+                    "display_width": null,
+                    "default": 0
+                  }
+                ],
+                "tab": "CONTENT",
+                "expanded": false,
+                "group_occurrence_meta": null,
+                "type": "group",
+                "display_width": null,
+                "default": {
+                  "margin_top": 30,
+                  "margin_bottom": 0
+                }
+              }
+            ],
+            "tab": "CONTENT",
+            "expanded": false,
+            "group_occurrence_meta": null,
+            "type": "group",
+            "display_width": null,
+            "default": {
+              "desktop": {
+                "margin_top": 50,
+                "margin_bottom": 0
+              },
+              "mobile": {
+                "margin_top": 30,
+                "margin_bottom": 0
+              }
+            }
+          }
+        ],
+        "tab": "CONTENT",
+        "expanded": false,
+        "group_occurrence_meta": null,
+        "type": "group",
+        "display_width": null,
+        "default": {
+          "margin": {
+            "desktop": {
+              "margin_top": 50,
+              "margin_bottom": 0
+            },
+            "mobile": {
+              "margin_top": 30,
+              "margin_bottom": 0
+            }
+          }
+        }
+      }
+    ],
+    "tab": "CONTENT",
+    "expanded": false,
+    "group_occurrence_meta": null,
+    "type": "group",
+    "display_width": null,
+    "default": {
+      "button_type": "none",
+      "button_style": "primary",
+      "button_theme": "default",
+      "link_settings": {
+        "link_field": {
+          "url": {
+            "type": "EXTERNAL",
+            "href": "https://www.fuelius.com",
+            "content_id": null
+          },
+          "open_in_new_tab": true,
+          "no_follow": false
+        },
+        "link_text": "Button text"
+      },
+      "cta_settings": {},
+      "icon_settings": {
+        "icon_field": {
+          "name": "Caret Right",
+          "unicode": "f0da",
+          "type": "SOLID"
+        },
+        "icon_alignment": "right",
+        "icon_size": 16
+      },
+      "position": {
+        "margin": {
+          "desktop": {
+            "margin_top": 50,
+            "margin_bottom": 0
+          },
+          "mobile": {
+            "margin_top": 30,
+            "margin_bottom": 0
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "621a3c5b-01c1-4567-2dd8-61ebaa56dcf8",
+    "name": "scrollid",
+    "label": "Anchor ID",
+    "required": false,
+    "locked": false,
+    "allow_new_line": false,
+    "type": "text",
+    "display_width": null,
+    "inline_help_text": "Optional anchor ID for in-page navigation links (e.g., \"features\" creates #features).",
+    "placeholder": "section-name"
+  }
+]
