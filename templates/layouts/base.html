@@ -227,9 +227,6 @@ templateType: none
 
 	<body class="{{ builtin_body_classes }}">
 
-		{# Background module — must be in body, not head, to produce valid HTML #}
-		{% module "module_172976762771716" path="../../modules/elements/Background", label="Background" %}
-
 		<div class="body-wrapper {{ builtin_body_classes }}">
 			{% block header %}
 			{% global_partial path='../partials/header.html' %}
