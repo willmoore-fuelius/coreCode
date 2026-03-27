@@ -173,6 +173,12 @@ When the design requires tokens not in the base set, add them at the end of the 
 --radiusCta: 4rem;
 ```
 
+**Fluid typography formula.** When converting fixed Tailwind sizes to `clamp()` expressions, use the formula `clamp(min, Xvw + Yrem, max)` where the preferred value is calculated to hit `min` at 375px viewport width and `max` at 1440px viewport width. For example, converting `text-6xl` (3.75rem) as a min and `text-8xl` (6rem) as a max: preferred = `((6 - 3.75) / (1440 - 375)) * 100vw + offset` which simplifies to approximately `5vw + 1rem`. Use this approach consistently for all custom fluid sizes.
+
+**Material Design 3 surface tokens.** Stitch uses the MD3 surface hierarchy (`surface`, `surface-container-low`, `surface-container`, `surface-container-high`, `surface-container-highest`). These do not have direct Core Code equivalents. Always define these as project-specific tokens (`--surfaceLow`, `--surfaceMid`, `--surfaceHigh` etc.) mapped to the hex values from the Stitch Tailwind config.
+
+**MD3 `on-` colour tokens.** MD3 uses tokens like `on-primary`, `on-surface-variant` for text colours on specific backgrounds. These map to Core Code's `--textColour`, `--textColourLight`, `--textColourInverse` pattern, but MD3 has more granularity. Define extra text colour tokens when the base set doesn't provide sufficient contrast combinations (e.g. `--textOnPrimary` for soft purple text on a primary background).
+
 ---
 
 ## Template Hierarchy
@@ -322,10 +328,10 @@ Modules inject per-instance spacing via inline `style` on `.o-wrapper--module`:
 
 ```html
 <div class="o-wrapper o-wrapper--module" style="
-  --moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px;
-  --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px;
-  --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px;
-  --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+  --moduleTopSpacingMobile: {{ module.style.spacing.mobile.padding_top }}px;
+  --moduleBottomSpacingMobile: {{ module.style.spacing.mobile.padding_bottom }}px;
+  --moduleTopSpacingDesktop: {{ module.style.spacing.desktop.padding_top }}px;
+  --moduleBottomSpacingDesktop: {{ module.style.spacing.desktop.padding_bottom }}px;">
 ```
 
 The global CSS for `.o-wrapper--module` reads these custom properties to apply responsive padding.
@@ -374,7 +380,7 @@ HubSpot renders fields in the editor sidebar in the order they appear in the JSO
 
 ### Section background colours
 
-Module background colours are handled by the module itself, not by the `dnd_section` wrapper. Each module that needs a background colour variant should include a background colour choice field in its `style` group as a sibling of `spacing_alignment`:
+Module background colours are handled by the module itself, not by the `dnd_section` wrapper. Each module that needs a background colour variant should include a background colour choice field in its `style` group as a sibling of `spacing`:
 
 ```json
 {
@@ -426,22 +432,47 @@ When a dark background is selected, ensure child text elements inherit the inver
 ```json
 {
   "label": "Hero Banner",
+  "description": "Full-width hero section with heading, summary, CTAs, and featured image.",
   "css_assets": [],
   "js_assets": [],
   "categories": ["DESIGN"],
   "icon": "module",
+  "host_template_types": ["PAGE"],
   "is_available_for_new_content": true
 }
 ```
+
+**meta.json rules (platform constraints):**
+
+- **`description` is required.** Omitting it causes upload validation failure. Write a brief one-sentence description of the module's purpose.
+- **`icon` must be a valid HubSpot icon name.** The valid set is limited. Always use `"icon": "module"` unless the icon name is confirmed valid. Known valid values: `module`, `equal`, `menu`, `company`.
+- **Do not include `content_types`.** Values like `GLOBAL_CONTENT` cause validation errors. HubSpot infers content type availability from `host_template_types`.
+- **`host_template_types`** should be `["PAGE"]` for page content modules. Use `["GLOBAL"]` only for modules placed in global partials (navigation, footer).
+
+### Image dimension presets
+
+Use these standard presets in image field `help_text` and as default `width`/`height` values. This ensures consistent guidance for content editors across modules.
+
+| Preset | Width | Height | Aspect ratio | Use for |
+|---|---|---|---|---|
+| Hero | 800 | 800 | 1:1 | Hero/banner featured images |
+| Landscape | 800 | 500 | 16:10 | Service detail, case study featured |
+| Portrait | 400 | 600 | 2:3 | Team member, vertical cards |
+| Card | 600 | 400 | 3:2 | Card grid thumbnails |
+| Logo | 200 | 80 | flexible | Client/partner logos |
+| Avatar | 160 | 160 | 1:1 | Testimonial author, team headshot |
+| Icon | 64 | 64 | 1:1 | Feature/service icons |
+
+Reference these by name in field `help_text`: e.g. `"help_text": "Recommended: 800x500px (Landscape preset)"`.
 
 ### module.html skeleton
 
 ```hubl
 <div class="o-wrapper o-wrapper--module" style="
-  --moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px;
-  --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px;
-  --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px;
-  --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;"
+  --moduleTopSpacingMobile: {{ module.style.spacing.mobile.padding_top }}px;
+  --moduleBottomSpacingMobile: {{ module.style.spacing.mobile.padding_bottom }}px;
+  --moduleTopSpacingDesktop: {{ module.style.spacing.desktop.padding_top }}px;
+  --moduleBottomSpacingDesktop: {{ module.style.spacing.desktop.padding_bottom }}px;"
   {% if module.scrollid %}id="{{ module.scrollid }}"{% endif %}>
 
   <div class="m-heroBanner o-container">
@@ -535,6 +566,60 @@ When a dark background is selected, ensure child text elements inherit the inver
 
 These JSON structures are included in every content module's `fields.json` unless explicitly inappropriate for the module.
 
+### HubSpot field type rules
+
+These are platform constraints that cause upload validation failures if violated:
+
+- **Use `type: text` for all text fields.** HubSpot does not have a `textarea` field type. Use `type: text` for single-line and multiline text. Use `type: richtext` only when the editor needs formatting controls (bold, links, lists).
+- **`label` is a reserved field name.** Never use `"name": "label"` in fields.json. Use descriptive alternatives: `section_label`, `stat_label`, `link_label`, `category_label`.
+- **Mark layout-critical fields as `"required": true`.** Fields that would break the module's layout or render an empty/broken state if left blank should be required. Typical candidates: hero heading, card heading within a repeater, primary CTA link text. Do not mark optional decorative fields (subheading, scroll ID, background colour) as required.
+
+### Editor UX requirements
+
+Every field must be optimised for content editor usability. A content editor with no development knowledge should be able to populate every module correctly without external documentation.
+
+- **`help_text` on every field.** Describe what the field controls, where it appears in the layout, and any constraints. For image fields, include the recommended dimensions from the image dimension presets table (e.g. `"Recommended: 800x500px. Displayed as the main image alongside the text content."`). For text fields that accept a specific format, state it (e.g. `"Short label displayed above the heading, e.g. '01' or 'Web Development'."`).
+- **`placeholder` on text fields where supported.** Provide an example value that demonstrates the expected content format and length.
+- **Descriptive `label` values.** Use plain English that describes the content, not the field type. Use `"Card Heading"` not `"heading_text"`. Use `"Author Job Title"` not `"role"`.
+- **Logical field grouping.** Group related fields together (e.g. author name + author role + author image in an `author` group). Name groups to match the content block they control.
+- **Choice field labels.** Every choice option must have a human-readable label. Use `["primary", "Deep Purple"]` not `["primary", "primary"]`. The label should describe what the editor will see, not the CSS value.
+- **`inline_help_text` for complex fields.** For fields where the `help_text` tooltip is insufficient (e.g. a repeater with many nested children), use `"inline_help_text"` to display guidance directly in the editor panel.
+
+### Placeholder image defaults
+
+All image fields must have default `src` values pointing to placeholder images so that modules render correctly out of the box, before the content editor uploads real imagery. This prevents broken layouts during initial setup and gives editors a visual reference for the expected image dimensions and placement.
+
+**Use Unsplash Source for placeholder images.** Construct URLs using this pattern:
+
+```
+https://images.unsplash.com/photo-{PHOTO_ID}?w={WIDTH}&h={HEIGHT}&fit=crop&auto=format
+```
+
+Select placeholder images that are:
+- Contextually appropriate for the module's purpose (e.g. an office/workspace image for a service section, a headshot for a testimonial author, an abstract/architectural image for a hero)
+- Professionally photographed with good lighting and composition
+- Neutral enough to work across different brand contexts
+- Free to use (all Unsplash images are licensed for commercial use)
+
+For each image field default, include `src`, `alt` (describing the placeholder), `width`, and `height`:
+
+```json
+{
+  "name": "image",
+  "label": "Featured Image",
+  "type": "image",
+  "default": {
+    "src": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=500&fit=crop&auto=format",
+    "alt": "Placeholder image - replace with your own",
+    "width": 800,
+    "height": 500
+  },
+  "help_text": "Recommended: 800x500px (Landscape preset). Displayed alongside the text content."
+}
+```
+
+If Unsplash is unavailable or inappropriate for the project, fall back to `https://placehold.co/{WIDTH}x{HEIGHT}/{BG_HEX}/{TEXT_HEX}?text={LABEL}` using the project's brand colours for a branded placeholder.
+
 ### Module heading group (CONTENT tab)
 
 ```json
@@ -593,6 +678,8 @@ These JSON structures are included in every content module's `fields.json` unles
 
 ### Style group (STYLE tab)
 
+The native HubSpot `spacing` field type does not support a mobile/desktop split. Use nested groups with `number` fields instead.
+
 ```json
 {
   "name": "style",
@@ -601,18 +688,51 @@ These JSON structures are included in every content module's `fields.json` unles
   "tab": "STYLE",
   "children": [
     {
-      "name": "spacing_alignment",
+      "name": "spacing",
       "label": "Spacing",
       "type": "group",
       "children": [
         {
-          "name": "spacing",
-          "label": "Spacing",
-          "type": "spacing",
-          "default": {
-            "mobile": { "padding_top": 40, "padding_bottom": 40 },
-            "desktop": { "padding_top": 80, "padding_bottom": 80 }
-          }
+          "name": "mobile",
+          "label": "Mobile",
+          "type": "group",
+          "children": [
+            {
+              "name": "padding_top",
+              "label": "Top Padding (px)",
+              "type": "number",
+              "default": 40,
+              "help_text": "Top padding in pixels on mobile viewports."
+            },
+            {
+              "name": "padding_bottom",
+              "label": "Bottom Padding (px)",
+              "type": "number",
+              "default": 40,
+              "help_text": "Bottom padding in pixels on mobile viewports."
+            }
+          ]
+        },
+        {
+          "name": "desktop",
+          "label": "Desktop",
+          "type": "group",
+          "children": [
+            {
+              "name": "padding_top",
+              "label": "Top Padding (px)",
+              "type": "number",
+              "default": 80,
+              "help_text": "Top padding in pixels on desktop viewports."
+            },
+            {
+              "name": "padding_bottom",
+              "label": "Bottom Padding (px)",
+              "type": "number",
+              "default": 80,
+              "help_text": "Bottom padding in pixels on desktop viewports."
+            }
+          ]
         }
       ]
     }
