@@ -1,0 +1,68 @@
+{%- if module.scrollid -%}
+<div id="{{ module.scrollid }}" class="js-module">
+{%- endif -%}
+
+<section id="{{ name }}" class="m-quickNeedsGrid m-quickNeedsGrid--bg-{{ module.style.background_colour }}">
+  <div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+    <div class="o-container">
+
+      {%- if module.module_heading.heading -%}
+        {{ text_helpers.render_heading(module.module_heading, module.module_heading.heading, name) }}
+      {%- endif -%}
+
+      {%- if module.cards -%}
+      <div class="m-quickNeedsGrid__grid">
+
+        {%- for card in module.cards -%}
+        <article class="m-quickNeedsGrid__card">
+
+          {%- if card.icon_svg -%}
+          <div class="m-quickNeedsGrid__iconBox" aria-hidden="true">
+            <div class="m-quickNeedsGrid__icon">
+              {{ card.icon_svg }}
+            </div>
+          </div>
+          {%- endif -%}
+
+          {%- if card.heading -%}
+          <h3 class="m-quickNeedsGrid__heading">{{ card.heading }}</h3>
+          {%- endif -%}
+
+          {%- if card.description -%}
+          <p class="m-quickNeedsGrid__description">{{ card.description }}</p>
+          {%- endif -%}
+
+          {%- if card.link_text and card.link.url.href -%}
+          <a class="m-quickNeedsGrid__link"
+             href="{{ card.link.url.href }}"
+             {%- if card.link.open_in_new_tab %} target="_blank" rel="noopener noreferrer" aria-label="{{ card.link_text|escape }} (opens in new window)"{% endif -%}
+             {%- if card.link.no_follow %} rel="nofollow"{% endif -%}>
+            <span class="m-quickNeedsGrid__linkText">{{ card.link_text }}</span>
+            <svg class="m-quickNeedsGrid__linkIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><polyline points="9 18 15 12 9 6"/></svg>
+          </a>
+          {%- endif -%}
+
+        </article>
+        {%- endfor -%}
+
+      </div>
+      {%- else -%}
+      {%- if is_in_editor -%}
+      {% editor_placeholder %}
+      {%- endif -%}
+      {%- endif -%}
+
+      {# Inline footer CTA — do NOT use link_helper.render_module_footer_cta() #}
+      {%- if module.module_footer_cta.link.url.href -%}
+      <div class="m-quickNeedsGrid__footerCta">
+        {{ link_helper.render_link(module.module_footer_cta.link) }}
+      </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{%- if module.scrollid -%}
+</div>
+{%- endif -%}

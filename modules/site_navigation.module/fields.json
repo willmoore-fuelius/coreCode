@@ -1,0 +1,66 @@
+[
+  {
+    "name": "logo_text",
+    "label": "Logo Text",
+    "type": "text",
+    "default": "GrowthArchitect",
+    "help_text": "Enter your brand name displayed in the navigation bar",
+    "required": false
+  },
+  {
+    "name": "logo_link",
+    "label": "Logo Link",
+    "type": "link",
+    "help_text": "Where should the logo link to? Usually the homepage",
+    "default": {
+      "url": {
+        "href": "/",
+        "type": "EXTERNAL"
+      },
+      "open_in_new_tab": false,
+      "no_follow": false
+    },
+    "required": false,
+    "supported_types": ["EXTERNAL", "CONTENT", "FILE", "EMAIL_ADDRESS", "BLOG"]
+  },
+  {
+    "name": "menu",
+    "label": "Navigation Menu",
+    "type": "menu",
+    "default": "site-menu",
+    "help_text": "Select the HubSpot menu to power the navigation links. Manage menu items under Settings > Navigation > Menus",
+    "required": false
+  },
+  {
+    "name": "cta_button",
+    "label": "CTA Button",
+    "type": "group",
+    "help_text": "Configure the call-to-action button displayed in the navigation bar",
+    "children": [
+      {
+        "name": "text",
+        "label": "Button Text",
+        "type": "text",
+        "default": "Contact us",
+        "help_text": "Button label displayed in the navigation CTA",
+        "required": false
+      },
+      {
+        "name": "link",
+        "label": "Button Link",
+        "type": "link",
+        "help_text": "Where should the CTA button link to?",
+        "default": {
+          "url": {
+            "href": "#",
+            "type": "EXTERNAL"
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "required": false,
+        "supported_types": ["EXTERNAL", "CONTENT", "FILE", "EMAIL_ADDRESS", "BLOG"]
+      }
+    ]
+  }
+]

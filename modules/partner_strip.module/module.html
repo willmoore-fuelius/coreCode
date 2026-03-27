@@ -1,0 +1,42 @@
+{%- if module.scrollid -%}
+<div id="{{ module.scrollid }}" class="js-module">
+{%- endif -%}
+
+<section id="{{ name }}" class="m-partnerStrip m-partnerStrip--bg-{{ module.style.background_colour }}">
+  <div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+    <div class="o-container">
+
+      {%- if module.logos -%}
+      <div class="m-partnerStrip__inner">
+        {%- if module.section_label -%}
+        <p class="m-partnerStrip__label">{{ module.section_label }}</p>
+        {%- endif -%}
+
+        <div class="m-partnerStrip__logos" role="list" aria-label="{{ module.section_label|default('Partner logos', true) }}">
+          {%- for logo in module.logos -%}
+            {%- if logo.image.src -%}
+            <div class="m-partnerStrip__logo" role="listitem">
+              <img src="{{ logo.image.src }}"
+                   alt="{{ logo.alt_text|default(logo.image.alt, true) }}"
+                   width="{{ logo.image.width }}"
+                   height="{{ logo.image.height }}"
+                   loading="lazy"
+                   decoding="async">
+            </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+      {%- else -%}
+        {%- if is_in_editor -%}
+        {% editor_placeholder %}
+        {%- endif -%}
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{%- if module.scrollid -%}
+</div>
+{%- endif -%}

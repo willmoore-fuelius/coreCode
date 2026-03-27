@@ -1,0 +1,14 @@
+{
+  "label": "Partner Strip",
+  "css_assets": [],
+  "js_assets": [],
+  "categories": [
+    "DESIGN"
+  ],
+  "icon": "company",
+  "is_available_for_new_content": true,
+  "host_template_types": [
+    "PAGE"
+  ],
+  "description": "Horizontal partner logo strip with label"
+}

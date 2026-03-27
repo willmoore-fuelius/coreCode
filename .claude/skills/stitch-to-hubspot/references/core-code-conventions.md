@@ -314,6 +314,31 @@ Globally imported in `base.html`. Generated modules must use these macros instea
 | `css/global/objects/` | containers_dnd, page | Layout objects and DnD wrapper handling |
 | `css/global/utilities/` | Utility classes | Minimal utility layer |
 
+### CRITICAL: Typography font-family declarations
+
+The boilerplate's `typography.critical.css` and `typography.css` define font sizes and line heights but **do not apply `font-family`**. Without explicit declarations, browsers fall back to Times New Roman.
+
+**Phase 3 must ensure these declarations exist** in both `css/critical/typography.critical.css` and `css/global/elements/typography.css`:
+
+```css
+body {
+  font-family: var(--fontSecondary);
+  color: var(--grey90);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fontPrimary);
+}
+```
+
+If these are missing when you read the current files, add them. Do not assume the boilerplate handles this — it does not.
+
+Additionally, the Google Fonts `<link>` in `base.html` should load **synchronously** with `display=swap` (not deferred via `media="print" onload`). The deferred pattern is fragile in HubSpot:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=...&display=swap" rel="stylesheet">
+```
+
 ### Naming convention
 
 - BEM with camelCase: `.m-featureCards__heading--active`

@@ -1,0 +1,14 @@
+{
+  "label": "CTA Banner",
+  "css_assets": [],
+  "js_assets": [],
+  "categories": [
+    "DESIGN"
+  ],
+  "icon": "module",
+  "is_available_for_new_content": true,
+  "host_template_types": [
+    "PAGE"
+  ],
+  "description": "Large CTA banner with heading, description, dual call-to-action buttons and decorative image"
+}

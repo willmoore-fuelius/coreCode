@@ -1,0 +1,95 @@
+{%- set nav_menu = menu(module.menu, "site_root") -%}
+
+<header class="m-siteNav js-siteNav" aria-label="Site header">
+  <nav class="m-siteNav__inner" aria-label="Main navigation">
+    <div class="m-siteNav__container">
+
+      {# Logo #}
+      <a class="m-siteNav__logo js-siteNav-logo"
+         href="{{ module.logo_link.url.href|default('/') }}"
+         {% if module.logo_link.open_in_new_tab %}target="_blank" rel="noopener noreferrer" aria-label="{{ module.logo_text }} (opens in new window)"{% endif %}>
+        {{- module.logo_text -}}
+      </a>
+
+      {# Mobile hamburger toggle #}
+      <button class="m-siteNav__mobileToggle js-siteNav-mobileToggle"
+              type="button"
+              aria-expanded="true"
+              aria-controls="siteNav-mobilePanel"
+              aria-label="Open menu">
+        <span class="m-siteNav__mobileToggleBar" aria-hidden="true"></span>
+        <span class="m-siteNav__mobileToggleBar" aria-hidden="true"></span>
+        <span class="m-siteNav__mobileToggleBar" aria-hidden="true"></span>
+      </button>
+
+      {# Navigation panel #}
+      <div class="m-siteNav__panel js-siteNav-panel" id="siteNav-mobilePanel">
+        {%- if nav_menu and nav_menu.children -%}
+        <ul role="menubar" class="m-siteNav__list js-siteNav-menubar">
+          {%- for item in nav_menu.children -%}
+          <li role="none" class="m-siteNav__item">
+            {%- if item.children -%}
+            <button role="menuitem"
+                    class="m-siteNav__link m-siteNav__trigger js-siteNav-trigger"
+                    aria-haspopup="true"
+                    aria-expanded="true"
+                    aria-controls="siteNav-{{ loop.index0 }}-panel">
+              {{- item.label -}}
+              <svg class="m-siteNav__chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <ul role="menu"
+                id="siteNav-{{ loop.index0 }}-panel"
+                class="m-siteNav__dropdown js-siteNav-dropdown"
+                aria-label="{{ item.label }} submenu">
+              {%- for child in item.children -%}
+              <li role="none" class="m-siteNav__dropdownItem">
+                <a role="menuitem"
+                   class="m-siteNav__dropdownLink js-siteNav-dropdownLink"
+                   href="{{ child.url }}"
+                   {% if child.url == request.path %}aria-current="page"{% endif %}>
+                  {{- child.label -}}
+                </a>
+              </li>
+              {%- endfor -%}
+            </ul>
+            {%- else -%}
+            <a role="menuitem"
+               class="m-siteNav__link js-siteNav-link"
+               href="{{ item.url }}"
+               {% if item.url == request.path %}aria-current="page"{% endif %}>
+              {{- item.label -}}
+            </a>
+            {%- endif -%}
+          </li>
+          {%- endfor -%}
+        </ul>
+        {%- endif -%}
+
+        {# CTA button (visible in mobile panel too) #}
+        {%- if module.cta_button.text and module.cta_button.link.url.href -%}
+        <div class="m-siteNav__ctaMobile">
+          <a class="m-siteNav__cta js-siteNav-cta"
+             href="{{ module.cta_button.link.url.href }}"
+             {% if module.cta_button.link.open_in_new_tab %}target="_blank" rel="noopener noreferrer" aria-label="{{ module.cta_button.text }} (opens in new window)"{% endif %}>
+            {{- module.cta_button.text -}}
+          </a>
+        </div>
+        {%- endif -%}
+      </div>
+
+      {# CTA button (desktop) #}
+      {%- if module.cta_button.text and module.cta_button.link.url.href -%}
+      <div class="m-siteNav__ctaDesktop">
+        <a class="m-siteNav__cta js-siteNav-cta"
+           href="{{ module.cta_button.link.url.href }}"
+           {% if module.cta_button.link.open_in_new_tab %}target="_blank" rel="noopener noreferrer" aria-label="{{ module.cta_button.text }} (opens in new window)"{% endif %}>
+          {{- module.cta_button.text -}}
+        </a>
+      </div>
+      {%- endif -%}
+
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,14 @@
+{
+  "label": "Case Study Bento",
+  "css_assets": [],
+  "js_assets": [],
+  "categories": [
+    "DESIGN"
+  ],
+  "icon": "module",
+  "is_available_for_new_content": true,
+  "host_template_types": [
+    "PAGE"
+  ],
+  "description": "Bento grid case study showcase with featured image card and stacked text cards"
+}

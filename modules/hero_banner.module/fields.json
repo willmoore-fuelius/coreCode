@@ -1,0 +1,275 @@
+[
+  {
+    "name": "chip_text",
+    "label": "Chip Text",
+    "type": "text",
+    "default": "The Digital Architect",
+    "help_text": "Short badge text displayed above the heading. Use for taglines or category labels.",
+    "placeholder": "e.g. The Digital Architect"
+  },
+  {
+    "name": "heading",
+    "label": "Heading",
+    "type": "text",
+    "default": "Fuel your",
+    "help_text": "First line of the hero heading.",
+    "placeholder": "e.g. Fuel your"
+  },
+  {
+    "name": "heading_highlight",
+    "label": "Heading Highlight",
+    "type": "text",
+    "default": "business growth",
+    "help_text": "Second line of the hero heading \u2014 displayed in the accent colour.",
+    "placeholder": "e.g. business growth"
+  },
+  {
+    "name": "summary",
+    "label": "Summary",
+    "type": "text",
+    "default": "We architect high-performance B2B engines using data-driven marketing, precision CRM enablement, and technical excellence.",
+    "help_text": "Supporting paragraph below the heading. Keep to 1-2 sentences for maximum impact."
+  },
+  {
+    "name": "primary_cta",
+    "label": "Primary CTA",
+    "type": "group",
+    "children": [
+      {
+        "name": "text",
+        "label": "Button Text",
+        "type": "text",
+        "default": "Get started",
+        "help_text": "Primary button label.",
+        "placeholder": "e.g. Get started"
+      },
+      {
+        "name": "link",
+        "label": "Link",
+        "type": "link",
+        "default": {
+          "url": {
+            "href": "#",
+            "type": "EXTERNAL"
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "help_text": "Where should the primary button link to?"
+      }
+    ]
+  },
+  {
+    "name": "secondary_cta",
+    "label": "Secondary CTA",
+    "type": "group",
+    "children": [
+      {
+        "name": "text",
+        "label": "Button Text",
+        "type": "text",
+        "default": "View our work",
+        "help_text": "Ghost button label.",
+        "placeholder": "e.g. View our work"
+      },
+      {
+        "name": "link",
+        "label": "Link",
+        "type": "link",
+        "default": {
+          "url": {
+            "href": "#",
+            "type": "EXTERNAL"
+          },
+          "open_in_new_tab": false,
+          "no_follow": false
+        },
+        "help_text": "Where should the secondary button link to?"
+      }
+    ]
+  },
+  {
+    "name": "image",
+    "label": "Hero Image",
+    "type": "image",
+    "default": {
+      "src": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=800&fit=crop&crop=center",
+      "alt": "Hero image",
+      "width": 800,
+      "height": 800
+    },
+    "help_text": "Square image recommended (800x800px minimum). This image appears rotated with a decorative backdrop."
+  },
+  {
+    "name": "stat_card",
+    "label": "Floating Stat Card",
+    "type": "group",
+    "children": [
+      {
+        "name": "enabled",
+        "label": "Show Stat Card",
+        "type": "boolean",
+        "default": true,
+        "help_text": "Show or hide the floating stat card on the hero image."
+      },
+      {
+        "name": "icon_svg",
+        "label": "Icon SVG",
+        "type": "text",
+        "default": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\"></polyline><polyline points=\"16 7 22 7 22 13\"></polyline></svg>",
+        "help_text": "Paste an SVG icon for the stat card. Keep it simple \u2014 24x24 viewBox recommended."
+      },
+      {
+        "name": "stat_label",
+        "label": "Label",
+        "type": "text",
+        "default": "Growth Rate",
+        "help_text": "Small label above the stat value.",
+        "placeholder": "e.g. Growth Rate"
+      },
+      {
+        "name": "value",
+        "label": "Value",
+        "type": "text",
+        "default": "+124% YoY",
+        "help_text": "The headline stat figure.",
+        "placeholder": "e.g. +124% YoY"
+      },
+      {
+        "name": "progress",
+        "label": "Progress",
+        "type": "number",
+        "default": 75,
+        "help_text": "Progress bar fill percentage (0-100).",
+        "min": 0,
+        "max": 100
+      }
+    ]
+  },
+  {
+    "name": "module_heading",
+    "label": "Module Heading",
+    "type": "group",
+    "children": [
+      {
+        "name": "heading",
+        "label": "Heading",
+        "type": "text",
+        "default": ""
+      },
+      {
+        "name": "heading_type",
+        "label": "Heading Level",
+        "type": "choice",
+        "choices": [
+          [
+            "h2",
+            "H2"
+          ],
+          [
+            "h3",
+            "H3"
+          ],
+          [
+            "h4",
+            "H4"
+          ]
+        ],
+        "default": "h2"
+      },
+      {
+        "name": "subheading",
+        "label": "Subheading",
+        "type": "text",
+        "default": ""
+      }
+    ]
+  },
+  {
+    "name": "scrollid",
+    "label": "Scroll ID",
+    "type": "text",
+    "default": "",
+    "help_text": "Optional anchor ID for in-page navigation links."
+  },
+  {
+    "name": "style",
+    "label": "Style",
+    "type": "group",
+    "tab": "STYLE",
+    "children": [
+      {
+        "name": "spacing_alignment",
+        "label": "Spacing",
+        "type": "group",
+        "children": [
+          {
+            "name": "spacing",
+            "label": "Spacing",
+            "type": "group",
+            "children": [
+              {
+                "name": "mobile",
+                "label": "Mobile",
+                "type": "group",
+                "children": [
+                  {
+                    "name": "padding_top",
+                    "label": "Top Spacing",
+                    "type": "number",
+                    "default": 128,
+                    "min": 0,
+                    "max": 500,
+                    "step": 1,
+                    "suffix": "px",
+                    "help_text": "Top spacing in pixels for mobile devices"
+                  },
+                  {
+                    "name": "padding_bottom",
+                    "label": "Bottom Spacing",
+                    "type": "number",
+                    "default": 80,
+                    "min": 0,
+                    "max": 500,
+                    "step": 1,
+                    "suffix": "px",
+                    "help_text": "Bottom spacing in pixels for mobile devices"
+                  }
+                ]
+              },
+              {
+                "name": "desktop",
+                "label": "Desktop",
+                "type": "group",
+                "children": [
+                  {
+                    "name": "padding_top",
+                    "label": "Top Spacing",
+                    "type": "number",
+                    "default": 128,
+                    "min": 0,
+                    "max": 500,
+                    "step": 1,
+                    "suffix": "px",
+                    "help_text": "Top spacing in pixels for desktop devices"
+                  },
+                  {
+                    "name": "padding_bottom",
+                    "label": "Bottom Spacing",
+                    "type": "number",
+                    "default": 80,
+                    "min": 0,
+                    "max": 500,
+                    "step": 1,
+                    "suffix": "px",
+                    "help_text": "Bottom spacing in pixels for desktop devices"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

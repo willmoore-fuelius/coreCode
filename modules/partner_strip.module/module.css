@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Partner Strip
+   ========================================================================== */
+
+@supports (content-visibility: auto) {
+  .m-partnerStrip {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 120px;
+  }
+}
+
+/* Background modifiers
+   ========================================================================== */
+
+.m-partnerStrip--bg-default {
+  background-color: transparent;
+}
+
+.m-partnerStrip--bg-surface {
+  background-color: var(--surfaceLow);
+}
+
+/* Ghost borders
+   ========================================================================== */
+
+.m-partnerStrip {
+  border-top: var(--border1) solid rgb(204 195 212 / 0.1);
+  border-bottom: var(--border1) solid rgb(204 195 212 / 0.1);
+}
+
+/* Inner layout
+   ========================================================================== */
+
+.m-partnerStrip__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space24);
+  text-align: center;
+}
+
+/* Label
+   ========================================================================== */
+
+.m-partnerStrip__label {
+  margin: 0;
+  font-size: var(--pSm);
+  font-weight: var(--fontBlack);
+  color: var(--primaryColour);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* Logos
+   ========================================================================== */
+
+.m-partnerStrip__logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space48);
+}
+
+.m-partnerStrip__logo img {
+  display: block;
+  max-height: 40px;
+  width: auto;
+  height: auto;
+  opacity: 0.8;
+}
+
+/* Responsive — desktop
+   ========================================================================== */
+
+@media (width >= 992px) {
+  .m-partnerStrip__inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+}

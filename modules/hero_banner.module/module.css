@@ -1,0 +1,276 @@
+/* ==========================================================================
+   Hero Banner
+   ========================================================================== */
+
+.m-heroBanner {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--backgroundColour);
+}
+
+/* Grid
+   ========================================================================== */
+
+.m-heroBanner__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space48);
+
+  @media (width >= 992px) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space48);
+    align-items: center;
+  }
+}
+
+/* Content column
+   ========================================================================== */
+
+.m-heroBanner__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space24);
+}
+
+/* Chip / badge */
+
+.m-heroBanner__chip {
+  display: inline-block;
+  padding: var(--space4) var(--space16);
+  background-color: var(--highlightColour);
+  color: var(--highlightTextColour);
+  border-radius: 9999px;
+  font-size: var(--pSm);
+  font-weight: var(--fontBold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+}
+
+/* Heading */
+
+.m-heroBanner__heading {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--displaySize);
+  font-weight: var(--fontBlack);
+  color: var(--primaryColour);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+
+.m-heroBanner__headingHighlight {
+  color: var(--secondaryColour);
+}
+
+/* Summary */
+
+.m-heroBanner__summary {
+  font-size: var(--pXl);
+  color: var(--grey50);
+  max-width: 32rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* CTAs
+   ========================================================================== */
+
+.m-heroBanner__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space16);
+  align-items: center;
+}
+
+.m-heroBanner__ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space16) var(--space32);
+  background-color: var(--secondaryColour);
+  color: var(--white);
+  border-radius: 9999px;
+  font-size: var(--pLg);
+  font-weight: var(--fontBold);
+  text-decoration: none;
+  min-height: 48px;
+
+  &:focus-visible {
+    outline: 2px solid var(--primaryColour);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: opacity var(--transitionSpeed) var(--easeOut);
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.m-heroBanner__ctaGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space16) var(--space32);
+  background-color: transparent;
+  color: var(--primaryColour);
+  border-radius: 9999px;
+  font-size: var(--pLg);
+  font-weight: var(--fontBold);
+  text-decoration: none;
+  min-height: 48px;
+
+  &:focus-visible {
+    outline: 2px solid var(--primaryColour);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: background-color var(--transitionSpeed) var(--easeOut);
+  }
+
+  &:hover {
+    background-color: rgb(49 0 111 / 0.05);
+  }
+}
+
+/* Media column
+   ========================================================================== */
+
+.m-heroBanner__media {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Decorative blur shape */
+
+.m-heroBanner__blur {
+  position: absolute;
+  top: -10%;
+  right: -10%;
+  width: 384px;
+  height: 384px;
+  border-radius: 50%;
+  background: rgb(49 0 111 / 0.05);
+  filter: blur(48px);
+  z-index: var(--zBelow);
+  pointer-events: none;
+}
+
+/* Backdrop shape behind image */
+
+.m-heroBanner__backdrop {
+  position: absolute;
+  inset: 4% 4% 4% 4%;
+  background-color: var(--primaryColour);
+  border-radius: var(--radiusFeature);
+  rotate: -2deg;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Hero image */
+
+.m-heroBanner__image {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: var(--radiusFeature);
+  rotate: 3deg;
+  z-index: 1;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: rotate 0.5s var(--easeOut);
+  }
+
+  &:hover {
+    rotate: 0deg;
+  }
+}
+
+/* Stat card
+   ========================================================================== */
+
+.m-heroBanner__statCard {
+  position: absolute;
+  bottom: var(--space24);
+  left: calc(-1 * var(--space16));
+  z-index: 2;
+  background-color: var(--white);
+  border-radius: var(--radiusLg);
+  padding: var(--space24);
+  min-width: 200px;
+  box-shadow: 0 4px 24px rgb(0 0 0 / 0.08);
+
+  @media (width >= 992px) {
+    left: calc(-1 * var(--space32));
+  }
+}
+
+.m-heroBanner__statHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space12);
+  margin-block-end: var(--space16);
+}
+
+.m-heroBanner__statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--highlightColour);
+  color: var(--highlightTextColour);
+  flex-shrink: 0;
+}
+
+.m-heroBanner__statIcon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.m-heroBanner__statText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space4);
+}
+
+.m-heroBanner__statLabel {
+  font-size: var(--pSm);
+  color: var(--grey50);
+  line-height: 1.2;
+}
+
+.m-heroBanner__statValue {
+  font-size: var(--pLg);
+  font-weight: var(--fontBlack);
+  color: var(--primaryColour);
+  line-height: 1.2;
+}
+
+/* Progress bar */
+
+.m-heroBanner__progressTrack {
+  width: 100%;
+  height: 8px;
+  background-color: var(--surfaceMid);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.m-heroBanner__progressFill {
+  height: 100%;
+  background-color: var(--secondaryColour);
+  border-radius: 9999px;
+}

@@ -1,0 +1,122 @@
+{%- if module.scrollid -%}
+<div id="{{ module.scrollid }}" class="js-module">
+{%- endif -%}
+
+<section id="{{ name }}" class="m-heroBanner" aria-label="Hero banner">
+  <div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+    <div class="o-container">
+
+      {%- if module.module_heading.heading -%}
+        {{ text_helpers.render_heading(module.module_heading, module.module_heading.heading, name) }}
+      {%- endif -%}
+
+      <div class="m-heroBanner__grid">
+
+        {# Content column #}
+        <div class="m-heroBanner__content">
+
+          {%- if module.chip_text -%}
+          <span class="m-heroBanner__chip">{{ module.chip_text }}</span>
+          {%- endif -%}
+
+          {%- if module.heading or module.heading_highlight -%}
+          <h1 class="m-heroBanner__heading">
+            {%- if module.heading -%}
+            <span class="m-heroBanner__headingLine">{{ module.heading }}</span>
+            {%- endif -%}
+            {%- if module.heading_highlight -%}
+            <span class="m-heroBanner__headingHighlight">{{ module.heading_highlight }}</span>
+            {%- endif -%}
+          </h1>
+          {%- endif -%}
+
+          {%- if module.summary -%}
+          <p class="m-heroBanner__summary">{{ module.summary }}</p>
+          {%- endif -%}
+
+          {%- if module.primary_cta.text or module.secondary_cta.text -%}
+          <div class="m-heroBanner__actions">
+
+            {%- if module.primary_cta.text and module.primary_cta.link.url.href -%}
+            <a class="m-heroBanner__ctaPrimary"
+               href="{{ module.primary_cta.link.url.href }}"
+               {%- if module.primary_cta.link.open_in_new_tab %} target="_blank" rel="noopener noreferrer" aria-label="{{ module.primary_cta.text|escape }} (opens in new window)"{% endif -%}
+               {%- if module.primary_cta.link.no_follow %} rel="nofollow"{% endif -%}>
+              {{- module.primary_cta.text -}}
+            </a>
+            {%- endif -%}
+
+            {%- if module.secondary_cta.text and module.secondary_cta.link.url.href -%}
+            <a class="m-heroBanner__ctaGhost"
+               href="{{ module.secondary_cta.link.url.href }}"
+               {%- if module.secondary_cta.link.open_in_new_tab %} target="_blank" rel="noopener noreferrer" aria-label="{{ module.secondary_cta.text|escape }} (opens in new window)"{% endif -%}
+               {%- if module.secondary_cta.link.no_follow %} rel="nofollow"{% endif -%}>
+              {{- module.secondary_cta.text -}}
+            </a>
+            {%- endif -%}
+
+          </div>
+          {%- endif -%}
+
+        </div>
+
+        {# Image column #}
+        <div class="m-heroBanner__media">
+
+          {# Decorative blur shape #}
+          <div class="m-heroBanner__blur" aria-hidden="true"></div>
+
+          {# Backdrop shape behind image #}
+          <div class="m-heroBanner__backdrop" aria-hidden="true"></div>
+
+          {%- if module.image.src -%}
+          <img class="m-heroBanner__image"
+               src="{{ module.image.src }}"
+               alt="{{ module.image.alt|escape }}"
+               width="{{ module.image.width }}"
+               height="{{ module.image.height }}"
+               fetchpriority="high"
+               loading="eager"
+               decoding="async">
+          {%- endif -%}
+
+          {%- if module.stat_card.enabled -%}
+          <div class="m-heroBanner__statCard" aria-label="Statistic: {{ module.stat_card.stat_label|escape }}">
+
+            <div class="m-heroBanner__statHeader">
+              {%- if module.stat_card.icon_svg -%}
+              <div class="m-heroBanner__statIcon" aria-hidden="true">
+                {{ module.stat_card.icon_svg }}
+              </div>
+              {%- endif -%}
+
+              <div class="m-heroBanner__statText">
+                {%- if module.stat_card.stat_label -%}
+                <span class="m-heroBanner__statLabel">{{ module.stat_card.stat_label }}</span>
+                {%- endif -%}
+                {%- if module.stat_card.value -%}
+                <span class="m-heroBanner__statValue">{{ module.stat_card.value }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+
+            {%- if module.stat_card.progress is defined -%}
+            <div class="m-heroBanner__progressTrack" role="progressbar" aria-valuenow="{{ module.stat_card.progress }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ module.stat_card.stat_label }} progress">
+              <div class="m-heroBanner__progressFill" style="width: {{ module.stat_card.progress }}%;"></div>
+            </div>
+            {%- endif -%}
+
+          </div>
+          {%- endif -%}
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{%- if module.scrollid -%}
+</div>
+{%- endif -%}
