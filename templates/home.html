@@ -2,115 +2,14 @@
 templateType: page
 isAvailableForNewContent: true
 enableDomainStylesheets: false
-label: GrowthArchitect - Homepage
-screenshotPath: ../design/screen.png
+label: Core Code - Homepage
+screenshotPath: ../images/template-previews/theme_preview.png
 -->
 
 {% extends "./layouts/base.html" %}
-
 {% block body %}
-
 <main id="main-content">
-
-{% dnd_area 'main_content' class='body-container', label='Main Content' %}
-
-  {# ---- Hero Banner ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/hero_banner"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- Quick Needs Grid ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/quick_needs_grid"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- Logo Cloud ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/logo_cloud"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- Service Deep Dive 1: Web Development ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/service_deep_dive",
-      section_number="01",
-      heading="Web Development",
-      layout="image-left",
-      content_type="feature_list",
-      image_accent_colour="primary"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- Service Deep Dive 2: HubSpot CRM (Reversed) ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/service_deep_dive",
-      section_number="02",
-      heading="HubSpot CRM Enablement",
-      layout="image-right",
-      content_type="stat_grid",
-      image_accent_colour="secondary"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- Service Deep Dive 3: Inbound Marketing ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/service_deep_dive",
-      section_number="03",
-      heading="Inbound Marketing",
-      layout="image-left",
-      content_type="inline_quote",
-      image_accent_colour="highlight"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- Case Study Bento Grid ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/case_study_bento"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- Testimonial Quote ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/testimonial_quote"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- Partner Strip ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/partner_strip"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-  {# ---- CTA Banner ---- #}
-  {% dnd_section %}
-    {% dnd_module
-      path="../modules/cta_banner"
-    %}
-    {% end_dnd_module %}
-  {% end_dnd_section %}
-
-{% end_dnd_area %}
-
+  {% dnd_area 'main_content' class='body-container', label='Main section' %}
+  {% end_dnd_area %}
 </main>
-
 {% endblock body %}
