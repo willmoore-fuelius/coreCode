@@ -82,7 +82,9 @@ Extract design tokens from the Stitch DESIGN.md and/or Tailwind config in the HT
 
 4. **Border radii.** Map to `--radiusNone` through `--radiusXl` and `--radiusAvatar`. For pill/full-round elements, use `border-radius: 9999px` directly. If the design uses large decorative radii not in the base set, define project-specific tokens (e.g. `--radiusFeature`, `--radiusCta`).
 
-5. **Container width.** Map to `--containerWidth`.
+5. **Container width.** Extract from the Tailwind config `max-w-*` utility class used in the HTML (e.g. `max-w-7xl` = 80rem = 1280px). Map to `--containerWidth`.
+
+6. **Scan for arbitrary values.** Tailwind's bracket syntax (e.g. `rounded-[3rem]`, `bg-[#491D8E]`, `text-[#1a1c19]/70`) contains values not defined in the Tailwind config object. Scan the HTML for all `[...]` patterns and extract these values for token mapping. These are easily missed if only the config is parsed.
 
 **Output:** A token mapping table showing every Stitch token, its value, the Core Code target property, and any notes about approximation or new token definitions.
 
@@ -108,11 +110,15 @@ Parse the Stitch HTML export section by section and generate a module specificat
    - **Interactive behaviour** - if the section has JS-driven interactivity (carousel, accordion, toggle, mobile menu), note it. The guardrails reference applies.
    - **Visual treatments** - hover effects, background shapes, image transforms, glassmorphism, gradients. These become CSS.
 
-4. **Extract default content.** Pull headings, body text, image references, link labels, button text from the Stitch HTML. These become field defaults in the template.
+4. **Extract default content.** Pull headings, body text, image references, link labels, button text from the Stitch HTML. These become field defaults in the template. **For repeater fields, extract complete default content for every item.** Each item must have all nested fields fully populated, matching the Stitch design exactly. Do not leave repeater defaults to the code generation phase.
 
 5. **Identify module reuse.** If the design uses the same structural pattern multiple times with different content (e.g. three text-and-media sections with alternating layouts), generate one module and note that it will be placed multiple times in the template with different field defaults. Only generate separate modules when the structure or field requirements differ meaningfully.
 
-6. **Determine background colour handling.** If the design alternates section background colours, include a `background_colour` choice field in the module's `style` group rather than relying on `dnd_section` wrapper styling. See `core-code-conventions.md` for the field pattern. This keeps modules self-contained.
+6. **Determine background colour handling.** If the design alternates section background colours, include a `background_colour` choice field in the module's `style` group rather than relying on `dnd_section` wrapper styling. See `core-code-conventions.md` for the field pattern. This keeps modules self-contained. Standardise the choice options across all modules that use this field.
+
+7. **Analyse shared button styles.** Identify all button variants across all sections (e.g. pill gradient primary, solid secondary, ghost/text-only). Output a button style table listing each variant, its visual treatment, and which sections use it. These become global button overrides in `css/global/elements/buttons.css` using `.e-button--primary`, `.e-button--secondary`, `.e-button--ghost` etc. Individual modules reference these classes in their HTML rather than re-implementing button styles in module CSS.
+
+8. **Map icon replacements.** Identify all Material Symbols or icon font references in the Stitch HTML. For each, decide the replacement strategy: inline SVG (preferred), or an icon/image choice field in fields.json. List the icons and their replacements in the specification output.
 
 **Output:** A section-by-section specification table:
 
@@ -159,16 +165,27 @@ A new template file extending `layouts/base.html` with a `dnd_area` pre-seeded w
 
 #### 3. Module files
 
-For each module, generate all required files:
+For each module, generate all required files. When generating modules in parallel (via sub-agents), each agent prompt must follow this standardised structure:
+
+1. **Module purpose** - one sentence describing what the module does in this specific design.
+2. **Design tokens** - table of every colour, size, spacing, and radius value the module uses, expressed as CSS custom properties.
+3. **Layout specification** - explicit mobile layout (base styles) and desktop layout (`@media (width >= 992px)`). Do not leave responsive behaviour to inference.
+4. **Fields specification** - exact JSON structure for complex fields (repeaters with per-item defaults, nested groups, choice fields with options).
+5. **HTML specification** - wrapper pattern, macro usage, conditional guards, `js-*` classes if interactive.
+6. **CSS specification** - BEM class list, required media query breakpoints, animation gating, focus states.
+7. **JS specification** (if interactive) - ARIA pattern, keyboard spec, init pattern, degradation behaviour.
+8. **Convention references** - file paths to read (`core-code-conventions.md`, `frontend-standards` references, `interactive-module-guardrails.md` if interactive).
 
 **meta.json:**
 ```json
 {
   "label": "Module Display Name",
+  "description": "Brief description of the module's purpose.",
   "css_assets": [],
   "js_assets": [],
   "categories": ["DESIGN"],
   "icon": "module",
+  "host_template_types": ["PAGE"],
   "is_available_for_new_content": true
 }
 ```
@@ -178,10 +195,10 @@ For each module, generate all required files:
 **module.html** - HubL template following the wrapper pattern:
 ```hubl
 <div class="o-wrapper o-wrapper--module" style="
-  --moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px;
-  --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px;
-  --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px;
-  --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;"
+  --moduleTopSpacingMobile: {{ module.style.spacing.mobile.padding_top }}px;
+  --moduleBottomSpacingMobile: {{ module.style.spacing.mobile.padding_bottom }}px;
+  --moduleTopSpacingDesktop: {{ module.style.spacing.desktop.padding_top }}px;
+  --moduleBottomSpacingDesktop: {{ module.style.spacing.desktop.padding_bottom }}px;"
   {% if module.scrollid %}id="{{ module.scrollid }}"{% endif %}>
 
   <div class="m-moduleName o-container">
@@ -196,7 +213,9 @@ For each module, generate all required files:
 
 #### 4. Global CSS additions
 
-If the design requires global treatments (button shape overrides, header glassmorphism, custom link styles), generate additions to the relevant global stylesheet or as a project-level override file.
+**Shared button overrides (generate before individual modules).** Based on the button style table from Phase 2, generate project-level button overrides in `css/global/elements/buttons.css`. Define `.e-button--primary`, `.e-button--secondary`, `.e-button--ghost` and any other variants identified. Modules reference these classes in their HTML via the `render_link()` or `render_cta()` macros rather than re-implementing button styles in each module's CSS.
+
+If the design requires other global treatments (header glassmorphism, custom link hover styles), generate additions to the relevant global stylesheet or as a project-level override file.
 
 ### Code Conventions - Enforced Without Exception
 
@@ -206,6 +225,7 @@ These apply to all generated code. Non-compliance is a defect.
 - Vanilla CSS with native nesting (within the constraints in `frontend-standards` CSS reference). No SCSS, no Tailwind.
 - BEM naming with ITCSS prefixes and camelCase: `.m-caseStudyGrid__card--featured`
 - Media queries use range syntax: `@media (width >= 992px)`
+- Every module's CSS must include at minimum one `@media (width >= 992px)` block defining the desktop layout. This applies even for simple modules - explicitly state the mobile layout (base styles) and desktop layout (media query). Do not assume the agent will infer responsive behaviour.
 - All spacing values use Core Code custom properties. No magic numbers.
 - All colour values use Core Code custom properties. No hex codes in module CSS (hex only in `:root` token definitions).
 - Module wrapper pattern: `.o-wrapper.o-wrapper--module` with inline spacing variables.
@@ -239,6 +259,23 @@ These apply to all generated code. Non-compliance is a defect.
 
 ---
 
+### Phase 3.5: CSS Consistency Review
+
+After all modules are generated, review all `module.css` files as a batch. This catches inconsistencies that per-module generation misses.
+
+**Checks:**
+
+1. **Token compliance.** Every colour value uses a CSS custom property. No hex codes in module CSS (hex only in `:root`). Every spacing value uses a `--space*` token. Flag any magic numbers.
+2. **Responsive completeness.** Every module has at least one `@media (width >= 992px)` block. Flag any module with base styles only and no desktop override.
+3. **BEM naming consistency.** All classes follow `.m-moduleName__element--modifier` pattern with camelCase. No `.m-module-name` or `.m-module_name` patterns.
+4. **Duplicate patterns.** Identify CSS rules that appear in 3+ modules (e.g. button styles, card hover patterns, icon containers). If found, extract to global CSS and update the modules to reference shared classes.
+5. **Animation gating.** All transitions and animations are inside `@media (prefers-reduced-motion: no-preference)`. Flag any ungated transitions.
+6. **Focus states.** Every interactive element (links, buttons, triggers) has a `:focus-visible` rule.
+
+Fix any issues found before proceeding to Phase 4.
+
+---
+
 ### Phase 4: QA Checklist
 
 After generating all files, produce a QA checklist:
@@ -252,6 +289,20 @@ After generating all files, produce a QA checklist:
 7. **Performance** - are images lazy-loaded, CSS async-loaded, no render-blocking JS, `content-visibility: auto` on below-fold modules?
 8. **Macro usage** - are all links, images, and headings rendered via Core Code macros (not raw HTML)?
 9. **Token compliance** - are all colour and spacing values using custom properties (no hex codes or magic numbers in module CSS)?
+10. **fields.json validation** - parse every fields.json and verify:
+    - No field uses `"type": "textarea"` (must be `"type": "text"`)
+    - No field uses `"name": "label"` (reserved by HubSpot)
+    - All link fields have complete defaults with `url.href` and `open_in_new_tab`
+    - All image fields have defaults with `src`, `alt`, `width`, `height`
+    - All repeater fields have array defaults with fully populated items
+    - All fields have `help_text`
+    - Layout-critical fields are marked `"required": true`
+11. **meta.json validation** - verify every meta.json includes:
+    - `description` (required - upload fails without it)
+    - `icon` set to `"module"` (unless a confirmed valid alternative)
+    - `host_template_types` present (`["PAGE"]` or `["GLOBAL"]`)
+    - No `content_types` key (causes validation errors)
+    - `categories` values are UPPERCASE
 
 ---
 
