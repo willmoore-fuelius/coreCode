@@ -4,12 +4,7 @@ label: Site Footer
 -->
 
 <footer id="site-footer" class="m-siteFooter js-siteFooter">
-	<div class="o-container">
-		<div class="m-siteFooter__inner">  
-			{% module 'logo' path='../../modules/elements/Logo', label='Logo', no_wrapper=True %}
-			{% module 'copyright' path='@hubspot/rich_text', label='Copyright', richtext_field="<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque enim, pellentesque vel nulla vitae, condimentum sagittis arcu.</p>" %}
-			{% module 'Footer-links' path='@hubspot/menu', label='Links', max_levels=1, 
-          flyouts=false %}
-		</div>
-	</div>
+	{% module "footer_content"
+		path="../../modules/footer_content"
+	%}
 </footer>

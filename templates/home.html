@@ -6,16 +6,10 @@ label: Core Code - Homepage
 screenshotPath: ../images/template-previews/theme_preview.png
 -->
 
-{% extends "./layouts/base.html" %} {% block body %} {# The main-content ID is
-used for the navigation skipper in the header.html file. More information on the
-navigation skipper can be found here:
-https://github.com/HubSpot/cms-theme-boilerplate/wiki/Accessibility #}
+{% extends "./layouts/base.html" %}
+{% block body %}
 <main id="main-content">
-  {# All templates are recommended to have an h1 present for both accessibility
-  and SEO best practice. This should be at the top of the template before any
-  other textual content. The h1 element below is within a dnd area to allow
-  content editors the ability to adjust the content and alignment of the text.
-  #} {% dnd_area 'home' class='body-container body-container--home', label='Main
-  section' %} {% end_dnd_area %}
+  {% dnd_area 'main_content' class='body-container', label='Main section' %}
+  {% end_dnd_area %}
 </main>
 {% endblock body %}
