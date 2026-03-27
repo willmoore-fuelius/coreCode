@@ -16,18 +16,18 @@ Verify these files exist before proceeding. If any are missing, ask the user to 
 Read all reference files in this order. Do not skip any.
 
 **Stitch-to-HubSpot skill:**
-1. `~/.claude/skills/stitch-to-hubspot/SKILL.md`
-2. `~/.claude/skills/stitch-to-hubspot/references/core-code-conventions.md`
-3. `~/.claude/skills/stitch-to-hubspot/references/tailwind-translation-rules.md`
-4. `~/.claude/skills/stitch-to-hubspot/references/interactive-module-guardrails.md`
+1. `.claude/skills/stitch-to-hubspot/SKILL.md`
+2. `.claude/skills/stitch-to-hubspot/references/core-code-conventions.md`
+3. `.claude/skills/stitch-to-hubspot/references/tailwind-translation-rules.md`
+4. `.claude/skills/stitch-to-hubspot/references/interactive-module-guardrails.md`
 
 **Frontend standards skill:**
-5. `~/.claude/skills/frontend-standards/SKILL.md`
-6. `~/.claude/skills/frontend-standards/references/css-standards.md`
-7. `~/.claude/skills/frontend-standards/references/javascript-standards.md`
-8. `~/.claude/skills/frontend-standards/references/accessibility-standards.md`
-9. `~/.claude/skills/frontend-standards/references/performance-standards.md`
-10. `~/.claude/skills/frontend-standards/references/design-tokens.md`
+5. `.claude/skills/frontend-standards/SKILL.md`
+6. `.claude/skills/frontend-standards/references/css-standards.md`
+7. `.claude/skills/frontend-standards/references/javascript-standards.md`
+8. `.claude/skills/frontend-standards/references/accessibility-standards.md`
+9. `.claude/skills/frontend-standards/references/performance-standards.md`
+10. `.claude/skills/frontend-standards/references/design-tokens.md`
 
 **Repo context (read the current state before generating):**
 11. `templates/layouts/base.html` - current `:root` token block and template structure
