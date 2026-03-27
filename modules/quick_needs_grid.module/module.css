@@ -1,0 +1,208 @@
+/* ==========================================================================
+   Quick Needs Grid
+   ========================================================================== */
+
+.m-quickNeedsGrid {
+  color: var(--grey90);
+}
+
+/* Background modifiers
+   ========================================================================== */
+
+.m-quickNeedsGrid--bg-default {
+  background-color: transparent;
+}
+
+.m-quickNeedsGrid--bg-surface {
+  background-color: var(--surfaceLow);
+}
+
+.m-quickNeedsGrid--bg-primary {
+  background-color: var(--primaryColour);
+  color: var(--textColourInverse);
+}
+
+/* Grid
+   ========================================================================== */
+
+.m-quickNeedsGrid__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space32);
+
+  @media (width >= 992px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card
+   ========================================================================== */
+
+.m-quickNeedsGrid__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space40);
+  background-color: var(--backgroundColour);
+  border-radius: var(--radiusLg);
+  isolation: isolate;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: background-color var(--transitionSpeed) var(--easeOut);
+  }
+
+  &:hover {
+    background-color: var(--tertiaryColour);
+  }
+}
+
+/* Icon
+   ========================================================================== */
+
+.m-quickNeedsGrid__iconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radiusMd);
+  background-color: rgb(49 0 111 / 0.05);
+  margin-block-end: var(--space24);
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: background-color var(--transitionSpeed) var(--easeOut);
+  }
+}
+
+.m-quickNeedsGrid__card:hover .m-quickNeedsGrid__iconBox {
+  background-color: rgb(255 255 255 / 0.1);
+}
+
+.m-quickNeedsGrid__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  color: var(--primaryColour);
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: color var(--transitionSpeed) var(--easeOut);
+  }
+}
+
+.m-quickNeedsGrid__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.m-quickNeedsGrid__card:hover .m-quickNeedsGrid__icon {
+  color: var(--white);
+}
+
+/* Heading
+   ========================================================================== */
+
+.m-quickNeedsGrid__heading {
+  font-size: var(--h4);
+  font-weight: var(--fontBold);
+  color: var(--grey90);
+  margin-block-end: var(--space12);
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: color var(--transitionSpeed) var(--easeOut);
+  }
+}
+
+.m-quickNeedsGrid__card:hover .m-quickNeedsGrid__heading {
+  color: var(--white);
+}
+
+/* Description
+   ========================================================================== */
+
+.m-quickNeedsGrid__description {
+  font-size: var(--pBase);
+  color: var(--grey50);
+  margin-block-end: var(--space24);
+  flex-grow: 1;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: color var(--transitionSpeed) var(--easeOut);
+  }
+}
+
+.m-quickNeedsGrid__card:hover .m-quickNeedsGrid__description {
+  color: rgb(255 255 255 / 0.8);
+}
+
+/* Link
+   ========================================================================== */
+
+.m-quickNeedsGrid__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space8);
+  font-weight: var(--fontBold);
+  font-size: var(--pBase);
+  color: var(--secondaryColour);
+  text-decoration: none;
+  min-height: 44px;
+  margin-block-start: auto;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: color var(--transitionSpeed) var(--easeOut);
+  }
+
+  /* Stretched link — makes entire card clickable */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--radiusLg);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  &:focus-visible::after {
+    outline: 2px solid var(--primaryColour);
+    outline-offset: 2px;
+  }
+}
+
+.m-quickNeedsGrid__card:hover .m-quickNeedsGrid__link {
+  color: var(--highlightColour);
+}
+
+.m-quickNeedsGrid__linkIcon {
+  flex-shrink: 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: translate var(--transitionSpeed) var(--easeOut);
+  }
+}
+
+.m-quickNeedsGrid__card:hover .m-quickNeedsGrid__linkIcon {
+  translate: 4px 0;
+}
+
+/* Footer CTA
+   ========================================================================== */
+
+.m-quickNeedsGrid__footerCta {
+  margin-block-start: var(--space40);
+  text-align: center;
+}
+
+/* Performance — below-fold module
+   ========================================================================== */
+
+@supports (content-visibility: auto) {
+  .m-quickNeedsGrid {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 400px;
+  }
+}

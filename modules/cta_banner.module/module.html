@@ -1,0 +1,84 @@
+{%- if module.scrollid -%}
+<div id="{{ module.scrollid }}" class="js-module">
+{%- endif -%}
+
+<section id="{{ name }}" class="m-ctaBanner">
+  <div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+    <div class="o-container">
+
+      {%- if module.module_heading.heading -%}
+        {{ text_helpers.render_heading(module.module_heading, module.module_heading.heading, name) }}
+      {%- endif -%}
+
+      {# Decorative background shape #}
+      <div class="m-ctaBanner__shape" aria-hidden="true"></div>
+
+      {# Inner CTA card #}
+      <div class="m-ctaBanner__card">
+        <div class="m-ctaBanner__grid">
+
+          {# Text and CTAs column #}
+          <div class="m-ctaBanner__content">
+
+            {%- if module.heading or module.heading_highlight -%}
+            <h2 class="m-ctaBanner__heading">
+              {%- if module.heading -%}
+                {{ module.heading }}
+              {%- endif -%}
+              {%- if module.heading_highlight -%}
+                {{ " " }}<span class="m-ctaBanner__headingHighlight">{{ module.heading_highlight }}</span>
+              {%- endif -%}
+            </h2>
+            {%- endif -%}
+
+            {%- if module.description -%}
+            <p class="m-ctaBanner__description">{{ module.description }}</p>
+            {%- endif -%}
+
+            {%- if module.primary_cta.text or module.secondary_cta.text -%}
+            <div class="m-ctaBanner__actions">
+
+              {%- if module.primary_cta.text and module.primary_cta.link.url.href -%}
+              <a class="m-ctaBanner__primaryCta"
+                 href="{{ module.primary_cta.link.url.href }}"
+                 {% if module.primary_cta.link.open_in_new_tab %}target="_blank" rel="noopener" aria-label="{{ module.primary_cta.text }} (opens in new window)"{% endif %}>
+                {{- module.primary_cta.text -}}
+              </a>
+              {%- endif -%}
+
+              {%- if module.secondary_cta.text and module.secondary_cta.link.url.href -%}
+              <a class="m-ctaBanner__secondaryCta"
+                 href="{{ module.secondary_cta.link.url.href }}"
+                 {% if module.secondary_cta.link.open_in_new_tab %}target="_blank" rel="noopener" aria-label="{{ module.secondary_cta.text }} (opens in new window)"{% endif %}>
+                {{- module.secondary_cta.text -}}
+              </a>
+              {%- endif -%}
+
+            </div>
+            {%- endif -%}
+
+          </div>
+
+          {# Decorative image column (desktop only) #}
+          {%- if module.image.src -%}
+          <div class="m-ctaBanner__imageWrap" aria-hidden="true">
+            <img class="m-ctaBanner__image"
+                 src="{{ module.image.src }}"
+                 alt="{{ module.image.alt|default('', true) }}"
+                 {% if module.image.width %}width="{{ module.image.width }}"{% endif %}
+                 {% if module.image.height %}height="{{ module.image.height }}"{% endif %}
+                 loading="lazy"
+                 decoding="async">
+          </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{%- if module.scrollid -%}
+</div>
+{%- endif -%}

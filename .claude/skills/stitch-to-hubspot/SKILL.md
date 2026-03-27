@@ -141,6 +141,31 @@ Generate all theme files based on the token mapping and module specifications.
 
 The design token block with all mapped custom properties. Preserve the existing token structure; only change values. Add project-specific tokens at the end of the relevant category block with clear comments.
 
+Also update the Google Fonts `<link>` in `base.html` to load the project fonts synchronously with `display=swap`:
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=FontA:wght@...&family=FontB:wght@...&display=swap" rel="stylesheet">
+```
+
+Do **not** use the deferred `media="print" onload` pattern — it is fragile in HubSpot.
+
+#### 1b. Typography font-family declarations
+
+**CRITICAL:** The boilerplate's typography CSS does not apply `font-family`. Without this step, the site renders in Times New Roman. Verify and update both `css/critical/typography.critical.css` and `css/global/elements/typography.css` to include:
+
+```css
+body {
+  font-family: var(--fontSecondary);
+  color: var(--grey90);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fontPrimary);
+}
+```
+
+If these declarations already exist, update the variable references to match the project's font mapping. If they are missing, add them.
+
 #### 2. Page template
 
 A new template file extending `layouts/base.html` with a `dnd_area` pre-seeded with the generated modules in section order. Module paths use the flat `modules/` directory.

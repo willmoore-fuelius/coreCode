@@ -6,8 +6,10 @@ html {
 }
 
 body {
+	font-family: var(--fontSecondary);
 	word-break: break-word;
 	line-height: 150%;
+	color: var(--grey90);
 }
 
 body.disable-scroll{
@@ -45,6 +47,7 @@ h3,
 h4,
 h5,
 h6 {
+	font-family: var(--fontPrimary);
 	margin: var(--space20) 0;
 }
 

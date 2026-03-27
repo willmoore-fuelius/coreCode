@@ -52,7 +52,7 @@ templateType: none
 				--space16: 1rem; /* 16px */
 				--space20: 1.25rem; /* 20px */
 				--space24: 1.5rem; /* 24px */
-				--space32: 2rem; /* 32px */
+				--space32: 2rem; /* 30px */
 				--space40: 2.5rem; /* 40px */
 				--space48: 3rem; /* 48px */
 				--space64: 4rem; /* 64px */
@@ -72,37 +72,55 @@ templateType: none
 				--radiusSm: 0.75rem; /* 12px */
 				--radiusMd: 1rem; /* 16px */
 				--radiusLg: 1.5rem; /* 24px */
-				--radiusXl: 2rem; /* 32px */
+				--radiusXl: 2rem; /* 30px */
 				--radiusAvatar: 50%;
+
+				/* ---- Project-specific: Radius ---- */
+				--radiusFeature: 3rem; /* 48px */
+				--radiusCta: 4rem; /* 64px */
 
 				/* COLOURS */
 
 				/* General */
 				--white: #fff;
 				--black: #000;
-				--grey10: #E8E9EA;
-				--grey20: #D2D3D5;
-				--grey30: #C2C2C2;
-				--grey40: #BBBEC0;
-				--grey50: #6C7378;
-				--grey60: #5E646A;
-				--grey90: #1D252D;
+				--grey10: #e3e3dd;
+				--grey20: #e8e8e2;
+				--grey30: #ccc3d4;
+				--grey40: #7b7483;
+				--grey50: #4a4452;
+				--grey60: #2f312d;
+				--grey90: #1a1c19;
 
 				/* Brand */
-				--primary10: #46107b;
-				--primary20: #ee52ac;
-				--primary30: #e3f7e8;
+				--primary10: #31006f;
+				--primary20: #491d8e;
+				--primary30: #ebdcff;
 
 				/* Theme Colors - Used by components (video player, etc.) */
 				--primaryColour: var(--primary10);
-				--secondaryColour: var(--grey60);
+				--secondaryColour: #b80f55;
 				--tertiaryColour: var(--primary20);
-				--highlightColour: var(--primary30);
+				--highlightColour: #7bfd94;
 				--primaryTextColour: var(--white);
 				--secondaryTextColour: var(--white);
-				--tertiaryTextColour: var(--black);
-				--highlightTextColour: var(--black);
-				--contentBackgroundColour: var(--white);
+				--tertiaryTextColour: var(--white);
+				--highlightTextColour: #002b0d;
+				--contentBackgroundColour: #fafaf3;
+
+				/* ---- Project-specific: Surfaces ---- */
+				--backgroundColour: #fafaf3;
+				--surfaceLow: #f4f4ee;
+				--surfaceMid: #eeeee8;
+				--surfaceHigh: #e8e8e2;
+				--surfaceHighest: #e3e3dd;
+				--outlineVariant: #ccc3d4;
+
+				/* ---- Project-specific: Extended brand colours ---- */
+				--secondaryLight: #fe4e87;
+				--highlightDark: #34bb5c;
+				--textOnPrimary: #b790ff;
+				--primaryGradient: linear-gradient(to right, var(--primaryColour), var(--tertiaryColour));
 
 				/* Semantic State Colors */
 				--colorSuccess: #10b981;
@@ -117,27 +135,32 @@ templateType: none
 				--easeInOut: cubic-bezier(0.4, 0, 0.2, 1);
 
 				/* FONTS - FAMILIES */
-				--fontPrimary: "Montserrat", sans-serif;
-				--fontSecondary: 'open-sans', sans-serif;
+				--fontPrimary: "Inter", sans-serif;
+				--fontSecondary: 'Work Sans', sans-serif;
 				--fontAwesome: 'Font Awesome 6 Free';
 
 				/* FONTS - WEIGHTS */
 				--fontLight: 300;
 				--fontRegular: 400;
+				--fontMedium: 500;
 				--fontSemibold: 600;
 				--fontBold: 700;
-				--fontXbold: 900;
+				--fontXbold: 800;
+				--fontBlack: 900;
 
 				/* FONTS - SIZES - Fluid typography with clamp() */
-				--h1: clamp(2.1875rem, 4vw + 1rem, 3.875rem); /* 35px → 62px */
-				--h2: clamp(2rem, 3vw + 0.5rem, 2.875rem); /* 32px → 46px */
-				--h3: clamp(1.75rem, 2vw + 0.5rem, 2rem); /* 28px → 32px */
+				--h1: clamp(2.5rem, 5vw + 1rem, 5rem); /* 40px → 80px */
+				--h2: clamp(2rem, 3vw + 0.5rem, 3rem); /* 32px → 48px */
+				--h3: clamp(1.5rem, 2vw + 0.25rem, 1.875rem); /* 24px → 30px */
 				--h4: clamp(1.25rem, 1.5vw + 0.5rem, 1.5rem); /* 20px → 24px */
 				--h5: clamp(0.9375rem, 1vw + 0.5rem, 1.0625rem); /* 15px → 17px */
 				--h6: 0.8125rem; /* 13px - fixed size */
 
+				/* ---- Project-specific: Display size ---- */
+				--displaySize: clamp(3rem, 6vw + 1rem, 6rem); /* 48px -> 96px */
+
 				/* FONTS - MINIMUM SIZES for clamp() used in typography.css */
-				--h1Min: 2rem;       /* 32px */
+				--h1Min: 2rem;       /* 30px */
 				--h2Min: 1.75rem;    /* 28px */
 				--h3Min: 1.5rem;     /* 24px */
 				--h4Min: 1.125rem;   /* 18px */
@@ -181,11 +204,8 @@ templateType: none
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-		{# Load fonts with font-display: swap (prevents FOIT) - Deferred for performance #}
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-		<noscript>
-			<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-		</noscript>
+		{# Load fonts with font-display: swap (prevents FOIT) #}
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 		{# DNS Prefetch for HubSpot third-party domains #}
 		<link rel="dns-prefetch" href="//js.hs-analytics.net">

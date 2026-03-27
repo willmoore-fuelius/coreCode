@@ -1,0 +1,111 @@
+{%- if module.scrollid -%}
+<div id="{{ module.scrollid }}" class="js-module">
+{%- endif -%}
+
+<section id="{{ name }}" class="m-caseStudyBento m-caseStudyBento--bg-{{ module.style.background_colour }}">
+  <div class="o-wrapper o-wrapper--module" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+    <div class="o-container">
+
+      {%- if module.module_heading.heading -%}
+        {{ text_helpers.render_heading(module.module_heading, module.module_heading.heading, name) }}
+      {%- endif -%}
+
+      {# Section header row #}
+      {%- if module.heading or module.description or (module.cta_text and module.cta_link.url.href) -%}
+      <div class="m-caseStudyBento__header">
+        <div class="m-caseStudyBento__headerContent">
+          {%- if module.heading -%}
+          <h2 class="m-caseStudyBento__heading">{{ module.heading }}</h2>
+          {%- endif -%}
+          {%- if module.description -%}
+          <p class="m-caseStudyBento__description">{{ module.description }}</p>
+          {%- endif -%}
+        </div>
+        {%- if module.cta_text and module.cta_link.url.href -%}
+        <div class="m-caseStudyBento__headerCta">
+          <a class="m-caseStudyBento__ctaButton" href="{{ module.cta_link.url.href }}"{% if module.cta_link.open_in_new_tab %} target="_blank" rel="noopener" aria-label="{{ module.cta_text }} (opens in new window)"{% endif %}>
+            {{- module.cta_text -}}
+            <svg class="m-caseStudyBento__ctaIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+        {%- endif -%}
+      </div>
+      {%- endif -%}
+
+      {# Bento grid #}
+      <div class="m-caseStudyBento__grid">
+
+        {# Featured card (large, left) #}
+        {%- set featured = module.featured_card -%}
+        {%- if featured.heading or featured.image.src -%}
+        <article class="m-caseStudyBento__featured">
+          {%- if featured.image.src -%}
+          <div class="m-caseStudyBento__featuredImageWrap">
+            <img class="m-caseStudyBento__featuredImage" src="{{ featured.image.src }}" alt="{{ featured.image.alt|default('') }}" loading="lazy" decoding="async"{% if featured.image.width %} width="{{ featured.image.width }}"{% endif %}{% if featured.image.height %} height="{{ featured.image.height }}"{% endif %}>
+          </div>
+          {%- endif -%}
+          <div class="m-caseStudyBento__featuredOverlay" aria-hidden="true"></div>
+          <div class="m-caseStudyBento__featuredContent">
+            {%- if featured.tag -%}
+            <span class="m-caseStudyBento__featuredTag">{{ featured.tag }}</span>
+            {%- endif -%}
+            {%- if featured.heading -%}
+            <h3 class="m-caseStudyBento__featuredHeading">{{ featured.heading }}</h3>
+            {%- endif -%}
+            {%- if featured.description -%}
+            <p class="m-caseStudyBento__featuredDescription">{{ featured.description }}</p>
+            {%- endif -%}
+            {%- if featured.link_text and featured.link.url.href -%}
+            <a class="m-caseStudyBento__featuredLink" href="{{ featured.link.url.href }}"{% if featured.link.open_in_new_tab %} target="_blank" rel="noopener" aria-label="{{ featured.link_text }} (opens in new window)"{% endif %}>
+              {{- featured.link_text -}}
+              <svg class="m-caseStudyBento__arrowIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            {%- endif -%}
+          </div>
+        </article>
+        {%- endif -%}
+
+        {# Stacked cards (right column) #}
+        {%- if module.cards -%}
+        <div class="m-caseStudyBento__stacked">
+          {%- for card in module.cards -%}
+          <article class="m-caseStudyBento__stackedCard m-caseStudyBento__stackedCard--variant-{{ loop.index0 }}">
+            {%- if card.tag -%}
+            <span class="m-caseStudyBento__stackedTag">{{ card.tag }}</span>
+            {%- endif -%}
+            {%- if card.heading -%}
+            <h3 class="m-caseStudyBento__stackedHeading">{{ card.heading }}</h3>
+            {%- endif -%}
+            {%- if card.description -%}
+            <p class="m-caseStudyBento__stackedDescription">{{ card.description }}</p>
+            {%- endif -%}
+            {%- if card.link_text and card.link.url.href -%}
+            <a class="m-caseStudyBento__stackedLink" href="{{ card.link.url.href }}"{% if card.link.open_in_new_tab %} target="_blank" rel="noopener" aria-label="{{ card.link_text }} (opens in new window)"{% endif %}>
+              {{- card.link_text -}}
+              <svg class="m-caseStudyBento__arrowIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            {%- endif -%}
+          </article>
+          {%- endfor -%}
+        </div>
+        {%- else -%}
+        {%- if is_in_editor -%}
+        {% editor_placeholder %}
+        {%- endif -%}
+        {%- endif -%}
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{%- if module.scrollid -%}
+</div>
+{%- endif -%}

@@ -1,0 +1,277 @@
+/* ==========================================================================
+   Service Deep Dive
+   ========================================================================== */
+
+.m-serviceDeepDive {
+  overflow: hidden;
+}
+
+/* Background colour modifiers
+   ========================================================================== */
+
+.m-serviceDeepDive--bg-default {
+  background-color: transparent;
+}
+
+.m-serviceDeepDive--bg-surface {
+  background-color: var(--surfaceLow);
+}
+
+.m-serviceDeepDive--bg-primary {
+  background-color: var(--primaryColour);
+  color: var(--textColourInverse);
+}
+
+/* Grid
+   ========================================================================== */
+
+.m-serviceDeepDive__grid {
+  display: grid;
+  gap: var(--space40);
+}
+
+@media (width >= 992px) {
+  .m-serviceDeepDive__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space80);
+    align-items: center;
+  }
+}
+
+/* Reversed layout — image right */
+@media (width >= 992px) {
+  .m-serviceDeepDive--imageRight .m-serviceDeepDive__imageWrap {
+    order: 2;
+  }
+
+  .m-serviceDeepDive--imageRight .m-serviceDeepDive__content {
+    order: 1;
+  }
+}
+
+/* Image column
+   ========================================================================== */
+
+.m-serviceDeepDive__imageWrap {
+  position: relative;
+  isolation: isolate;
+}
+
+.m-serviceDeepDive__backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radiusFeature);
+  rotate: -2deg;
+  z-index: var(--zBelow);
+}
+
+.m-serviceDeepDive__backdrop--accent-primary {
+  background-color: var(--primaryColour);
+}
+
+.m-serviceDeepDive__backdrop--accent-secondary {
+  background-color: var(--secondaryColour);
+}
+
+.m-serviceDeepDive__backdrop--accent-highlight {
+  background-color: var(--highlightColour);
+}
+
+/* Reversed layout backdrop rotation */
+.m-serviceDeepDive--imageRight .m-serviceDeepDive__backdrop {
+  rotate: 2deg;
+}
+
+.m-serviceDeepDive__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: var(--radiusFeature);
+  position: relative;
+  rotate: 1deg;
+}
+
+/* Reversed layout image rotation */
+.m-serviceDeepDive--imageRight .m-serviceDeepDive__image {
+  rotate: -1deg;
+}
+
+@media (width >= 992px) {
+  .m-serviceDeepDive__image {
+    height: 500px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .m-serviceDeepDive__image {
+    transition: rotate var(--transitionSpeed) var(--easeOut);
+  }
+
+  .m-serviceDeepDive__image:hover {
+    rotate: 0deg;
+  }
+}
+
+/* Content column
+   ========================================================================== */
+
+.m-serviceDeepDive__number {
+  display: block;
+  font-size: var(--pXl);
+  font-weight: var(--fontBlack);
+  color: var(--primaryColour);
+  margin-block-end: var(--space16);
+}
+
+.m-serviceDeepDive__heading {
+  font-size: var(--h2);
+  font-weight: var(--fontBlack);
+  color: var(--primaryColour);
+  margin: 0;
+  margin-block-end: var(--space24);
+}
+
+.m-serviceDeepDive__description {
+  font-size: var(--pLg);
+  color: var(--grey50);
+  line-height: 1.6;
+  margin: 0;
+  margin-block-end: var(--space40);
+}
+
+/* Primary background overrides for text */
+.m-serviceDeepDive--bg-primary .m-serviceDeepDive__number,
+.m-serviceDeepDive--bg-primary .m-serviceDeepDive__heading {
+  color: var(--textColourInverse);
+}
+
+.m-serviceDeepDive--bg-primary .m-serviceDeepDive__description {
+  color: var(--textColourInverse);
+  opacity: 0.85;
+}
+
+/* Feature list
+   ========================================================================== */
+
+.m-serviceDeepDive__featureList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space16);
+  margin-block-end: var(--space40);
+}
+
+.m-serviceDeepDive__featureItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space12);
+  font-weight: var(--fontMedium);
+}
+
+.m-serviceDeepDive__checkIcon {
+  flex-shrink: 0;
+  color: var(--highlightDark);
+  width: 22px;
+  height: 22px;
+}
+
+/* Stat grid
+   ========================================================================== */
+
+.m-serviceDeepDive__statGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space24);
+  margin-block-end: var(--space40);
+}
+
+.m-serviceDeepDive__statCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border-radius: var(--radiusMd);
+  padding: var(--space24);
+}
+
+.m-serviceDeepDive__statValue {
+  font-size: var(--h3);
+  font-weight: var(--fontBlack);
+  color: var(--secondaryColour);
+}
+
+.m-serviceDeepDive__statLabel {
+  font-size: var(--pXs);
+  font-weight: var(--fontBold);
+  color: var(--grey50);
+  text-transform: uppercase;
+  margin-block-start: var(--space4);
+}
+
+/* Inline quote
+   ========================================================================== */
+
+.m-serviceDeepDive__quote {
+  background: var(--surfaceHigh);
+  border-radius: var(--radiusLg);
+  padding: var(--space32);
+  margin: 0;
+  margin-block-end: var(--space40);
+}
+
+.m-serviceDeepDive__quoteText {
+  font-style: italic;
+  color: var(--primaryColour);
+  font-weight: var(--fontMedium);
+  margin: 0;
+  margin-block-end: var(--space16);
+}
+
+.m-serviceDeepDive__quoteAttribution {
+  font-size: var(--pSm);
+  font-weight: var(--fontBold);
+}
+
+/* CTA button
+   ========================================================================== */
+
+.m-serviceDeepDive__cta {
+  display: inline-block;
+  background: var(--primaryColour);
+  color: var(--white);
+  border-radius: 9999px;
+  padding: var(--space16) var(--space32);
+  font-weight: var(--fontBold);
+  text-decoration: none;
+  min-height: 48px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+
+  &:hover {
+    background: var(--tertiaryColour);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primaryColour);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .m-serviceDeepDive__cta {
+    transition: background var(--transitionSpeed) var(--easeOut);
+  }
+}
+
+/* Render performance — below-fold module
+   ========================================================================== */
+
+@supports (content-visibility: auto) {
+  .m-serviceDeepDive {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
+  }
+}

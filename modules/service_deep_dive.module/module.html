@@ -1,0 +1,108 @@
+{%- if module.scrollid -%}
+<div id="{{ module.scrollid }}" class="js-module">
+{%- endif -%}
+
+<section id="{{ name }}" class="m-serviceDeepDive{% if module.layout == 'image-right' %} m-serviceDeepDive--imageRight{% endif %}">
+  <div class="o-wrapper o-wrapper--module m-serviceDeepDive--bg-{{ module.style.background_colour }}" style="--moduleTopSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_top }}px; --moduleBottomSpacingMobile: {{ module.style.spacing_alignment.spacing.mobile.padding_bottom }}px; --moduleTopSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_top }}px; --moduleBottomSpacingDesktop: {{ module.style.spacing_alignment.spacing.desktop.padding_bottom }}px;">
+    <div class="o-container">
+
+      {%- if module.module_heading.heading -%}
+        {{ text_helpers.render_heading(module.module_heading, module.module_heading.heading, name) }}
+      {%- endif -%}
+
+      <div class="m-serviceDeepDive__grid">
+
+        {# Image column #}
+        <div class="m-serviceDeepDive__imageWrap">
+          <div class="m-serviceDeepDive__backdrop m-serviceDeepDive__backdrop--accent-{{ module.image_accent_colour }}" aria-hidden="true"></div>
+
+          {%- if module.image.src -%}
+          <img class="m-serviceDeepDive__image"
+               src="{{ module.image.src }}"
+               alt="{{ module.image.alt|escape }}"
+               width="{{ module.image.width }}"
+               height="{{ module.image.height }}"
+               loading="lazy"
+               decoding="async">
+          {%- endif -%}
+        </div>
+
+        {# Content column #}
+        <div class="m-serviceDeepDive__content">
+
+          {%- if module.section_number -%}
+          <span class="m-serviceDeepDive__number" aria-hidden="true">{{ module.section_number }}</span>
+          {%- endif -%}
+
+          {%- if module.heading -%}
+          <h2 class="m-serviceDeepDive__heading">{{ module.heading }}</h2>
+          {%- endif -%}
+
+          {%- if module.description -%}
+          <p class="m-serviceDeepDive__description">{{ module.description }}</p>
+          {%- endif -%}
+
+          {# Content variant: Feature List #}
+          {%- if module.content_type == "feature_list" and module.feature_list -%}
+          <ul class="m-serviceDeepDive__featureList" role="list">
+            {%- for item in module.feature_list -%}
+              {%- if item.text -%}
+              <li class="m-serviceDeepDive__featureItem">
+                <svg class="m-serviceDeepDive__checkIcon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="m9 12 2 2 4-4"></path>
+                </svg>
+                <span>{{ item.text }}</span>
+              </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+          {%- endif -%}
+
+          {# Content variant: Stat Grid #}
+          {%- if module.content_type == "stat_grid" and module.stat_grid -%}
+          <div class="m-serviceDeepDive__statGrid" role="list">
+            {%- for stat in module.stat_grid -%}
+              {%- if stat.value -%}
+              <div class="m-serviceDeepDive__statCard" role="listitem">
+                <span class="m-serviceDeepDive__statValue">{{ stat.value }}</span>
+                {%- if stat.stat_label -%}
+                <span class="m-serviceDeepDive__statLabel">{{ stat.stat_label }}</span>
+                {%- endif -%}
+              </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- endif -%}
+
+          {# Content variant: Inline Quote #}
+          {%- if module.content_type == "inline_quote" and module.inline_quote.quote -%}
+          <blockquote class="m-serviceDeepDive__quote">
+            <p class="m-serviceDeepDive__quoteText">{{ module.inline_quote.quote }}</p>
+            {%- if module.inline_quote.attribution -%}
+            <footer class="m-serviceDeepDive__quoteAttribution">{{ module.inline_quote.attribution }}</footer>
+            {%- endif -%}
+          </blockquote>
+          {%- endif -%}
+
+          {# CTA button #}
+          {%- if module.cta_text and module.cta_link.url.href -%}
+          <a class="m-serviceDeepDive__cta"
+             href="{{ module.cta_link.url.href }}"
+             {%- if module.cta_link.open_in_new_tab %} target="_blank" rel="noopener noreferrer" aria-label="{{ module.cta_text|escape }} (opens in new window)"{% endif -%}
+             {%- if module.cta_link.no_follow %} rel="nofollow"{% endif -%}>
+            {{- module.cta_text -}}
+          </a>
+          {%- endif -%}
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{%- if module.scrollid -%}
+</div>
+{%- endif -%}

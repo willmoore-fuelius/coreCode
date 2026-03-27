@@ -1,0 +1,16 @@
+{
+  "label": "Site Navigation",
+  "css_assets": [],
+  "js_assets": [],
+  "categories": [
+    "DESIGN"
+  ],
+  "icon": "menu",
+  "is_available_for_new_content": true,
+  "host_template_types": [
+    "PAGE",
+    "BLOG_POST",
+    "BLOG_LISTING"
+  ],
+  "description": "Fixed glassmorphism navigation bar with logo, menu links and CTA button"
+}
