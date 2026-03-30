@@ -457,22 +457,24 @@ When a dark background is selected, ensure child text elements inherit the inver
 ```json
 {
   "label": "Hero Banner",
-  "description": "Full-width hero section with heading, summary, CTAs, and featured image.",
   "css_assets": [],
   "js_assets": [],
-  "categories": ["DESIGN"],
-  "icon": "module",
-  "host_template_types": ["PAGE"],
+  "content_types": ["SITE_PAGE"],
+  "categories": ["design"],
   "is_available_for_new_content": true
 }
 ```
 
+Note: `icon` is omitted from the template. Custom SVG icons require a URL to a file hosted in the HubSpot File Manager, which is not available at theme generation time. HubSpot will display its default module icon. Icons can be added manually post-upload if needed.
+
 **meta.json rules (platform constraints):**
 
-- **`description` is required.** Omitting it causes upload validation failure. Write a brief one-sentence description of the module's purpose.
-- **`icon` must be a valid HubSpot icon name.** The valid set is limited. Always use `"icon": "module"` unless the icon name is confirmed valid. Known valid values: `module`, `equal`, `menu`, `company`.
-- **Do not include `content_types`.** Values like `GLOBAL_CONTENT` cause validation errors. HubSpot infers content type availability from `host_template_types`.
-- **`host_template_types`** should be `["PAGE"]` for page content modules. Use `["GLOBAL"]` only for modules placed in global partials (navigation, footer).
+- **`label` is required.** The display name shown to content editors.
+- **`content_types` controls where the module is available.** Valid values: `ANY`, `LANDING_PAGE`, `SITE_PAGE`, `BLOG_POST`, `BLOG_LISTING`, `EMAIL`, `KNOWLEDGE_BASE`, `QUOTE_TEMPLATE`, `CUSTOMER_PORTAL`, `WEB_INTERACTIVE`, `SUBSCRIPTION`, `MEMBERSHIP`. Use `["SITE_PAGE"]` for standard page content modules. Use `["ANY"]` for modules that should be available everywhere.
+- **Do not use `host_template_types`.** It is the deprecated name for `content_types`. Both still work, but `content_types` is the current standard.
+- **`icon` accepts a URL to an SVG file** (max 10kb, single colour, hosted in HubSpot File Manager). If no custom icon is available, omit the `icon` property entirely - HubSpot will use the default wrench/paintbrush icon.
+- **`categories` values must be from the valid set** (case-insensitive): `blog`, `body_content`, `commerce`, `design`, `functionality`, `forms_and_buttons`, `media`, `social`, `text`. A module can have up to three categories.
+- **`is_available_for_new_content`** should be `true` for content modules. Set to `false` only for modules used exclusively in templates that should not appear in the editor's module picker.
 
 ### Image dimension presets
 

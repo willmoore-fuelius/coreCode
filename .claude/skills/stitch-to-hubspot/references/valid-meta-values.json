@@ -1,0 +1,34 @@
+{
+  "valid_content_types": [
+    "ANY",
+    "LANDING_PAGE",
+    "SITE_PAGE",
+    "BLOG_POST",
+    "BLOG_LISTING",
+    "EMAIL",
+    "KNOWLEDGE_BASE",
+    "QUOTE_TEMPLATE",
+    "CUSTOMER_PORTAL",
+    "WEB_INTERACTIVE",
+    "SUBSCRIPTION",
+    "MEMBERSHIP"
+  ],
+  "valid_categories": [
+    "blog",
+    "body_content",
+    "commerce",
+    "design",
+    "functionality",
+    "forms_and_buttons",
+    "media",
+    "social",
+    "text"
+  ],
+  "deprecated_keys": {
+    "host_template_types": {
+      "replacement": "content_types",
+      "severity": "WARNING",
+      "message": "host_template_types is deprecated. Use content_types instead."
+    }
+  }
+}
