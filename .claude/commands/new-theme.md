@@ -61,7 +61,7 @@ Generate all theme files into the repo in this order:
 
 1. **Update `:root` tokens** in `templates/layouts/base.html`
 2. **Generate shared button CSS overrides** in `css/global/elements/buttons.css` (before individual modules, so modules can reference shared button classes)
-3. **Generate all module files** in `modules/` - each module gets `meta.json`, `fields.json`, `module.html`, `module.css`, and `module.js` where interactive
+3. **Generate all module files** in `modules/` - each module gets `meta.json`, `fields.json`, `module.html`, `module.css`, and `module.js` where interactive. **After each module**, run `bash .claude/skills/stitch-to-hubspot/scripts/validate-module.sh <module-path>` and fix any ERROR findings before proceeding to the next module.
 4. **Generate page template** in `templates/`
 5. **Update header and footer partials** to reference the generated navigation and footer modules
 6. **Generate any other global CSS additions** (header glassmorphism, custom link styles)
@@ -78,12 +78,22 @@ After all modules are generated, review all `module.css` files as a batch:
 
 Fix any issues found before proceeding.
 
-### Phase 4: QA Checklist
+### Full-theme lint
 
-Produce the verification checklist including:
-- fields.json validation (no `textarea` types, no `label` names, complete defaults, `help_text` on all fields)
-- meta.json validation (`description` present, valid icon, `host_template_types` present, no `content_types`)
-- Token accuracy, module completeness, responsiveness, accessibility, performance
+Run `bash .claude/skills/stitch-to-hubspot/scripts/lint-theme.sh <theme-root>` after all modules pass individual validation. Review warnings for systemic issues (e.g. raw hex in every module CSS = missed colour tokens).
+
+### Phase 4: QA Summary
+
+1. Confirm all modules passed Layer 1 validation (zero ERROR findings from `validate-module.sh`).
+2. Review Layer 2 lint warnings from `lint-theme.sh` and note any requiring manual attention.
+3. Check items NOT covered by automated validation:
+   - Layout-critical fields have `required: true` where appropriate
+   - Repeater fields have sensible min/max occurrence limits
+   - Module preview renders correctly with default field values
+   - Editor UX: field labels are clear, tab assignment (CONTENT/STYLE) is logical
+   - Responsive behaviour matches design intent at all breakpoints
+   - Accessibility: focus states, ARIA attributes, keyboard interaction
+   - Performance: no unnecessary DOM nesting, images use lazy loading
 
 ## Output
 

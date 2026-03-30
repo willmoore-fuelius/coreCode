@@ -205,15 +205,15 @@ For each module, generate all required files. When generating modules in paralle
 ```json
 {
   "label": "Module Display Name",
-  "description": "Brief description of the module's purpose.",
   "css_assets": [],
   "js_assets": [],
-  "categories": ["DESIGN"],
-  "icon": "module",
-  "host_template_types": ["PAGE"],
+  "content_types": ["SITE_PAGE"],
+  "categories": ["design"],
   "is_available_for_new_content": true
 }
 ```
+
+Note: `icon` is omitted — custom SVG icons require a HubSpot File Manager URL not available at generation time. HubSpot displays a default icon. `content_types` replaces the deprecated `host_template_types`.
 
 **fields.json** - Include shared field groups (module_heading, module_footer_cta, style with spacing, scrollid) plus all content-specific fields. See `core-code-conventions.md` for shared group structures.
 
@@ -235,6 +235,41 @@ For each module, generate all required files. When generating modules in paralle
 **module.css** - Scoped vanilla CSS. See code conventions below.
 
 **module.js** (if interactive) - Vanilla JS following Core Code patterns and the interactive module guardrails.
+
+### Per-module validation
+
+After generating each module (all files: `module.html`, `module.css`, `fields.json`, `meta.json`), run:
+
+```
+bash .claude/skills/stitch-to-hubspot/scripts/validate-module.sh <module-path>
+```
+
+The script checks `fields.json` and `meta.json` and outputs findings in the format:
+`SEVERITY|FILE|RULE|MESSAGE`
+
+The script does NOT auto-fix files. It only reports findings. Claude Code reads the output and applies fixes directly to the JSON files.
+
+If the script exits with code 1 (errors found):
+
+1. Parse each ERROR line. Apply the fix for each rule:
+   - `invalid_type`: replace the type value (`textarea` → `richtext`)
+   - `reserved_name`: rename the field (prefix with parent group context)
+   - `missing_default`: add a default from `valid-field-types.json` `default_templates`
+   - `missing_help_text`: add `help_text` derived from the field label
+   - `missing_label`: set label from module directory name
+   - `invalid_content_type`: remove invalid values, default to `["SITE_PAGE"]`
+   - `invalid_category`: remove invalid values
+   - `icon_type_check`: remove the `icon` key
+   Note: `style_field_placement` is a WARNING and does not require a fix.
+2. Re-run validation.
+3. If errors persist after fix:
+   a. Read the relevant HubSpot documentation URL from `.claude/skills/stitch-to-hubspot/references/hubspot-doc-urls.md`
+   b. Fetch the page to check current platform requirements.
+   c. Attempt an informed fix based on what the docs say.
+   d. Re-run validation.
+4. If errors still persist, STOP. Report the full validation output and the fixes that were attempted. Do not proceed to the next module.
+
+WARNING findings are logged but do not block progress.
 
 #### 4. Global CSS additions
 
@@ -299,35 +334,30 @@ After all modules are generated, review all `module.css` files as a batch. This 
 
 Fix any issues found before proceeding to Phase 4.
 
+### Full-theme lint
+
+After all modules are generated and individually validated, run:
+
+```
+bash .claude/skills/stitch-to-hubspot/scripts/lint-theme.sh <theme-root>
+```
+
+All findings are warnings. Review the output and note any patterns that indicate systemic issues (e.g. raw hex values in every module CSS file suggests the design token extraction missed colours). Report the full lint output at the end of Phase 3.
+
 ---
 
-### Phase 4: QA Checklist
+### Phase 4: QA Summary
 
-After generating all files, produce a QA checklist:
-
-1. **Token accuracy** - do colours, fonts, spacing, and radii match the Stitch design?
-2. **Module completeness** - does every Stitch section have a corresponding generated module?
-3. **Content editability** - can the content editor change all visible text, images, links, and layout options through module fields?
-4. **Responsive behaviour** - does the layout adapt correctly at 992px and 768px breakpoints?
-5. **Accessibility** - are focus states visible, heading hierarchy correct (one H1, no skipped levels), touch targets >= 44px, ARIA attributes correct on interactive elements?
-6. **Interactive modules** - do navigation, carousels, accordions, and other JS-driven modules meet the guardrail standards? Test keyboard navigation, screen reader announcements, reduced motion.
-7. **Performance** - are images lazy-loaded, CSS async-loaded, no render-blocking JS, `content-visibility: auto` on below-fold modules?
-8. **Macro usage** - are all links, images, and headings rendered via Core Code macros (not raw HTML)?
-9. **Token compliance** - are all colour and spacing values using custom properties (no hex codes or magic numbers in module CSS)?
-10. **fields.json validation** - parse every fields.json and verify:
-    - No field uses `"type": "textarea"` (must be `"type": "text"`)
-    - No field uses `"name": "label"` (reserved by HubSpot)
-    - All link fields have complete defaults with `url.href` and `open_in_new_tab`
-    - All image fields have defaults with `src`, `alt`, `width`, `height`
-    - All repeater fields have array defaults with fully populated items
-    - All fields have `help_text`
-    - Layout-critical fields are marked `"required": true`
-11. **meta.json validation** - verify every meta.json includes:
-    - `description` (required - upload fails without it)
-    - `icon` set to `"module"` (unless a confirmed valid alternative)
-    - `host_template_types` present (`["PAGE"]` or `["GLOBAL"]`)
-    - No `content_types` key (causes validation errors)
-    - `categories` values are UPPERCASE
+1. Confirm all modules passed Layer 1 validation (zero ERROR findings).
+2. Review Layer 2 lint warnings and note any that require manual attention.
+3. Check the following items that are NOT covered by automated validation:
+   - Layout-critical fields have `required: true` where appropriate
+   - Repeater fields have sensible min/max occurrence limits
+   - Module preview renders correctly with default field values
+   - Editor UX: field labels are clear, tab assignment (CONTENT/STYLE) is logical
+   - Responsive behaviour matches design intent at all breakpoints
+   - Accessibility: focus states, ARIA attributes, keyboard interaction
+   - Performance: no unnecessary DOM nesting, images use lazy loading
 
 ---
 
