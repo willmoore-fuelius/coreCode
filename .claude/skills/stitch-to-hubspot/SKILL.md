@@ -74,7 +74,23 @@ Extract design tokens from the Stitch DESIGN.md and/or Tailwind config in the HT
 
 **Process:**
 
-1. **Colours.** Parse the colour palette. Identify semantic roles: primary, secondary, tertiary/accent, text, background, surface variants. Map each to Core Code tokens (`--primaryColour`, `--secondaryColour`, `--tertiaryColour`, `--highlightColour`, grey scale, text colours, state colours). If the design requires surface variants not in the base token set (e.g. `--surfaceLow`, `--backgroundColour`), define project-specific tokens.
+1. **Colours (Tier 1 Token Extraction).**
+   1. Parse the Tailwind config's `colors` object from the Stitch HTML `<script id="tailwind-config">` block.
+   2. Read `references/colour-token-mapping.json`.
+   3. For each key in the `colors` object:
+      a. Look up the key in the mapping table.
+      b. If found: output the Tier 1 property name with the literal hex value.
+      c. If not found: assign an extension token (`--{category}-ext-{nn}`) based on the name's apparent role, and flag for user review.
+   4. Handle collisions: if `surface` and `background` have different values, use `surface` for `--surface-base` and flag the discrepancy.
+   5. Scan the HTML body for Tailwind colour utility classes that reference colours NOT in the config's `colors` object (e.g. `bg-emerald-950`). Flag these as raw Tailwind classes outside the token system. Present the flag table in this format:
+      ```
+      FLAGGED RAW TAILWIND CLASSES (not in design token system):
+      - bg-emerald-950 (used in: nav, footer)
+      - text-emerald-200/60 (used in: footer)
+      Action required: map to a Tier 1 token or define as a Tier 1 extension.
+      ```
+   6. Write the complete token set to `css/global/tokens/palette.css`.
+   7. Present the token mapping table AND the raw Tailwind class flag table to the user. Wait for review before proceeding.
 
 2. **Typography.** Parse font families, weights, sizes. Map to `--fontPrimary`, `--fontSecondary`, weight tokens, and the fluid type scale (`--h1` through `--h6`, `--pXs` through `--pXl`). Convert fixed pixel/rem sizes to `clamp()` expressions matching Core Code's fluid type pattern. If a display size larger than `--h1` is needed, define `--displaySize`. If weight 900 is used, define `--fontBlack`.
 
@@ -287,7 +303,12 @@ These apply to all generated code. Non-compliance is a defect.
 - Media queries use range syntax: `@media (width >= 992px)`
 - Every module's CSS must include at minimum one `@media (width >= 992px)` block defining the desktop layout. This applies even for simple modules - explicitly state the mobile layout (base styles) and desktop layout (media query). Do not assume the agent will infer responsive behaviour.
 - All spacing values use Core Code custom properties. No magic numbers.
-- All colour values use Core Code custom properties. No hex codes in module CSS (hex only in `:root` token definitions).
+- **Colour application:** Reference Tier 1 tokens (from `palette.css`) for all colour properties in module CSS. The correct token for each element is determined by matching the Tailwind utility class on that element in the Stitch HTML to the corresponding Tier 1 token via the mapping table.
+  - Example: an element with class `text-on-surface-variant` maps to `color: var(--text-muted)`.
+  - Example: an element with class `bg-primary-container` maps to `background-color: var(--brand-primary-container)`.
+  - Reference Tier 2 tokens only where the conventions specify editor control (e.g. primary CTA buttons).
+  - Never use raw hex values in module CSS.
+  - Never guess which token to apply. If the Stitch HTML does not specify a colour class on an element, do not add one. Let inheritance or browser defaults apply.
 - Module wrapper pattern: `.o-wrapper.o-wrapper--module` with inline spacing variables.
 - Opt-in animation pattern: transitions declared inside `@media (prefers-reduced-motion: no-preference)`.
 - WCAG 2.1 AA: 4.5:1 contrast, visible `:focus-visible` indicators, semantic HTML, ARIA where needed.

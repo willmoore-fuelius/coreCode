@@ -179,6 +179,35 @@ When the design requires tokens not in the base set, add them at the end of the 
 
 **MD3 `on-` colour tokens.** MD3 uses tokens like `on-primary`, `on-surface-variant` for text colours on specific backgrounds. These map to Core Code's `--textColour`, `--textColourLight`, `--textColourInverse` pattern, but MD3 has more granularity. Define extra text colour tokens when the base set doesn't provide sufficient contrast combinations (e.g. `--textOnPrimary` for soft purple text on a primary background).
 
+### Colour Token Architecture
+
+The theme uses a two-tier colour token system.
+
+#### Tier 1 - Design Palette (css/global/tokens/palette.css)
+
+- Full 1:1 mapping of the Stitch design palette to CSS custom properties.
+- Literal hex values. No cascade, no dependencies.
+- Not exposed to content editors.
+- Module CSS references Tier 1 tokens directly for all colour application.
+- Token naming: role-based, category-prefixed (`--surface-*`, `--text-*`, `--brand-*`, `--utility-*`).
+- Read `references/colour-token-mapping.json` for the Stitch-to-Tier-1 name mapping.
+
+#### Tier 2 - Editor Theme Fields (fields.json)
+
+- Small set of semantic colour fields in HubSpot theme settings.
+- Fully decoupled from Tier 1.
+- Referenced in module CSS only where explicit editor control is needed.
+- Default set: primary, secondary, background, surface, text, heading, accent, footer_background.
+
+#### Rules
+
+1. Module CSS must reference Tier 1 tokens for colour. Never use raw hex values.
+2. Tier 2 tokens are used only for elements where content editor control is explicitly intended.
+3. Raw Tailwind colour classes in the Stitch HTML that fall outside the token system must be flagged during Phase 1, not silently mapped.
+4. If Stitch tokens `surface` and `background` (or `on-surface` and `on-background`) have different hex values, use the `surface` / `on-surface` value and flag the discrepancy.
+5. Tokens not present in the Stitch export are omitted from palette.css. Do not generate tokens with assumed/invented values.
+6. Extension tokens use the pattern `--{category}-ext-{nn}` for project-specific additions.
+
 ---
 
 ## Template Hierarchy

@@ -20,6 +20,7 @@ Read all reference files in this order. Do not skip any.
 2. `.claude/skills/stitch-to-hubspot/references/core-code-conventions.md`
 3. `.claude/skills/stitch-to-hubspot/references/tailwind-translation-rules.md`
 4. `.claude/skills/stitch-to-hubspot/references/interactive-module-guardrails.md`
+5. `.claude/skills/stitch-to-hubspot/references/colour-token-mapping.json`
 
 **Frontend standards skill:**
 5. `.claude/skills/frontend-standards/SKILL.md`

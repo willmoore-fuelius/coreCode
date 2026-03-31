@@ -207,6 +207,9 @@ templateType: none
 		{{ require_css(get_asset_url(template_css)) }}
 		{% endif %}
 
+		{# Tier 1 palette tokens - must load before all other stylesheets #}
+		{{ require_css(get_asset_url("../../css/global/tokens/palette.css")) }}
+
 		{# Async load non-critical CSS #}
 		<link rel="preload" href="{{ get_asset_url("../../css/main.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 		<noscript><link rel="stylesheet" href="{{ get_asset_url("../../css/main.css") }}"></noscript>

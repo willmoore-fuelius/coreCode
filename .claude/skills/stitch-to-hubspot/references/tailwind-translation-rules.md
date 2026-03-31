@@ -135,6 +135,37 @@ Or if using a custom property:
 color: color-mix(in srgb, var(--textColour) 70%, transparent);
 ```
 
+### Colour Utility Translation (Tier 1 Token System)
+
+Tailwind colour utility classes in the Stitch HTML map to Tier 1 CSS custom properties via the `colour-token-mapping.json` reference file. This replaces the legacy semantic token mapping above for new theme builds.
+
+**Pattern:** The Tailwind class encodes both the CSS property and the colour token.
+
+| Tailwind Prefix | CSS Property | Example Class | Generated CSS |
+|---|---|---|---|
+| `bg-` | `background-color` | `bg-primary-container` | `background-color: var(--brand-primary-container)` |
+| `text-` | `color` | `text-on-surface-variant` | `color: var(--text-muted)` |
+| `border-` | `border-color` | `border-outline-variant` | `border-color: var(--utility-outline-muted)` |
+| `outline-` | `outline-color` | `outline-primary/30` | `outline-color: color-mix(in srgb, var(--brand-primary) 30%, transparent)` |
+| `ring-` | `box-shadow` (ring) | `ring-primary` | Use `--brand-primary` in box-shadow value |
+| `decoration-` | `text-decoration-color` | `decoration-secondary` | `text-decoration-color: var(--brand-secondary)` |
+
+**Opacity modifiers with Tier 1 tokens:** Tailwind classes with opacity (e.g. `text-emerald-200/60`, `bg-primary/80`) translate to the token value with opacity applied. If the base colour is a Tier 1 token, use `color-mix()`:
+```css
+/* Tailwind: bg-primary/80 */
+background-color: color-mix(in srgb, var(--brand-primary) 80%, transparent);
+```
+
+If it is a raw Tailwind class (not in the token system), flag it.
+
+**Selection pseudo-element:** Classes like `selection:bg-primary-fixed selection:text-on-primary-fixed` map to:
+```css
+::selection {
+  background-color: var(--brand-primary-fixed);
+  color: var(--text-on-primary-fixed);
+}
+```
+
 ---
 
 ## Layout
