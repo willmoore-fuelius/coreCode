@@ -1,105 +1,153 @@
-// Video Popup Module - Native Dialog Implementation
-// Replaces Magnific Popup with native <dialog> element
+// Video Popup Module - Native <dialog> implementation
+// A trigger with class .js-trigger_video_popup opens the element referenced
+// by its href (an in-page "#id" fragment) inside a modal dialog.
+//
+// The native <dialog> element (opened with showModal) handles the focus
+// containment, backdrop, and Escape-to-close, so no manual focus trap is
+// added here. Content is moved into the dialog (not cloned) so element IDs
+// are never duplicated, then moved back to its original position on close.
+//
+// Markup contract: the referenced element should be a visible container (or
+// have no self-applied `display:none`). It is revealed inside the dialog by
+// being moved into it; a source hidden via its own CSS class would stay hidden.
 
-document.addEventListener('DOMContentLoaded', function() {
-	const popupTriggers = document.querySelectorAll('.js-trigger_video_popup');
+(function() {
+	'use strict';
 
-	if (popupTriggers.length === 0) return;
+	// Only one popup may be open at a time; guards against a second trigger
+	// firing while a dialog is already open and stacking an empty modal.
+	let popupOpen = false;
 
-	// Focus trap uses shared CoreCode.trapFocus from utilities.js
-	var trapFocus = window.CoreCode && window.CoreCode.trapFocus ? window.CoreCode.trapFocus : function() {};
+	function init() {
+		const triggers = document.querySelectorAll('.js-trigger_video_popup');
+		if (triggers.length === 0) return;
 
-	popupTriggers.forEach(function(trigger) {
-		trigger.addEventListener('click', function(e) {
-			e.preventDefault();
+		triggers.forEach(function(trigger) {
+			trigger.addEventListener('click', function(e) {
+				e.preventDefault();
 
-			const targetSelector = trigger.getAttribute('href') || trigger.dataset.popupTarget;
-			const targetContent = document.querySelector(targetSelector);
+				if (popupOpen) return;
 
-			if (!targetContent) return;
+				const targetSelector = trigger.getAttribute('href') || trigger.dataset.popupTarget;
 
-			// Create dialog if it doesn't exist
-			const dialogId = targetSelector.replace('#', '') + '_dialog';
-			let dialog = document.getElementById(dialogId);
+				// Only accept an in-page fragment identifier ("#id"), never a URL or bare "#".
+				if (!targetSelector || targetSelector.charAt(0) !== '#' || targetSelector.length < 2) return;
 
-			if (!dialog) {
-				dialog = document.createElement('dialog');
-				dialog.id = dialogId;
-				dialog.className = 'm-popup';
-				dialog.setAttribute('aria-label', 'Video popup');
-				dialog.innerHTML = '<div class="m-popup__inner">' +
-					'<button class="m-popup__close" aria-label="Close video popup">&times;</button>' +
-					'<div class="m-popup__content">' + targetContent.innerHTML + '</div>' +
-					'</div>';
-				document.body.appendChild(dialog);
+				let content;
+				try {
+					content = document.querySelector(targetSelector);
+				} catch (err) {
+					return;
+				}
 
-				// Close button handler
-				const closeBtn = dialog.querySelector('.m-popup__close');
-				closeBtn.addEventListener('click', function() {
-					closeDialog(dialog, trigger);
-				});
+				if (!content) return;
 
-				// Close on backdrop click
-				dialog.addEventListener('click', function(event) {
-					if (event.target === dialog) {
-						closeDialog(dialog, trigger);
-					}
-				});
+				openPopup(content, trigger);
+			});
+		});
+	}
 
-				// Handle close event (Escape key built into dialog)
-				dialog.addEventListener('close', function() {
-					pauseVideos(dialog);
-					// Return focus to trigger
-					trigger.focus();
-				});
+	function openPopup(content, trigger) {
+		// Capture the original location so the node can be returned exactly, and
+		// so it is never lost if the surrounding DOM is re-rendered while open.
+		const originalParent = content.parentNode;
+		const originalNextSibling = content.nextSibling;
+
+		const dialog = document.createElement('dialog');
+		dialog.className = 'm-popup';
+		dialog.setAttribute('aria-label', trigger.getAttribute('aria-label') || 'Video popup');
+
+		const inner = document.createElement('div');
+		inner.className = 'm-popup__inner';
+
+		const closeBtn = document.createElement('button');
+		closeBtn.type = 'button';
+		closeBtn.className = 'm-popup__close js-popupClose';
+		closeBtn.setAttribute('aria-label', 'Close video popup');
+		closeBtn.innerHTML = '&times;';
+
+		const contentWrap = document.createElement('div');
+		contentWrap.className = 'm-popup__content';
+		contentWrap.appendChild(content); // Move the live node in — no ID duplication.
+
+		inner.appendChild(closeBtn);
+		inner.appendChild(contentWrap);
+		dialog.appendChild(inner);
+		document.body.appendChild(dialog);
+
+		let restored = false;
+		function restore() {
+			if (restored) return;
+			restored = true;
+			pauseVideos(dialog);
+
+			// Return the node to where it came from. If the original parent is no
+			// longer in the document, fall back to body so the node is never lost.
+			if (originalParent && originalParent.isConnected) {
+				originalParent.insertBefore(content, originalNextSibling);
+			} else {
+				document.body.appendChild(content);
 			}
 
-			// Show dialog, trap focus, and play video
-			dialog.showModal();
-			trapFocus(dialog);
-			playVideos(dialog);
-		});
-	});
-
-	function closeDialog(dialog, trigger) {
-		pauseVideos(dialog);
-		dialog.close();
-		// Return focus to the element that opened the dialog
-		if (trigger) {
-			trigger.focus();
+			dialog.remove();
+			popupOpen = false;
+			if (trigger) {
+				trigger.focus();
+			}
 		}
+
+		closeBtn.addEventListener('click', function() {
+			dialog.close();
+		});
+
+		// Close on backdrop click.
+		dialog.addEventListener('click', function(event) {
+			if (event.target === dialog) {
+				dialog.close();
+			}
+		});
+
+		// Fires for both the close button and the Escape key.
+		dialog.addEventListener('close', restore);
+
+		popupOpen = true;
+		dialog.showModal();
+		playVideos(dialog);
 	}
 
 	function playVideos(dialog) {
 		const videos = dialog.querySelectorAll('video');
 		videos.forEach(function(video) {
-			video.play();
+			const playPromise = video.play();
+			if (playPromise && typeof playPromise.catch === 'function') {
+				playPromise.catch(function() { /* autoplay may be blocked — ignore */ });
+			}
 		});
 	}
 
 	function pauseVideos(dialog) {
-		// Pause HTML5 videos
+		// Pause HTML5 videos.
 		const videos = dialog.querySelectorAll('video');
 		videos.forEach(function(video) {
 			video.pause();
 		});
 
-		// Reset lite-youtube/lite-vimeo by removing iframes
+		// Reset each lite-youtube by removing its injected iframe AND the
+		// activation class, otherwise the vendor's addIframe guard short-circuits
+		// on the next play and the video can never be replayed.
 		const liteYoutubes = dialog.querySelectorAll('lite-youtube');
-		const liteVimeos = dialog.querySelectorAll('lite-vimeo');
-
 		liteYoutubes.forEach(function(el) {
 			const iframe = el.querySelector('iframe');
 			if (iframe) {
 				iframe.remove();
 			}
-		});
-
-		liteVimeos.forEach(function(el) {
-			const iframe = el.querySelector('iframe');
-			if (iframe) {
-				iframe.remove();
-			}
+			el.classList.remove('lyt-activated');
 		});
 	}
-});
+
+	if (document.readyState !== 'loading') {
+		init();
+	} else {
+		document.addEventListener('DOMContentLoaded', init);
+	}
+})();

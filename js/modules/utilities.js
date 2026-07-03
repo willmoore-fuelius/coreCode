@@ -4,24 +4,44 @@
 (function() {
 	'use strict';
 
+	const focusableSelectors = 'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+	/**
+	 * Return the visible, focusable descendants of a container.
+	 * Excludes disabled and visually hidden elements so the trap
+	 * boundaries land on elements that can actually receive focus.
+	 *
+	 * @param {HTMLElement} container
+	 * @returns {HTMLElement[]}
+	 */
+	function getFocusable(container) {
+		return Array.prototype.filter.call(
+			container.querySelectorAll(focusableSelectors),
+			function(el) {
+				return el.offsetWidth > 0 || el.offsetHeight > 0 || el === document.activeElement;
+			}
+		);
+	}
+
 	/**
 	 * Trap keyboard focus within a container element.
 	 * Returns a cleanup function to remove the event listener.
+	 *
+	 * Only needed for non-dialog overlays. A native <dialog> opened with
+	 * showModal() already contains focus and should not use this.
 	 *
 	 * @param {HTMLElement} container - The element to trap focus within
 	 * @returns {Function} removeTrap - Call to remove the keydown listener
 	 */
 	function trapFocus(container) {
-		var focusableSelectors = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
-
 		function handleKeydown(e) {
 			if (e.key !== 'Tab') return;
 
-			var focusableElements = container.querySelectorAll(focusableSelectors);
+			const focusableElements = getFocusable(container);
 			if (focusableElements.length === 0) return;
 
-			var firstFocusable = focusableElements[0];
-			var lastFocusable = focusableElements[focusableElements.length - 1];
+			const firstFocusable = focusableElements[0];
+			const lastFocusable = focusableElements[focusableElements.length - 1];
 
 			if (e.shiftKey) {
 				if (document.activeElement === firstFocusable) {
@@ -38,7 +58,7 @@
 
 		container.addEventListener('keydown', handleKeydown);
 
-		var firstFocusable = container.querySelectorAll(focusableSelectors)[0];
+		const firstFocusable = getFocusable(container)[0];
 		if (firstFocusable) {
 			firstFocusable.focus();
 		}
@@ -57,15 +77,15 @@
 	 * @returns {Function} debounced function
 	 */
 	function debounce(func, wait, immediate) {
-		var timeout;
+		let timeout;
 		return function() {
-			var context = this;
-			var args = arguments;
-			var later = function() {
+			const context = this;
+			const args = arguments;
+			const later = function() {
 				timeout = null;
 				if (!immediate) func.apply(context, args);
 			};
-			var callNow = immediate && !timeout;
+			const callNow = immediate && !timeout;
 			clearTimeout(timeout);
 			timeout = setTimeout(later, wait || 200);
 			if (callNow) func.apply(context, args);
@@ -75,5 +95,6 @@
 	// Expose on global namespace
 	window.CoreCode = window.CoreCode || {};
 	window.CoreCode.trapFocus = trapFocus;
+	window.CoreCode.getFocusable = getFocusable;
 	window.CoreCode.debounce = debounce;
 })();

@@ -8,3 +8,11 @@
 **/[Aa]ssets/
 **/frontend_assets/
 package.json
+
+# Repo tooling and docs — not needed in the HubSpot portal
+.claude/
+scripts/
+docs/
+design/
+README.md
+LICENSE

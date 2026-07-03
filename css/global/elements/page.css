@@ -1,12 +1,10 @@
 html {
-	scroll-behavior: smooth;
+	/* Offset anchor-link targets so they clear the sticky header (and any sticky
+	   sub-navigation via --stickyAnchorsHeight). scroll-behavior lives in reset.css,
+	   guarded for prefers-reduced-motion. */
 	scroll-padding: calc(var(--siteHeaderHeight) + var(--stickyAnchorsHeight));
 }
 
 body {
 	scrollbar-gutter: stable;
-}
-
-body.disable-scroll {
-	overflow-y: hidden; 
 }

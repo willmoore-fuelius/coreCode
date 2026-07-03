@@ -1,6 +1,7 @@
 img {
 	max-width: 100%;
-	object-fit: cover;
+	/* Keep CSS resizing proportional when width/height attributes are set (CLS). */
+	height: auto;
 	font-size: 0.875rem; /* 14px */
 	word-break: normal;
 }

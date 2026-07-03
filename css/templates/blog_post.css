@@ -1,15 +1,15 @@
+.m-blogPost__header {
+	margin-bottom: var(--space24);
+}
+
+.m-blogPost__title {
+	margin-top: 0;
+}
+
 .m-blogPost__body {
-
+	max-width: 75ch;
 }
 
-.m-blogPost__featuredimage {
-
-}
-
-.m-blogPost__metadata {
-
-}
-
-.m-blogPost__date {
-
+.m-blogPost__comments {
+	margin-top: var(--space48);
 }

@@ -1,0 +1,25 @@
+{%- set has_content = module.footer_text or module.menu or module.copyright -%}
+
+{%- if has_content -%}
+<div class="m-siteFooter__inner">
+
+  {%- if module.footer_text -%}
+  <div class="m-siteFooter__text o-rte">{{ module.footer_text }}</div>
+  {%- endif -%}
+
+  {%- if module.menu -%}
+  <nav class="m-siteFooter__navigation" aria-label="Footer navigation">
+    {% menu id=module.menu, root_type="site_root", flow="horizontal", flyouts=False, max_levels=1 %}
+  </nav>
+  {%- endif -%}
+
+  {%- if module.copyright -%}
+  <p class="m-siteFooter__copyright">{{ module.copyright }}</p>
+  {%- endif -%}
+
+</div>
+{%- elif is_in_editor -%}
+{% editor_placeholder %}
+  <p>Add footer text, a menu, or copyright text in the module settings.</p>
+{% end_editor_placeholder %}
+{%- endif -%}

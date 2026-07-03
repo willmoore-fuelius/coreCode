@@ -10,7 +10,19 @@
 }
 
 .o-wrapper--module {
-	padding: var(--moduleTopSpacing) var(--moduleLeftSpacing) var(--moduleBottomSpacing);
+	padding: var(--moduleTopSpacingMobile, var(--moduleTopSpacing))
+	         var(--moduleRightSpacing)
+	         var(--moduleBottomSpacingMobile, var(--moduleBottomSpacing))
+	         var(--moduleLeftSpacing);
+}
+
+@media (width >= 992px) {
+	.o-wrapper--module {
+		padding: var(--moduleTopSpacingDesktop, var(--moduleTopSpacing))
+		         var(--moduleRightSpacing)
+		         var(--moduleBottomSpacingDesktop, var(--moduleBottomSpacing))
+		         var(--moduleLeftSpacing);
+	}
 }
 
 .o-container {

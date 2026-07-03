@@ -4,18 +4,26 @@ isAvailableForNewContent: true
 label: Core Code - Blog post
 -->
 
+{% set template_css = '../../css/templates/blog_post.css' %}
 {% extends "./layouts/base.html" %}
 {% block body %}
 <main id="main-content">
-  <article class="blog-post">
-    <h1>{{ content.name }}</h1>
-    {{ content.post_body }}
-  </article>
+  <article class="m-blogPost o-wrapper o-wrapper--module">
+    <div class="o-container">
+      <header class="m-blogPost__header">
+        <h1 class="m-blogPost__title">{{ content.name }}</h1>
+      </header>
 
-  {% if group.allow_comments %}
-  <div class="blog-post__comments">
-    {% module 'blog_comments' path='@hubspot/blog_comments', label="Blog comments" %}
-  </div>
-  {% endif %}
+      <div class="m-blogPost__body o-rte">
+        {{ content.post_body }}
+      </div>
+
+      {% if group.allow_comments %}
+      <div class="m-blogPost__comments">
+        {% module 'blog_comments' path='@hubspot/blog_comments', label="Blog comments" %}
+      </div>
+      {% endif %}
+    </div>
+  </article>
 </main>
 {% endblock body %}

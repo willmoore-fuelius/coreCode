@@ -1,53 +1,77 @@
-document.addEventListener('DOMContentLoaded', function() {
+// Statistics module - animated counters via Odometer
+// Uses IntersectionObserver so counters animate when scrolled into view
+
+(function() {
+	'use strict';
+
 	const countElementSelector = '.js-count';
-	const statisticModules = document.querySelectorAll('.js-statistics');
-	const statisticsInitialisedClass = 'statistics-initialised';
+	const statisticsInitialisedClass = 'is-statisticsInitialised';
 
-	function animateCounter(counters, format, duration) {
-		counters.forEach(function(el) {
-			const value = el.getAttribute('data-value');
+	function init() {
+		const statisticModules = document.querySelectorAll('.js-statistics');
+		if (statisticModules.length === 0) return;
 
-			const od = new Odometer({
-				el: el,
-				value: 0,
-				format: format,
-				duration: duration
-			});
-
-			od.update(value);
-		});
-	}
-
-	function animateStatistics(statisticModule) {
-		if (statisticModule.classList.contains(statisticsInitialisedClass)) {
+		if (typeof Odometer === 'undefined') {
+			console.warn('Odometer is not loaded — statistics counters cannot animate. Ensure odometer.js is required on this template.');
 			return;
 		}
 
-		const duration = statisticModule.getAttribute('data-statistics-duration') || 2000;
-		const format = statisticModule.getAttribute('data-statistics-format') || '(,ddd)';
-		const counters = Array.from(statisticModule.querySelectorAll(countElementSelector));
+		function animateCounter(counters, format, duration) {
+			counters.forEach(function(el) {
+				const rawValue = el.getAttribute('data-value');
+				if (rawValue === null || rawValue === '') return;
 
-		statisticModule.classList.add(statisticsInitialisedClass);
-		animateCounter(counters, format, duration);
-	}
+				const value = parseFloat(rawValue);
+				if (isNaN(value)) return;
 
-	if ('IntersectionObserver' in window) {
-		const observer = new IntersectionObserver(function(entries) {
-			entries.forEach(function(entry) {
-				if (entry.isIntersecting) {
-					animateStatistics(entry.target);
-					observer.unobserve(entry.target);
-				}
+				const od = new Odometer({
+					el: el,
+					value: 0,
+					format: format,
+					duration: duration
+				});
+
+				od.update(value);
 			});
-		}, { threshold: 0.25 });
+		}
 
-		statisticModules.forEach(function(module) {
-			observer.observe(module);
-		});
-	} else {
-		// Fallback: animate immediately
-		statisticModules.forEach(function(module) {
-			animateStatistics(module);
-		});
+		function animateStatistics(statisticModule) {
+			if (statisticModule.classList.contains(statisticsInitialisedClass)) {
+				return;
+			}
+
+			const duration = parseInt(statisticModule.getAttribute('data-statistics-duration'), 10) || 2000;
+			const format = statisticModule.getAttribute('data-statistics-format') || '(,ddd)';
+			const counters = Array.from(statisticModule.querySelectorAll(countElementSelector));
+
+			statisticModule.classList.add(statisticsInitialisedClass);
+			animateCounter(counters, format, duration);
+		}
+
+		if ('IntersectionObserver' in window) {
+			const observer = new IntersectionObserver(function(entries) {
+				entries.forEach(function(entry) {
+					if (entry.isIntersecting) {
+						animateStatistics(entry.target);
+						observer.unobserve(entry.target);
+					}
+				});
+			}, { threshold: 0.25 });
+
+			statisticModules.forEach(function(module) {
+				observer.observe(module);
+			});
+		} else {
+			// Fallback: animate immediately
+			statisticModules.forEach(function(module) {
+				animateStatistics(module);
+			});
+		}
 	}
-});
+
+	if (document.readyState !== 'loading') {
+		init();
+	} else {
+		document.addEventListener('DOMContentLoaded', init);
+	}
+})();

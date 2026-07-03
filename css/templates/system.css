@@ -1,0 +1,18 @@
+/* System pages (404, 500) */
+
+.error-page {
+	text-align: center;
+}
+
+.error-page__inner {
+	max-width: 640px;
+	margin-inline: auto;
+}
+
+.error-page__content {
+	margin-bottom: var(--space32);
+}
+
+.error-page__link {
+	margin-top: var(--space24);
+}

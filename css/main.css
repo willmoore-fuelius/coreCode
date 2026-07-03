@@ -17,7 +17,7 @@ These should be placed inside the global folder.
 
 /* Tools
 Any animations, or functions used throughout the project.
-Note: _macros.css needs to be imported into each stylesheet where macros are used and not included here
+Note: tools/macros.css needs to be imported into each stylesheet where macros are used and not included here
 */
 
 /* Generic
@@ -32,6 +32,7 @@ Non-cosmetic design patterns including grid and layout classes)
 
 {% include './global/objects/utilities.css' %}
 {% include './global/objects/containers_dnd.css' %}
+{% include './global/objects/rte.css' %}
 
 /* Components
 Specific pieces of UI that are stylized. Typically used for global partial styling
@@ -55,5 +56,7 @@ Base HMTL elements are styled in this section (<body<, <h1>, <a>, <p>, <button> 
 
 /* Modules */
 
-{% include './modules/tags.css' %}
-{% include './modules/video.css' %}
+{% include './Modules/tags.css' %}
+{% include './Modules/video.css' %}
+{% include './Modules/heading.css' %}
+{% include './Modules/footer_cta.css' %}

@@ -1,0 +1,44 @@
+<div class="m-siteHeader__inner">
+
+  {%- if module.logo.src -%}
+  <a class="m-siteHeader__logo" href="{{ module.logo_link.url.href | default('/', true) }}"{% if module.logo_link.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}>
+    <img src="{{ module.logo.src }}"
+         alt="{{ module.logo.alt | default('', true) | escape_attr }}"
+         {% if module.logo.width %}width="{{ module.logo.width }}"{% endif %}
+         {% if module.logo.height %}height="{{ module.logo.height }}"{% endif %}
+         loading="eager"
+         decoding="async">
+  </a>
+  {%- endif -%}
+
+  <div class="m-siteHeader__navigationgroup">
+
+    <nav id="{{ name }}__nav" class="m-siteHeader__navigation js-siteNav" aria-label="Main navigation">
+      {%- if module.menu -%}
+      {% menu id=module.menu, root_type="site_root", flow="horizontal", flyouts=True, max_levels=2 %}
+      {%- elif is_in_editor -%}
+      {% editor_placeholder %}
+        <p>Select a navigation menu in the module settings.</p>
+      {% end_editor_placeholder %}
+      {%- endif -%}
+    </nav>
+
+    {%- if module.show_cta and module.cta_link.url.href and module.cta_text -%}
+    {%- set cta_rel = [] -%}
+    {%- if module.cta_link.no_follow -%}{% do cta_rel.append("nofollow") %}{%- endif -%}
+    {%- if module.cta_link.open_in_new_tab -%}{% do cta_rel.append("noopener") %}{% do cta_rel.append("noreferrer") %}{%- endif -%}
+    <a class="m-siteHeader__cta e-button e-button--primary"
+       href="{{ module.cta_link.url.href }}"
+       {% if module.cta_link.open_in_new_tab %}target="_blank"{% endif %}
+       {% if cta_rel %}rel="{{ cta_rel|join(' ') }}"{% endif %}>{{ module.cta_text }}</a>
+    {%- endif -%}
+
+    <button type="button"
+            class="m-siteHeader__toggle js-siteNavToggle"
+            aria-expanded="false"
+            aria-controls="{{ name }}__nav"
+            aria-label="Toggle navigation menu"></button>
+
+  </div>
+
+</div>

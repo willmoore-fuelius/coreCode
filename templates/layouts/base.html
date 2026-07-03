@@ -12,6 +12,9 @@ templateType: none
 <html lang="{{ html_lang }}" {{ html_lang_dir }}>
 	<head>
 
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
 		<style>
 			:root {
 
@@ -25,6 +28,9 @@ templateType: none
 				/* LAYOUT */
 				--rootFontSize: 16;
 				--siteHeaderHeight: 80px;
+				/* Height of any in-page sticky sub-navigation below the header. */
+				/* Added to scroll-padding so anchor targets clear sticky UI (see page.css). */
+				--stickyAnchorsHeight: 0px;
 
 				/* Z-INDEX SCALE */
 				--zBelow: -1;
@@ -167,7 +173,6 @@ templateType: none
 			{% include '../../css/critical/typography.critical.css' %}
 		</style>
 
-		<meta charset="utf-8" />
 		<title>
 			{% if page_meta.html_title %}{{ page_meta.html_title }}{% else %}Previewing {{ template_meta.label }}
 			{% endif %}
@@ -230,7 +235,7 @@ templateType: none
 
 	<body class="{{ builtin_body_classes }}">
 
-		<div class="body-wrapper {{ builtin_body_classes }}">
+		<div class="body-wrapper">
 			{% block header %}
 			{% global_partial path='../partials/header.html' %}
 			{% endblock header %}

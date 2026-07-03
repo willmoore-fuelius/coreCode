@@ -80,7 +80,7 @@
 }
 
 .m-lightbox__caption {
-	margin-top: var(--space80);
+	margin-top: var(--space8);
 	color: var(--white);
 	text-align: center;
 }

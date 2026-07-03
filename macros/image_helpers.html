@@ -10,10 +10,11 @@ isAvailableForNewContent: false
 <picture class="{{ class }}-wrapper">
 
 	{% set loadingAttr = item.mobile.mobile_image.loading != 'disabled' ? 'loading="{{ item.mobile.mobile_image.loading }}"' : '' %}
+	{% set fallbackSrc = item.fallback_image.default_image.src or item.desktop.desktop_image.src or item.tablet.tablet_image.src or item.mobile.mobile_image.src %}
 
 	{% if item.mobile.mobile_image.src %}
 	{% set sizeAttrs = 'width="{{ item.mobile.mobile_image.width }}" height="{{ item.mobile.mobile_image.height }}"' %}
-	{% set width = item.desktop.desktop_image.width ? item.mobile.mobile_image.width : 767 %}
+	{% set width = item.mobile.mobile_image.width ? item.mobile.mobile_image.width : 767 %}
 	{# WebP source for better compression (HubSpot auto-converts server-side) #}
 	<source class="{{ class }}" type="image/webp" srcset="{{ resize_image_url(item.mobile.mobile_image.src, 0, 0, 767) }} {{width}}w" media="(max-width: 767px)">
 	{# Original format fallback #}
@@ -38,32 +39,37 @@ isAvailableForNewContent: false
 	<source class="{{ class }}" {{get_file_type(item.desktop.desktop_image.src)}} srcset="{{ resize_image_url(item.desktop.desktop_image.src, 0, 0, 1200) }} {{width}}w" media="(min-width: 992px)">
 	{% endif %}
 
-	<img class="{{ class }}" src="{{ resize_image_url(item.fallback_image.default_image.src, 0, 0, 1200) }}" alt="{{ item.fallback_image.default_image.alt | default('Image related to content') | striptags }}" width="{{ item.fallback_image.default_image.width }}" height="{{ item.fallback_image.default_image.height }}" decoding="async" {{ get_loading_type(item.fallback_image.default_image) }} {{ loadingAttr }}  />
+	<img class="{{ class }}" src="{{ resize_image_url(fallbackSrc, 0, 0, 1200) }}" alt="{{ item.fallback_image.default_image.alt | default('Image related to content') | striptags }}"{% if item.fallback_image.default_image.width %} width="{{ item.fallback_image.default_image.width }}" height="{{ item.fallback_image.default_image.height }}"{% endif %} decoding="async" {{ get_loading_type(item.fallback_image.default_image) }} />
 
 </picture>
 
-{% else %}
+{% elif item.fallback_image.default_image.src %}
 <img class="{{ class }}" src="{{ resize_image_url(item.fallback_image.default_image.src, 0, 0, 1200) }}" alt="{{ item.fallback_image.default_image.alt | default('Image related to content') | striptags }}" {{ get_loading_type(item.fallback_image.default_image) }} {{ get_image_size(item.fallback_image.default_image) }} />
 {% endif %}
 
 {% endmacro %}
 
 {% macro get_image_size(image) %}
-{% set sizeAttrs = 'width="{{ image.width }}" height="{{ image.height }}"' %}
-{% if image.size_type == 'auto' %}
-{% set sizeAttrs = 'style="max-width: 100%; height: auto;"' %}
-{% elif image.size_type == 'auto_custom_max' %}
-{% set sizeAttrs = 'width="{{ image.max_width }}" height="{{ image.max_height }}" style="max-width: 100%; height: auto;"' %}
-{% endif %}
-{{ sizeAttrs }}
+{%- if image.size_type == 'auto' -%}
+style="max-width: 100%; height: auto;"
+{%- elif image.size_type == 'auto_custom_max' -%}
+width="{{ image.max_width }}" height="{{ image.max_height }}" style="max-width: 100%; height: auto;"
+{%- else -%}
+width="{{ image.width }}" height="{{ image.height }}"
+{%- endif -%}
 {% endmacro %}
 
 {% macro get_loading_type(image) %}
-{% set loadingAttr = image.loading != 'disabled' ? 'loading="{{ image.loading }}"' : '' %}
-{{ loadingAttr }}
+{%- if image.loading != 'disabled' -%}loading="{{ image.loading }}"{%- endif -%}
 {% endmacro %}
 
 {% macro get_file_type(src) %}
-{% set segments = src|split('.') %}
-{{ 'type="image/' ~ segments|last ~ '"' }}
+{%- set ext = src|split('.')|last|lower -%}
+{%- if ext == 'jpg' or ext == 'jpeg' -%}type="image/jpeg"
+{%- elif ext == 'svg' -%}type="image/svg+xml"
+{%- elif ext == 'png' -%}type="image/png"
+{%- elif ext == 'gif' -%}type="image/gif"
+{%- elif ext == 'webp' -%}type="image/webp"
+{%- elif ext == 'avif' -%}type="image/avif"
+{%- endif -%}
 {% endmacro %}

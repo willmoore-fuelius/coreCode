@@ -55,7 +55,7 @@
 
 @media (width < 768px) {
   .visible-phone {
-    display: inherit !important;
+    display: revert !important;
   }
 
   .hidden-phone {
@@ -63,7 +63,7 @@
   }
 
   .hidden-desktop {
-    display: inherit !important;
+    display: revert !important;
   }
 
   .visible-desktop {
@@ -73,7 +73,7 @@
 
 @media (768px <= width < 1200px) {
   .hidden-desktop {
-    display: inherit !important;
+    display: revert !important;
   }
 
   .visible-desktop {

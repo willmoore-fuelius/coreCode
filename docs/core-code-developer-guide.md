@@ -81,7 +81,7 @@ Every module follows this wrapper structure:
 {%- endif -%}
 ```
 
-**Important:** Do NOT use `{% from %}` or `{% import %}` for macros — call them directly (e.g. `text_helpers.render_heading()`). HubSpot makes macros globally available.
+**Important:** Macros are imported once in `templates/layouts/base.html` and used via their aliases (e.g. `text_helpers.render_heading()`). Templates and modules that extend `base.html` use those aliases directly — do not re-import the macro files per module.
 
 **Module spacing** is set via inline `style` attribute on `.o-wrapper--module` using four CSS custom properties. The global CSS in `containers_dnd.css` switches between mobile/desktop at 992px. Do NOT use `style_helpers.render_module_padding()` (removed) or inline `<style>` blocks.
 
@@ -99,7 +99,7 @@ CoreCode/
 │   │   ├── objects/                # Layout patterns (.o-*)
 │   │   ├── components/             # Header, footer (.c-*)
 │   │   └── elements/               # Base HTML styling (.e-*)
-│   ├── modules/                    # Shared module styles
+│   ├── Modules/                    # Shared module styles
 │   └── vendor/                     # Third-party (Splide, Plyr, etc.)
 ├── js/
 │   └── vendor/                     # Third-party JS
@@ -108,14 +108,13 @@ CoreCode/
 │   ├── image_helpers.html
 │   ├── text_helpers.html
 │   └── style_helpers.html
-├── modules/
-│   └── page/                       # Page modules
-│       └── module_name.module/     # Self-contained module
-│           ├── module.html
-│           ├── module.css
-│           ├── module.js           # Optional
-│           ├── fields.json
-│           └── meta.json
+├── modules/                        # Content modules (flat directory)
+│   └── module_name.module/         # Self-contained module
+│       ├── module.html
+│       ├── module.css
+│       ├── module.js               # Optional
+│       ├── fields.json
+│       └── meta.json
 └── templates/
     └── layouts/
         └── base.html               # Design system tokens + critical CSS
@@ -123,7 +122,7 @@ CoreCode/
 
 ### Module Anatomy
 
-Each module lives in `modules/page/[name].module/` and is fully self-contained:
+Each module lives in `modules/[name].module/` and is fully self-contained:
 
 | File | Purpose |
 |---|---|
@@ -153,7 +152,7 @@ Modules      →  Module-specific: .m-accordion, .m-featureCards (highest specif
 - **BEM with camelCase** — `.m-accordion__triggerText`, not `.m-accordion__trigger-text`
 - **ITCSS prefixes** — `.o-` objects, `.c-` components, `.e-` elements, `.m-` modules
 - **Design system tokens** — always use CSS variables, never magic numbers
-- **Mobile-first** — base styles are mobile, use `@media (min-width: 992px)` for desktop
+- **Mobile-first** — base styles are mobile, use `@media (width >= 992px)` for desktop
 - **Flat selectors** — repeat the full selector at each breakpoint, don't nest
 
 ### CSS Class Pattern
@@ -175,7 +174,7 @@ Modules      →  Module-specific: .m-accordion, .m-featureCards (highest specif
 }
 
 /* Desktop override */
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .m-moduleName {
     padding: var(--space24);
   }
@@ -233,7 +232,7 @@ All tokens are defined in `templates/layouts/base.html` and use **camelCase nami
 |---|---|---|
 | `--h1` | 35px → 62px | Page title |
 | `--h2` | 32px → 46px | Section heading |
-| `--h3` | 24px → 34px | Subsection |
+| `--h3` | 28px → 32px | Subsection |
 | `--h4` | 20px → 24px | Card title |
 | `--pXs` | 12px | Small print |
 | `--pSm` | 14px | Captions |
@@ -270,7 +269,7 @@ Weights: `--fontLight` (300), `--fontRegular` (400), `--fontSemibold` (600), `--
 ### Borders & Radius
 
 Borders: `--border1` (1px), `--border2` (2px), `--border3` (3px)
-Radius: `--radiusNone` → `--radiusXxs` (0.25rem) → `--radiusSm` (0.5rem) → `--radiusMd` (0.75rem) → `--radiusLg` (1rem) → `--radiusXl` (2rem)
+Radius: `--radiusNone` (0) → `--radiusXxs` (0.25rem) → `--radiusXs` (0.5rem) → `--radiusSm` (0.75rem) → `--radiusMd` (1rem) → `--radiusLg` (1.5rem) → `--radiusXl` (2rem) → `--radiusAvatar` (50%)
 
 ### Animation
 
@@ -301,7 +300,7 @@ module_heading: {
   heading: "Section Title",
   heading_type: "h2",         // h1–h6
   summary: "<p>Optional</p>",
-  add_link_cta_: true/false,  // NOTE: trailing underscore in field name
+  add_link_cta_: true/false,  // NOTE: trailing underscore is the exact field name
   button: { ... },
   position: {
     margin: {
@@ -318,7 +317,7 @@ This macro has been removed. Use the **inline style attribute pattern** on `.o-w
 
 ### `link_helper.render_button(button, scope, classes)`
 
-Renders a button — routes to link or CTA based on `button_type`.
+Thin router that calls `render_link` or `render_cta` based on `button_type`. Available for inline buttons; for module footer CTAs prefer the inline pattern in the Module Template Pattern above.
 
 ```html
 {{ link_helper.render_button(item.button, name ~ '__button_' ~ loop.index) }}
@@ -326,14 +325,14 @@ Renders a button — routes to link or CTA based on `button_type`.
 
 ### ~~`link_helper.render_module_footer_cta(button, name)`~~ — DEPRECATED
 
-This macro silently produces empty output due to an internal cross-macro namespace issue. **Use the inline footer CTA pattern** from the Module Template Pattern instead.
+**Use the inline footer CTA pattern** from the Module Template Pattern instead. This macro is retained for backwards compatibility only.
 
-### `image_helpers.render_responsive_images(item, class)`
+### `image_helper.render_responsive_images(item, class)`
 
 Renders a `<picture>` element with device-specific sources (mobile/tablet/desktop) and WebP.
 
 ```html
-{{ image_helpers.render_responsive_images(item.image, 'm-moduleName__image') }}
+{{ image_helper.render_responsive_images(item.image, 'm-moduleName__image') }}
 ```
 
 **Field structure expected:**
@@ -420,7 +419,7 @@ Before writing any code, establish the spec:
 ### Step 2: Create the Module Directory
 
 ```
-modules/page/module_name.module/
+modules/module_name.module/
 ├── module.html
 ├── module.css
 ├── module.js        # Only if interactive behaviour needed
@@ -465,7 +464,7 @@ Every module should include:
 1. **Style tab** — spacing fields with inherited theme values
 2. **Module heading** — toggle + heading fields (uses `text_helpers.render_heading()`)
 3. **Content fields** — module-specific content
-4. **Footer CTA** — optional bottom CTA (uses `link_helper.render_module_footer_cta()`)
+4. **Footer CTA** — optional bottom CTA (use the inline footer CTA pattern, not `render_module_footer_cta()`)
 5. **Scroll ID** — optional anchor text field
 
 #### Field Authoring Rules
@@ -494,7 +493,7 @@ Every module should include:
   "suffix": "px",
   "default": 80,
   "inherited_value": {
-    "default_value_path": "theme.spacing.desktop_vertical_spacing"
+    "default_value_path": "theme.spacing.desktop.vertical_spacing"
   }
 }
 ```
@@ -503,7 +502,7 @@ Every module should include:
 
 Follow the template pattern from the Quick Start section. Key rules:
 
-- **No macro imports** — call macros directly (`text_helpers.render_heading()`, not `{% from 'macros/text_helpers.html' import render_heading %}`)
+- **Use the base.html macro aliases** — call `text_helpers.render_heading()` etc.; the macros are imported once in `base.html`, so do not re-import them per module
 - **Defensive checks** — always check fields exist before rendering: `{% if module.field.src %}`
 - **`|safe` filter** — use on rich text fields from the CMS editor (these are trusted)
 - **Security** — never use `|safe` on user-supplied input; add `rel="noopener noreferrer"` on external links
@@ -515,7 +514,7 @@ Follow the template pattern from the Quick Start section. Key rules:
 
 Follow the CSS patterns from the CSS Architecture section:
 - `.m-camelCase` prefix matching the module name
-- Mobile-first with `@media (min-width: 992px)` for desktop
+- Mobile-first with `@media (width >= 992px)` for desktop
 - Design system tokens for all values
 - `focus-visible` outlines for interactive elements
 - `@media (prefers-reduced-motion: reduce)` for all transitions/animations
@@ -596,12 +595,12 @@ Every module must meet WCAG 2.1 Level AA:
 |---|---|
 | **Loop scoping** | Arrays/objects built inside `{% for %}` loops don't persist outside — render output inside the loop |
 | **`content.absolute_url` vs `content.url`** | `absolute_url` includes domain, `url` is path-only — not interchangeable |
-| **No macro imports** | Core Code macros are globally available; `{% from %}` will cause upload errors |
+| **Macro imports live in base.html** | Macros are imported once in `base.html` and used via their aliases; do not re-import them per module |
 | **`|safe` on user input** | XSS risk — only use on CMS rich text fields, never on query params or form data |
 | **`hidden` attribute on animated panels** | The HTML `[hidden]` attribute has `display: none !important` in the UA stylesheet. Use a CSS class (`.is-open`) with `grid-template-rows` animation and toggle `aria-hidden` for accessibility instead |
 | **`--h*Min` tokens required** | `typography.css` uses `clamp()` with `--h1Min`–`--h6Min` variables. These are defined in `base.html`. Do not remove them — headings will render unsized without them |
-| **`add_link_cta_` trailing underscore** | The heading CTA toggle field is named `add_link_cta_` (with trailing underscore) in `fields.json`. The macro checks this exact name. Renaming the field will break the CTA toggle |
-| **Inline footer CTA, not macro** | `link_helper.render_module_footer_cta()` silently produces empty output. Always use the inline CTA pattern from the Module Template Pattern |
+| **`add_link_cta_` trailing underscore** | The heading CTA toggle field is named `add_link_cta_` (with trailing underscore) in `fields.json`. The `render_heading` macro checks this exact name. Renaming the field will silently break the CTA toggle |
+| **Inline footer CTA, not macro** | Prefer the inline footer CTA pattern from the Module Template Pattern over `link_helper.render_module_footer_cta()` |
 | **Module spacing via inline style** | `style_helpers.render_module_padding()` has been removed. Always set `--moduleTopSpacingMobile` etc. via inline `style` on `.o-wrapper--module` |
 | **Debugging** | Append `?hsDebug=true` to preview URL for caching/rendering debug info |
 

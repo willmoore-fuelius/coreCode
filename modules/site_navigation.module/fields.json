@@ -1,0 +1,70 @@
+[
+  {
+    "name": "logo",
+    "label": "Logo",
+    "type": "image",
+    "default": {
+      "src": "",
+      "alt": "",
+      "loading": "eager"
+    },
+    "inline_help_text": "The logo shown in the site header. Links to the homepage by default."
+  },
+  {
+    "name": "logo_link",
+    "label": "Logo link",
+    "type": "link",
+    "supported_types": ["EXTERNAL", "CONTENT"],
+    "default": {
+      "url": { "href": "/", "type": "EXTERNAL" },
+      "open_in_new_tab": false,
+      "no_follow": false
+    },
+    "inline_help_text": "Where the logo links to. Defaults to the homepage."
+  },
+  {
+    "name": "menu",
+    "label": "Navigation menu",
+    "type": "menu",
+    "default": null,
+    "inline_help_text": "Select the advanced menu to show in the main navigation. Menus are managed under Settings > Website > Navigation."
+  },
+  {
+    "name": "show_cta",
+    "label": "Show header button",
+    "type": "boolean",
+    "default": false,
+    "inline_help_text": "Show a call-to-action button to the right of the navigation."
+  },
+  {
+    "name": "cta_text",
+    "label": "Button text",
+    "type": "text",
+    "default": "Get in touch",
+    "display_conditions": {
+      "visibility": {
+        "controlling_field_path": "show_cta",
+        "controlling_value_regex": "true",
+        "operator": "EQUAL"
+      }
+    }
+  },
+  {
+    "name": "cta_link",
+    "label": "Button link",
+    "type": "link",
+    "supported_types": ["EXTERNAL", "CONTENT", "FILE", "EMAIL_ADDRESS", "BLOG"],
+    "default": {
+      "url": { "href": "", "type": "EXTERNAL" },
+      "open_in_new_tab": false,
+      "no_follow": false
+    },
+    "display_conditions": {
+      "visibility": {
+        "controlling_field_path": "show_cta",
+        "controlling_value_regex": "true",
+        "operator": "EQUAL"
+      }
+    }
+  }
+]

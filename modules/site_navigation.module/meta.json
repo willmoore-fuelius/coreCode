@@ -1,0 +1,8 @@
+{
+  "label": "Site navigation",
+  "description": "Site header logo, primary navigation menu, and optional header button.",
+  "icon": "fontawesome-5.14.0:bars:SOLID",
+  "host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"],
+  "is_available_for_new_content": false,
+  "categories": ["FUNCTIONALITY"]
+}

@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Site navigation
+   Structural header styles live in css/critical/header.critical.css.
+   These rules cover the logo, CTA, and the menu list output by {% menu %}.
+   ========================================================================== */
+
+.m-siteHeader__logo {
+	display: inline-flex;
+	align-items: center;
+}
+
+.m-siteHeader__logo img {
+	max-height: 48px;
+	width: auto;
+}
+
+.m-siteHeader__cta {
+	white-space: nowrap;
+}
+
+/* Scope the menu overrides to the header so the multi-column .hs-menu-wrapper
+   defaults in default_modules.css do not apply to the horizontal top nav. */
+.m-siteHeader__navigation .hs-menu-wrapper > ul {
+	display: flex;
+	flex-direction: column;
+	column-count: auto;
+	gap: var(--space16);
+	margin: 0;
+	padding: var(--space20);
+}
+
+.m-siteHeader__navigation .hs-menu-wrapper > ul > li > a {
+	margin-bottom: 0;
+}
+
+@media (width >= 1200px) {
+	.m-siteHeader__navigation .hs-menu-wrapper > ul {
+		flex-direction: row;
+		align-items: center;
+		gap: var(--gridGutters);
+		padding: 0;
+	}
+}

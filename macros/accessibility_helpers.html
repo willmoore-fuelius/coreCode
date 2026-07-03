@@ -5,16 +5,14 @@ isAvailableForNewContent: false
 
 {% macro sanitize_rich_text(content) %}
 {% if content and content|length > 0 %}
-    {{ content | safe }}
+    {{ content | sanitize_html }}
 {% else %}
     <p>Content coming soon</p>
 {% endif %}
 {% endmacro %}
 
-{% macro render_aria_section(content, label, name) %}
-<section role="region"
-         aria-labelledby="{{ name }}__heading"
-         aria-label="{{ label | default('Content Section') }}">
+{% macro render_aria_section(content, label) %}
+<section aria-label="{{ label | default('Content section') | escape_attr }}">
     {{ content }}
 </section>
 {% endmacro %}

@@ -33,7 +33,7 @@ button:disabled,
     opacity: .5;
 }
 
-{# Spacing #}
+/* Spacing */
 
 @media (width < 576px){
 

@@ -131,7 +131,7 @@ coreCode/
 
 ### CSS
 
-- **Vanilla CSS** with native nesting (no SCSS, no Tailwind in output)
+- **Vanilla CSS** with flat selectors (no SCSS, no CSS nesting, no Tailwind in output)
 - **BEM + ITCSS prefixes:** `.o-` objects, `.c-` components, `.e-` elements, `.m-` modules
 - **camelCase** custom properties: `--primaryColour`, `--space20`, `--fontPrimary`
 - **Mobile-first** with range syntax breakpoints: `@media (width >= 992px)`

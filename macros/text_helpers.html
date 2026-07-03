@@ -5,13 +5,14 @@ isAvailableForNewContent: false
 
 {% macro render_heading(model, enabled, name) %}
 {%- if enabled -%}
+{%- set headingTag = model.heading_type | default('h2', true) -%}
 <div id="{{ name | default('section') }}__heading"
      class="m-heading"
-     style="--headingMarginTopMobile: {{ model.position.margin.mobile.margin_top }}px; --headingMarginBottomMobile: {{ model.position.margin.mobile.margin_bottom }}px; --headingMarginTopDesktop: {{ model.position.margin.desktop.margin_top }}px; --headingMarginBottomDesktop: {{ model.position.margin.desktop.margin_bottom }}px;">
+     style="--headingMarginTopMobile: {{ model.position.margin.mobile.margin_top | default(0, true) }}px; --headingMarginBottomMobile: {{ model.position.margin.mobile.margin_bottom | default(0, true) }}px; --headingMarginTopDesktop: {{ model.position.margin.desktop.margin_top | default(0, true) }}px; --headingMarginBottomDesktop: {{ model.position.margin.desktop.margin_bottom | default(0, true) }}px;">
 
   {%- if model.heading -%}
   <div class="m-heading__heading">
-    <{{ model.heading_type }} class="m-heading__text">{{ model.heading }}</{{ model.heading_type }}>
+    <{{ headingTag }} class="m-heading__text">{{ model.heading }}</{{ headingTag }}>
     {%- if model.summary -%}
     <div class="m-heading__summary">{{ model.summary }}</div>
     {%- endif -%}
@@ -25,7 +26,7 @@ isAvailableForNewContent: false
     {%- if model.button.link_settings.link_field.url.type is equalto "EMAIL_ADDRESS" -%}{%- set href = "mailto:" + href -%}{%- endif -%}
     {%- set rel = [] -%}
     {%- if model.button.link_settings.link_field.no_follow -%}{%- do rel.append("nofollow") -%}{%- endif -%}
-    {%- if model.button.link_settings.link_field.open_in_new_tab -%}{%- do rel.append("noopener") -%}{%- endif -%}
+    {%- if model.button.link_settings.link_field.open_in_new_tab -%}{%- do rel.append("noopener") -%}{%- do rel.append("noreferrer") -%}{%- endif -%}
     <a id="{{ name }}__heading_cta"
        class="e-button e-button--{{ model.button.button_style | default('primary') }}"
        href="{{ href }}"
