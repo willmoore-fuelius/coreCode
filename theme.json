@@ -1,5 +1,5 @@
 {
-  "label": "Core Code",
+  "label": "Core Code (review branch)",
   "preview_path": "./templates/home.html",
   "screenshot_path": "./images/template-previews/theme_preview.png",
   "enable_domain_stylesheets": false,

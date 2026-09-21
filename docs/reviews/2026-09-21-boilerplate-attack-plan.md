@@ -730,6 +730,10 @@ Tasks are ordered by dependency. Each task is one commit unless stated. Every up
 - The exact `brand_settings` key for the secondary colour. Owner: Task 6 step 1, answered from the brand-inheritance docs page at implementation.
 - Whether `@hubspot/blog_posts` is the listing module's path on this portal. Owner: Task 10 step 2, answered from the Design Manager before upload.
 
+## Tracked action before merge
+
+**Revert the theme label.** `theme.json` carries `"label": "Core Code (review branch)"` so the review copy is unmistakable in the sandbox theme picker alongside the original. HubSpot had otherwise renamed it to "Core Code - review" on upload to resolve the collision, which is what made it hard to find. Before this branch merges, set the label back to `"Core Code"`. A client theme cloned from a boilerplate labelled "review branch" is a visible defect, and `theme-clone` renames the label per client from this value.
+
 ## Definition of done
 
 - All fourteen tasks committed on `review/boilerplate-improvements`, one commit per task (Task 12 may be two: rename, then deletions), subjects in conventional format under 72 characters.
@@ -740,3 +744,4 @@ Tasks are ordered by dependency. Each task is one commit unless stated. Every up
 - The review's scans report: 0 empty rulesets; `!important` only in `utilities.css` and the HubSpot-widget overrides; no hardcoded `z-index`; no `host_template_types` outside legacy notes; no `Bitbucket`, `WCAG 2.1` or "silently fail" in project docs.
 - `docs/reviews/2026-09-21-boilerplate-review.md` gains a section 9 with the re-measurement table, and `docs/reviews/2026-09-21-backport-note.md` exists.
 - Every `git rm` in Task 12 shows as deleted in `git status` before the deletion commit; none is left as a note.
+- `theme.json` label is back to `"Core Code"` (see Tracked action before merge).
