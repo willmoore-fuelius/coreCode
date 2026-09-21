@@ -1,3 +1,7 @@
+/* Rich text output. Strips the outer margins so a rich text field sits flush
+   inside its container; headings and paragraphs keep their own rhythm from
+   css/global/elements/typography.css. */
+
 .o-rte > *:not(div):first-child {
 	margin-top: 0;
 }
@@ -8,32 +12,4 @@
 
 .o-rte > *:not(div):only-child {
 	margin: 0;
-}
-
-h1 {}
-
-h2 {}
-
-h3 {}
-
-h4 {}
-
-h5 {}
-
-h6 {}
-
-@media (width >= 992px) {
-
-	h1 {}
-
-	h2 {}
-
-	h3 {}
-
-	h4 {}
-
-	h5 {}
-
-	h6 {}
-
 }

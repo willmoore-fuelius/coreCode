@@ -7,16 +7,16 @@
     /* translateY(-100%) hides the link fully regardless of its rendered height,
        avoiding the partial-visibility issue a fixed negative top would cause. */
     transform: translateY(-100%);
-    background: var(--primaryColour, #0066cc);
-    color: var(--white);
+    background: var(--primaryColour);
+    color: var(--primaryTextColour);
     padding: var(--space20);
     text-decoration: none;
-    z-index: 9999;
+    z-index: var(--zTooltip);
     font-weight: bold;
 }
 
 .skip-link:focus {
     transform: translateY(0);
-    outline: 2px solid var(--white);
+    outline: var(--border2) solid var(--white);
     outline-offset: -4px;
 }

@@ -60,6 +60,6 @@ Module stylesheets that are needed on every page. Anything used by one module
 only is loaded by that module (or its macro) via require_css instead.
 */
 
-{% include './Modules/tags.css' %}
-{% include './Modules/heading.css' %}
-{% include './Modules/footer_cta.css' %}
+{% include './modules/tags.css' %}
+{% include './modules/heading.css' %}
+{% include './modules/footer_cta.css' %}

@@ -43,11 +43,6 @@
     transition: background-color var(--transitionSpeed);
 }
 
-.m-communicationPreferences .email-prefs .item-inner.hovered,
-.m-communicationPreferences .email-prefs .item-inner.selected {
-
-}
-
 .m-communicationPreferences .email-prefs input[type=checkbox]~span:first-of-type:before,
 .m-communicationPreferences .email-prefs input[type=radio]~span:first-of-type:before {
     margin-right: var(--space20);
@@ -62,11 +57,6 @@
 .m-communicationPreferences .email-prefs .item input[type=radio]~span:first-of-type:before {
     position: relative;
     top: 15px;
-}
-
-.m-communicationPreferences .email-prefs input[type=checkbox]:checked~span:before,
-.m-communicationPreferences .email-prefs input[type=radio]:checked~span:before {
-
 }
 
 .m-communicationPreferences .email-prefs input[type=checkbox]:checked~span:before,

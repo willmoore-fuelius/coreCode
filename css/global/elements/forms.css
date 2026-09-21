@@ -117,7 +117,7 @@ form input[type=radio] {
   position: absolute;
   width: 24px;
   height: 24px;
-  z-index: 99;
+  z-index: var(--zBase);
 }
 
 form input[type=checkbox] ~ span:first-of-type,

@@ -34,11 +34,12 @@
 /* Screen reader only — visually hidden but announced by assistive technology */
 .show-for-sr {
   position: absolute !important;
-  width: var(--border1);
-  height: var(--border1);
+  width: 1px;
+  height: 1px;
   padding: 0;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }

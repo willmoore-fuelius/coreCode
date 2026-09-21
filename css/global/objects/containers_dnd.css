@@ -27,24 +27,6 @@
 	margin-inline: auto;
 }
 
-html.hs-inline-edit .default-module{
-	background-color: var(--grey10);
-	border: 1px dashed;
-	padding: var(--space20);
-	text-align: center;
-	font-size: 1.125rem; /* 18px */
-	font-weight: bold;
-}
-
-html:not(.hs-inline-edit) .default-module{
-	display: none;
-}
-
-.dnd-section.collapse{
-	padding-top: 0 !important;
-	padding-bottom: 0 !important;
-}
-
 .dnd-section > .row-fluid {
 	margin-inline: auto;
 }
