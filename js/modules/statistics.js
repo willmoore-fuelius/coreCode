@@ -45,9 +45,25 @@
 			const counters = Array.from(statisticModule.querySelectorAll(countElementSelector));
 
 			statisticModule.classList.add(statisticsInitialisedClass);
+
+			// Reduced motion: show the figure rather than counting up to it. The
+			// number is the information; the count is decoration.
+			if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				counters.forEach(function(el) {
+					const rawValue = el.getAttribute('data-value');
+					if (rawValue !== null && rawValue !== '') {
+						el.textContent = rawValue;
+					}
+				});
+				return;
+			}
+
 			animateCounter(counters, format, duration);
 		}
 
+		// Counters animate on scroll-in, so they observe their own threshold
+		// rather than using the shared 200px-early lazyModuleInit margin: a
+		// counter that finishes before it is visible has not been seen.
 		if ('IntersectionObserver' in window) {
 			const observer = new IntersectionObserver(function(entries) {
 				entries.forEach(function(entry) {

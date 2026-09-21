@@ -6,7 +6,6 @@ templateType: none
 {% import '../../macros/Image Helpers.html' as image_helper %}
 {% import '../../macros/Video Helpers.html' as video_helper %}
 {% import '../../macros/Text Helpers.html' as text_helpers %}
-{% import '../../macros/Style Helpers.html' as style_helpers %}
 
 <!DOCTYPE html>
 <html lang="{{ html_lang }}" {{ html_lang_dir }}>
@@ -26,7 +25,6 @@ templateType: none
 				--gridColumns: 12;
 
 				/* LAYOUT */
-				--rootFontSize: 16;
 				--siteHeaderHeight: 80px;
 				/* Height of any in-page sticky sub-navigation below the header. */
 				/* Added to scroll-padding so anchor targets clear sticky UI (see page.css). */
@@ -43,14 +41,7 @@ templateType: none
 				--zPopover: 600;
 				--zTooltip: 700;
 
-				/* BREAKPOINTS - CANT BE USED IN MEDIA QUERIES YET, HERE FOR FUTURE USE AND AS A REFERENCE POINT */
-				--breakpointSmall: 576px;
-				--breakpointMedium: 768px;
-				--breakpointLarge: 992px;
-				--breakpointXlarge: 1200px;
-				--breakpointXxlarge: 1400px;
-
-				/* SPACING SCALE - Name = pixel value at 16px root font size */
+				/* SPACING SCALE - Name = pixel value at a 16px root font size */
 				--space0: 0;
 				--space4: 0.25rem; /* 4px */
 				--space8: 0.5rem; /* 8px */
@@ -113,7 +104,7 @@ templateType: none
 				/* Semantic State Colors */
 				--colorSuccess: #10b981;
 				--colorWarning: #f59e0b;
-				--colorError: #ef4444;
+				--colorError: #c81e1e;
 				--colorInfo: #3b82f6;
 
 				/* Animation */
@@ -124,8 +115,7 @@ templateType: none
 
 				/* FONTS - FAMILIES */
 				--fontPrimary: "Montserrat", sans-serif;
-				--fontSecondary: 'open-sans', sans-serif;
-				--fontAwesome: 'Font Awesome 6 Free';
+				--fontSecondary: "Open Sans", sans-serif;
 
 				/* FONTS - WEIGHTS */
 				--fontLight: 300;
@@ -135,20 +125,12 @@ templateType: none
 				--fontXbold: 900;
 
 				/* FONTS - SIZES - Fluid typography with clamp() */
-				--h1: clamp(2.1875rem, 4vw + 1rem, 3.875rem); /* 35px → 62px */
-				--h2: clamp(2rem, 3vw + 0.5rem, 2.875rem); /* 32px → 46px */
-				--h3: clamp(1.75rem, 2vw + 0.5rem, 2rem); /* 28px → 32px */
-				--h4: clamp(1.25rem, 1.5vw + 0.5rem, 1.5rem); /* 20px → 24px */
-				--h5: clamp(0.9375rem, 1vw + 0.5rem, 1.0625rem); /* 15px → 17px */
+				--h1: clamp(2rem, 1.25rem + 2.5vw, 3.875rem); /* 32px -> 62px */
+				--h2: clamp(1.75rem, 1.25rem + 1.5vw, 2.875rem); /* 28px -> 46px */
+				--h3: clamp(1.5rem, 1.25rem + 0.75vw, 2rem); /* 24px -> 32px */
+				--h4: clamp(1.125rem, 1rem + 0.4vw, 1.5rem); /* 18px -> 24px */
+				--h5: clamp(0.875rem, 0.8rem + 0.25vw, 1.0625rem); /* 14px -> 17px */
 				--h6: 0.8125rem; /* 13px - fixed size */
-
-				/* FONTS - MINIMUM SIZES for clamp() used in typography.css */
-				--h1Min: 2rem;       /* 32px */
-				--h2Min: 1.75rem;    /* 28px */
-				--h3Min: 1.5rem;     /* 24px */
-				--h4Min: 1.125rem;   /* 18px */
-				--h5Min: 0.875rem;   /* 14px */
-				--h6Min: 0.8125rem;  /* 13px */
 
 				--pXs: 0.75rem; /* 12px */
 				--pSm: 0.875rem; /* 14px */
@@ -163,34 +145,30 @@ templateType: none
 
 				/* OTHER */
 				--touchArea: 3rem; /* 48px */
-				--dotDimension: 12px;
 
 			}
 
-			/* Critical CSS - Inlined for fastest FCP */
-			{% include '../../css/critical/layout.critical.css' %}
+			{# Tier 1 palette tokens from the design export, inlined so they resolve at first paint. #}
+			{% include '../../css/global/tokens/palette.css' %}
+
+			{# Critical CSS - the header is the only above-the-fold component the theme itself owns. #}
 			{% include '../../css/critical/header.critical.css' %}
-			{% include '../../css/critical/typography.critical.css' %}
 		</style>
 
-		<title>
-			{% if page_meta.html_title %}{{ page_meta.html_title }}{% else %}Previewing {{ template_meta.label }}
-			{% endif %}
-		</title>
+		{% if page_meta.html_title or pageTitle %}<title>{{ page_meta.html_title or pageTitle }}</title>{% endif %}
 		{% if site_settings.favicon_src %}
-		<link rel="shortcut icon" href="{{ site_settings.favicon_src }}" />
+		<link rel="icon" href="{{ site_settings.favicon_src }}" />
 		{% endif %}
+		{% if page_meta.meta_description %}
 		<meta name="description" content="{{ page_meta.meta_description }}" />
+		{% endif %}
 
 		{# Preconnect to Google Fonts CDN for early DNS resolution #}
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-		{# Load fonts with font-display: swap (prevents FOIT) - Deferred for performance #}
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-		<noscript>
-			<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-		</noscript>
+		{# Load fonts with font-display: swap (prevents FOIT) #}
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
 		{# DNS Prefetch for HubSpot third-party domains #}
 		<link rel="dns-prefetch" href="//js.hs-analytics.net">
@@ -198,38 +176,26 @@ templateType: none
 		<link rel="dns-prefetch" href="//js.hubspot.com">
 		<link rel="dns-prefetch" href="//forms.hsforms.com">
 
-		{# Prefetch next page if available (blog pagination, related content) #}
-		{% if content.next_page_url %}
-		<link rel="prefetch" href="{{ content.next_page_url }}">
-		{% endif %}
+		{# Theme-field tokens and spacing. A real stylesheet so HubSpot loads theme fonts; #}
+		{# blocking so the tokens the critical CSS reads exist at first paint. #}
+		<link rel="stylesheet" href="{{ get_asset_url('../../css/theme_overrides.css') }}">
 
-		{# Template-specific stylesheets — set template_css in individual templates #}
-		{% if template_css is iterable %}
+		{# Global styles, blocking. ~5KB compressed; loading it async caused a flash of #}
+		{# unstyled content and forced a hand-maintained second copy of the critical rules. #}
+		<link rel="stylesheet" href="{{ get_asset_url('../../css/main.css') }}">
+
+		{# Template-specific stylesheets - set template_css in individual templates #}
+		{% if template_css is string %}
+		{{ require_css(get_asset_url(template_css)) }}
+		{% elif template_css %}
 		{% for stylesheet in template_css %}
 		{{ require_css(get_asset_url(stylesheet)) }}
 		{% endfor %}
-		{% elif template_css %}
-		{{ require_css(get_asset_url(template_css)) }}
 		{% endif %}
 
-		{# Tier 1 palette tokens - must load before all other stylesheets #}
-		{{ require_css(get_asset_url("../../css/global/tokens/palette.css")) }}
-
-		{# Async load non-critical CSS #}
-		<link rel="preload" href="{{ get_asset_url("../../css/main.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-		<noscript><link rel="stylesheet" href="{{ get_asset_url("../../css/main.css") }}"></noscript>
+		{% block head %}{% endblock head %}
 
 		{{ standard_header_includes }}
-
-		{# Defer theme overrides CSS #}
-		<link rel="preload" href="{{ get_asset_url("../../css/theme_overrides.css") }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-		<noscript><link rel="stylesheet" href="{{ get_asset_url("../../css/theme_overrides.css") }}"></noscript>
-
-		{# Async CSS loader polyfill for older browsers #}
-		<script>
-		/*! loadCSS rel=preload polyfill. [c]2017 Filament Group, Inc. MIT License */
-		!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){var e=t.media||"all";function a(){t.addEventListener?t.removeEventListener("load",a):t.attachEvent&&t.detachEvent("onload",a),t.setAttribute("onload",null),t.media=e}t.addEventListener?t.addEventListener("load",a):t.attachEvent&&t.attachEvent("onload",a),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(a,3e3)},!e.support()){var a=t.document.getElementsByTagName("link");for(var n=0;n<a.length;n++){var r=a[n];"preload"!==r.rel||"style"!==r.getAttribute("as")||r.getAttribute("data-loadcss")||(r.setAttribute("data-loadcss",!0),e.bindMediaToggle(r))}!function t(){if(!a.length)return;var e=a.shift();e.getAttribute("data-loadcss")||setTimeout(t)}()}}(this);
-		</script>
 
 	</head>
 
@@ -246,64 +212,6 @@ templateType: none
 		</div>
 
 		{{ require_js(get_asset_url('../../js/modules/utilities.js'), { position: "footer" }) }}
-
-		<script>
-			const scrollbarWidth = window.innerWidth - document.body.offsetWidth;
-			document.documentElement.style.setProperty('--scrollbarWidth', `${scrollbarWidth}px`);
-		</script>
-
-		{# Deferred module initialization via IntersectionObserver #}
-		{# Modules register init callbacks via window.lazyModuleInit(id, fn) #}
-		{# The observer triggers the callback when the module enters the viewport #}
-		<script>
-		(function() {
-			var pending = {};
-			var observed = new Set();
-
-			if (!('IntersectionObserver' in window)) {
-				// Fallback: run all init functions on DOMContentLoaded
-				window.lazyModuleInit = function(moduleId, initFn) {
-					if (document.readyState === 'loading') {
-						document.addEventListener('DOMContentLoaded', initFn);
-					} else {
-						initFn();
-					}
-				};
-				return;
-			}
-
-			var observer = new IntersectionObserver(function(entries) {
-				entries.forEach(function(entry) {
-					if (entry.isIntersecting) {
-						var id = entry.target.id;
-						if (pending[id]) {
-							pending[id]();
-							delete pending[id];
-						}
-						observer.unobserve(entry.target);
-					}
-				});
-			}, { rootMargin: '200px' });
-
-			window.lazyModuleInit = function(moduleId, initFn) {
-				var el = document.getElementById(moduleId);
-				if (!el || !el.hasAttribute('data-lazy-init')) {
-					// Not a lazy module — run immediately
-					if (document.readyState === 'loading') {
-						document.addEventListener('DOMContentLoaded', initFn);
-					} else {
-						initFn();
-					}
-					return;
-				}
-				pending[moduleId] = initFn;
-				if (!observed.has(moduleId)) {
-					observed.add(moduleId);
-					observer.observe(el);
-				}
-			};
-		})();
-		</script>
 
 		{# To see a full list of what is included via standard_footer_includes please reference this article: https://developers.hubspot.com/docs/cms/hubl/variables#required-page-template-variables #}
 		{{ standard_footer_includes }}

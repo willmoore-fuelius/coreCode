@@ -108,25 +108,17 @@
 			element.classList.add('splide--initialized');
 		}
 
-		if ('IntersectionObserver' in window) {
-			const observer = new IntersectionObserver(function(entries) {
-				entries.forEach(function(entry) {
-					if (entry.isIntersecting) {
-						initRotator(entry.target);
-						observer.unobserve(entry.target);
-					}
+		// Defer via the shared helper: a wrapper carrying data-lazy-init waits
+		// until it nears the viewport, anything else initialises straight away.
+		rotators.forEach(function(element) {
+			if (window.CoreCode && window.CoreCode.lazyModuleInit && element.id) {
+				window.CoreCode.lazyModuleInit(element.id, function() {
+					initRotator(element);
 				});
-			}, { rootMargin: '200px' });
-
-			rotators.forEach(function(element) {
-				observer.observe(element);
-			});
-		} else {
-			// Fallback: initialize immediately
-			rotators.forEach(function(element) {
+			} else {
 				initRotator(element);
-			});
-		}
+			}
+		});
 	}
 
 	if (document.readyState !== 'loading') {

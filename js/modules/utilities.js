@@ -92,9 +92,71 @@
 		};
 	}
 
+	/**
+	 * Run a module's init function when it is needed.
+	 *
+	 * A module whose wrapper carries `data-lazy-init` is deferred until it nears
+	 * the viewport; anything else initialises as soon as the DOM is ready. Falls
+	 * back to immediate initialisation where IntersectionObserver is missing.
+	 *
+	 * @param {string} moduleId - id of the module wrapper element
+	 * @param {Function} initFn - callback to run when the module is needed
+	 */
+	const pending = {};
+	const observed = new Set();
+	let observer = null;
+
+	function whenReady(fn) {
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', fn);
+		} else {
+			fn();
+		}
+	}
+
+	function getObserver() {
+		if (observer) return observer;
+		observer = new IntersectionObserver(function(entries) {
+			entries.forEach(function(entry) {
+				if (!entry.isIntersecting) return;
+				const id = entry.target.id;
+				if (pending[id]) {
+					pending[id]();
+					delete pending[id];
+				}
+				observer.unobserve(entry.target);
+			});
+		}, { rootMargin: '200px' });
+		return observer;
+	}
+
+	function lazyModuleInit(moduleId, initFn) {
+		if (!('IntersectionObserver' in window)) {
+			whenReady(initFn);
+			return;
+		}
+
+		const el = moduleId ? document.getElementById(moduleId) : null;
+		if (!el || !el.hasAttribute('data-lazy-init')) {
+			// Not a lazy module — run as soon as the DOM is ready.
+			whenReady(initFn);
+			return;
+		}
+
+		pending[moduleId] = initFn;
+		if (!observed.has(moduleId)) {
+			observed.add(moduleId);
+			getObserver().observe(el);
+		}
+	}
+
 	// Expose on global namespace
 	window.CoreCode = window.CoreCode || {};
 	window.CoreCode.trapFocus = trapFocus;
 	window.CoreCode.getFocusable = getFocusable;
 	window.CoreCode.debounce = debounce;
+	window.CoreCode.lazyModuleInit = lazyModuleInit;
+
+	// Alias kept because module scaffolding calls the bare global.
+	window.lazyModuleInit = lazyModuleInit;
 })();

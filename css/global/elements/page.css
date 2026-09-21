@@ -3,8 +3,8 @@ html {
 	   sub-navigation via --stickyAnchorsHeight). scroll-behavior lives in reset.css,
 	   guarded for prefers-reduced-motion. */
 	scroll-padding: calc(var(--siteHeaderHeight) + var(--stickyAnchorsHeight));
-}
 
-body {
+	/* Reserve the scrollbar gutter on the viewport. Only the root element affects
+	   the viewport's own scrollbar, so this does nothing on body. */
 	scrollbar-gutter: stable;
 }
