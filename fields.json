@@ -1,224 +1,250 @@
 [
-	{
-		"label": "Colours",
-		"name": "colours",
-		"type": "group",
-		"tab": "STYLE",
-		"expanded": true,
-		"children": [
-			{
-				"label": "Primary",
-				"name": "primary",
-				"type": "color",
-				"default": { "color": "#46107b", "opacity": 100 },
-				"inherited_value": {
-					"property_value_paths": { "color": "brand_settings.primaryColor" }
-				},
-				"help_text": "Buttons, links and focus outlines. Inherits the brand kit primary colour until you set one here."
-			},
-			{
-				"label": "Secondary",
-				"name": "secondary",
-				"type": "color",
-				"default": { "color": "#5E646A", "opacity": 100 },
-				"inherited_value": {
-					"property_value_paths": { "color": "brand_settings.secondaryColor" }
-				},
-				"help_text": "Supporting colour for secondary buttons and accents."
-			},
-			{
-				"label": "Tertiary",
-				"name": "tertiary",
-				"type": "color",
-				"default": { "color": "#ee52ac", "opacity": 100 },
-				"inherited_value": {
-					"property_value_paths": { "color": "brand_settings.accentColor1" }
-				},
-				"help_text": "Accent colour for highlights and decorative detail."
-			},
-			{
-				"label": "Highlight",
-				"name": "highlight",
-				"type": "color",
-				"default": { "color": "#e3f7e8", "opacity": 100 },
-				"inherited_value": {
-					"property_value_paths": { "color": "brand_settings.accentColor2" }
-				},
-				"help_text": "Pale background colour for highlighted panels and callouts."
-			},
-			{
-				"label": "Body text",
-				"name": "text",
-				"type": "color",
-				"default": { "color": "#1D252D", "opacity": 100 },
-				"help_text": "Default text colour. Keep the contrast against the page background at 4.5:1 or better."
-			},
-			{
-				"label": "Page background",
-				"name": "background",
-				"type": "color",
-				"default": { "color": "#ffffff", "opacity": 100 },
-				"help_text": "Background colour behind page content."
-			}
-		]
-	},
-	{
-		"label": "Typography",
-		"name": "typography",
-		"type": "group",
-		"tab": "STYLE",
-		"expanded": true,
-		"children": [
-			{
-				"label": "Heading font",
-				"name": "heading_font",
-				"type": "font",
-				"load_external_fonts": true,
-				"default": {
-					"font": "Montserrat",
-					"font_set": "GOOGLE",
-					"size": 16,
-					"size_unit": "px",
-					"color": "#1D252D",
-					"styles": {}
-				},
-				"visibility": {
-					"hidden_subfields": {
-						"size": true,
-						"color": true,
-						"bold": true,
-						"italic": true,
-						"underline": true
-					}
-				},
-				"help_text": "Used for h1 to h6 and buttons. Sizes come from the theme's own type scale."
-			},
-			{
-				"label": "Body font",
-				"name": "body_font",
-				"type": "font",
-				"load_external_fonts": true,
-				"default": {
-					"font": "Open Sans",
-					"font_set": "GOOGLE",
-					"size": 16,
-					"size_unit": "px",
-					"color": "#1D252D",
-					"styles": {}
-				},
-				"visibility": {
-					"hidden_subfields": {
-						"size": true,
-						"color": true,
-						"bold": true,
-						"italic": true,
-						"underline": true
-					}
-				},
-				"help_text": "Used for body copy and everything that is not a heading."
-			}
-		]
-	},
-	{
-		"label": "Spacing",
-		"name": "spacing",
-		"type": "group",
-		"children": [
-			{
-				"label": "Mobile",
-				"name": "mobile",
-				"type": "group",
-				"children": [
-					{
-						"label": "Vertical spacing",
-						"name": "vertical_spacing",
-						"type": "number",
-						"display": "slider",
-						"max": 500,
-						"display_width": null,
-						"locked": false,
-						"step": 1,
-						"min": 0,
-						"required": false,
-						"default": 30
-					},
-					{
-						"label": "Horizontal spacing",
-						"name": "horizontal_spacing",
-						"type": "number",
-						"display": "slider",
-						"max": 500,
-						"display_width": null,
-						"locked": false,
-						"step": 1,
-						"min": 0,
-						"required": false,
-						"default": 24
-					}
-				],
-				"display_width": null,
-				"locked": false,
-				"tab": "CONTENT",
-				"expanded": false,
-				"required": false
-			},
-			{
-				"label": "Desktop",
-				"name": "desktop",
-				"type": "group",
-				"children": [
-					{
-						"label": "Vertical spacing",
-						"name": "vertical_spacing",
-						"type": "number",
-						"display": "slider",
-						"max": 500,
-						"display_width": null,
-						"locked": false,
-						"step": 1,
-						"min": 0,
-						"required": false,
-						"default": 80
-					},
-					{
-						"label": "Horizontal spacing",
-						"name": "horizontal_spacing",
-						"type": "number",
-						"display": "slider",
-						"max": 500,
-						"display_width": null,
-						"locked": false,
-						"step": 1,
-						"min": 0,
-						"required": false,
-						"default": 40
-					}
-				],
-				"display_width": null,
-				"locked": false,
-				"tab": "CONTENT",
-				"expanded": false,
-				"required": false
-			},
-			{
-				"label": "Container max width",
-				"name": "max_width",
-				"type": "number",
-				"display": "slider",
-				"min": 1200,
-				"max": 2000,
-				"step": 10,
-				"display_width": null,
-				"locked": false,
-				"required": false,
-				"default": 1440,
-				"help_text": "Maximum width of content containers"
-			}
-		],
-		"display_width": null,
-		"locked": false,
-		"tab": "CONTENT",
-		"expanded": false,
-		"required": false
-	}
+  {
+    "label": "Colours",
+    "name": "colours",
+    "type": "group",
+    "tab": "STYLE",
+    "expanded": true,
+    "children": [
+      {
+        "label": "Primary",
+        "name": "primary",
+        "type": "color",
+        "default": {
+          "color": "#46107b",
+          "opacity": 100
+        },
+        "inherited_value": {
+          "property_value_paths": {
+            "color": "brand_settings.primaryColor"
+          }
+        },
+        "help_text": "Buttons, links and focus outlines. Inherits the brand kit primary colour until you set one here."
+      },
+      {
+        "label": "Secondary",
+        "name": "secondary",
+        "type": "color",
+        "default": {
+          "color": "#5E646A",
+          "opacity": 100
+        },
+        "inherited_value": {
+          "property_value_paths": {
+            "color": "brand_settings.secondaryColor"
+          }
+        },
+        "help_text": "Supporting colour for secondary buttons and accents."
+      },
+      {
+        "label": "Tertiary",
+        "name": "tertiary",
+        "type": "color",
+        "default": {
+          "color": "#ee52ac",
+          "opacity": 100
+        },
+        "inherited_value": {
+          "property_value_paths": {
+            "color": "brand_settings.accentColor1"
+          }
+        },
+        "help_text": "Accent colour for highlights and decorative detail."
+      },
+      {
+        "label": "Highlight",
+        "name": "highlight",
+        "type": "color",
+        "default": {
+          "color": "#e3f7e8",
+          "opacity": 100
+        },
+        "inherited_value": {
+          "property_value_paths": {
+            "color": "brand_settings.accentColor2"
+          }
+        },
+        "help_text": "Pale background colour for highlighted panels and callouts."
+      },
+      {
+        "label": "Body text",
+        "name": "text",
+        "type": "color",
+        "default": {
+          "color": "#1D252D",
+          "opacity": 100
+        },
+        "help_text": "Default text colour. Keep the contrast against the page background at 4.5:1 or better."
+      },
+      {
+        "label": "Page background",
+        "name": "background",
+        "type": "color",
+        "default": {
+          "color": "#ffffff",
+          "opacity": 100
+        },
+        "help_text": "Background colour behind page content."
+      }
+    ]
+  },
+  {
+    "label": "Typography",
+    "name": "typography",
+    "type": "group",
+    "tab": "STYLE",
+    "expanded": true,
+    "children": [
+      {
+        "label": "Heading font",
+        "name": "heading_font",
+        "type": "font",
+        "load_external_fonts": true,
+        "default": {
+          "font": "Montserrat",
+          "font_set": "GOOGLE",
+          "size": 16,
+          "size_unit": "px",
+          "color": "#1D252D",
+          "styles": {}
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "size": true,
+            "color": true,
+            "bold": true,
+            "italic": true,
+            "underline": true
+          }
+        },
+        "help_text": "Used for h1 to h6 and buttons. Sizes come from the theme's own type scale."
+      },
+      {
+        "label": "Body font",
+        "name": "body_font",
+        "type": "font",
+        "load_external_fonts": true,
+        "default": {
+          "font": "Open Sans",
+          "font_set": "GOOGLE",
+          "size": 16,
+          "size_unit": "px",
+          "color": "#1D252D",
+          "styles": {}
+        },
+        "visibility": {
+          "hidden_subfields": {
+            "size": true,
+            "color": true,
+            "bold": true,
+            "italic": true,
+            "underline": true
+          }
+        },
+        "help_text": "Used for body copy and everything that is not a heading."
+      }
+    ]
+  },
+  {
+    "label": "Spacing",
+    "name": "spacing",
+    "type": "group",
+    "children": [
+      {
+        "label": "Mobile",
+        "name": "mobile",
+        "type": "group",
+        "children": [
+          {
+            "label": "Vertical spacing",
+            "name": "vertical_spacing",
+            "type": "number",
+            "display": "slider",
+            "max": 500,
+            "display_width": null,
+            "locked": false,
+            "step": 1,
+            "min": 0,
+            "required": false,
+            "default": 30
+          },
+          {
+            "label": "Horizontal spacing",
+            "name": "horizontal_spacing",
+            "type": "number",
+            "display": "slider",
+            "max": 500,
+            "display_width": null,
+            "locked": false,
+            "step": 1,
+            "min": 0,
+            "required": false,
+            "default": 24
+          }
+        ],
+        "display_width": null,
+        "locked": false,
+        "tab": "CONTENT",
+        "expanded": false,
+        "required": false
+      },
+      {
+        "label": "Desktop",
+        "name": "desktop",
+        "type": "group",
+        "children": [
+          {
+            "label": "Vertical spacing",
+            "name": "vertical_spacing",
+            "type": "number",
+            "display": "slider",
+            "max": 500,
+            "display_width": null,
+            "locked": false,
+            "step": 1,
+            "min": 0,
+            "required": false,
+            "default": 80
+          },
+          {
+            "label": "Horizontal spacing",
+            "name": "horizontal_spacing",
+            "type": "number",
+            "display": "slider",
+            "max": 500,
+            "display_width": null,
+            "locked": false,
+            "step": 1,
+            "min": 0,
+            "required": false,
+            "default": 40
+          }
+        ],
+        "display_width": null,
+        "locked": false,
+        "tab": "CONTENT",
+        "expanded": false,
+        "required": false
+      },
+      {
+        "label": "Container max width",
+        "name": "max_width",
+        "type": "number",
+        "display": "slider",
+        "min": 1200,
+        "max": 2000,
+        "step": 10,
+        "display_width": null,
+        "locked": false,
+        "required": false,
+        "default": 1440,
+        "help_text": "Maximum width of content containers"
+      }
+    ],
+    "display_width": null,
+    "locked": false,
+    "tab": "CONTENT",
+    "expanded": false,
+    "required": false
+  }
 ]

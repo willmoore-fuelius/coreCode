@@ -640,6 +640,17 @@ jQuery, Slick Slider, Magnific Popup, Lightbox, HoverIntent, Equalize, Video.js,
 
 jQuery is also included by default on HubSpot-hosted sites at the portal level. This theme is vanilla JS: switch the portal setting off (Settings > Website > Pages > scripts) and confirm with `typeof window.jQuery` on a rendered page.
 
+
+## Theme fields: what HubSpot allows
+
+A theme's `fields.json` supports only **Boolean, Border, Choice, Color, Font, Image, Number and Spacing**. A `text` field is rejected on upload with `'text' fields are not supported in theme fields.json`, which fails the whole file. Theme settings are for styling; content belongs to the portal or to a module.
+
+That is why the Organisation name in the structured data reads `site_settings.company_name` rather than a theme setting. It is filled in Settings > Account Defaults > Company Information, which is a different screen from the brand kit, and the structured data does not render until it is set.
+
+## Included partials need templateType: page
+
+A partial you `{% include %}` must be annotated `templateType: page`, with `isAvailableForNewContent: false` and a `label`. Annotated `templateType: none` it uploads cleanly, is never registered as a template, and the include renders **nothing at all**: no output, and no `Missing Template at Path` comment to point at the cause. Both `templates/partials/seo_schema.html` and `subscription_assets.html` shipped with `none` and silently produced nothing until corrected (portal 141885928, 21 Sep 2026). Registration is not instant, so allow a minute before concluding a corrected path is wrong.
+
 ## Repo tooling
 
 The theme has no build step, but the repo carries two checks. Run `npm install` once, then:
