@@ -7,21 +7,22 @@ label: Core Code - Blog post
 {% set template_css = '../../css/templates/blog_post.css' %}
 {% extends "./layouts/base.html" %}
 
-{% block head %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": {{ content.name|tojson }},
-  "datePublished": "{{ content.publish_date|format_datetime('yyyy-MM-dd') }}",
-  {% if content.featured_image %}"image": {{ content.featured_image|tojson }},{% endif %}
-  "author": {
-    "@type": "Person",
-    "name": {{ content.blog_post_author.display_name|default(site_settings.company_name, true)|tojson }}
-  }
-}
-</script>
-{% endblock head %}
+{#
+  No Article structured data here on purpose.
+
+  HubSpot already injects a BlogPosting block on every blog post, and it is
+  richer than anything worth hand-rolling: mainEntityOfPage, publisher with
+  the portal logo, an author URL, and dateModified as well as datePublished.
+  Measured on portal 141885928, 21 Sep 2026.
+
+  This template previously added its own Article block. It duplicated
+  HubSpot's, competed with it, and carried a bug: in a blog post context
+  `content.name` returns the editable span HubSpot wraps around the title, so
+  the headline serialised as `<span id="hs_cos_wrapper_name" ...>Title</span>`
+  rather than the title. If a page-level type is ever genuinely needed here,
+  strip the markup first with `content.name|striptags|tojson`, and check it
+  does not restate what HubSpot already emits.
+#}
 
 {% block body %}
 <main id="main-content">
@@ -37,6 +38,10 @@ label: Core Code - Blog post
           {%- endif %}
         </p>
 
+        {#- The featured image sits beside the title and usually repeats its
+            meaning, so an unset alt renders alt="" and the image is treated as
+            decorative. Where it carries information the reader needs, set the
+            featured image alt text on the post itself. -#}
         {%- if content.featured_image %}
         <img class="m-blogPost__image"
              src="{{ resize_image_url(content.featured_image, 1200, 0, 0) }}"

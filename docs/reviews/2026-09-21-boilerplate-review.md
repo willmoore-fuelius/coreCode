@@ -367,5 +367,9 @@ The same investigation showed the button fails silently when half configured: it
 
 ### Not verified
 - **Structured data.** No JSON-LD rendered. The include resolves, so the `{% if site_settings.company_name %}` guard is suppressing it, which is the intended behaviour on a portal with no company name set. Confirm on a portal that has one.
-- **The blog post template.** No blog post exists on the sandbox, so the date, author, featured image, tags and Article structured data are unrendered.
+- ~~**The blog post template.**~~ Verified 21 Sep 2026 against `/test/blog-post-number-1`. The date renders in a `<time datetime="2026-09-21">`, the author and both tags render, the featured image loads eagerly at high priority, the body is capped at 75ch, and the fonts and header geometry match the page template.
+
+  Two defects surfaced there, both now fixed. **The hand-rolled Article structured data was a regression.** HubSpot already injects a `BlogPosting` block on every post, and it is richer than what this template added: `mainEntityOfPage`, a publisher with the portal logo, an author URL, and `dateModified` as well as `datePublished`. The template's own block duplicated it and competed with it. It also carried a bug: in a blog post context `content.name` returns the editable span HubSpot wraps around the title, so the headline serialised as `<span id="hs_cos_wrapper_name" ...>Blog post number 1</span>` rather than the title. The block is removed, and the page now carries exactly one correct `BlogPosting`.
+
+  Second, the featured image renders `alt=""` when the post has no featured image alt text. Beside the title that is defensible, since the image usually repeats the heading's meaning, so the template now says so in a comment rather than leaving it accidental.
 - **Forms.** No HubSpot form on the page, so the error state and the two-column wrap are unmeasured.
