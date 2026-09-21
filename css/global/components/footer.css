@@ -1,5 +1,8 @@
 .m-siteFooter__inner {
     max-width: var(--containerWidth);
     margin-inline: auto;
-    padding: var(--space20);
+    /* Inline gutter matches the module spacing so the footer lines up with
+       page content. */
+    padding-block: var(--space20);
+    padding-inline: var(--moduleLeftSpacing) var(--moduleRightSpacing);
 }

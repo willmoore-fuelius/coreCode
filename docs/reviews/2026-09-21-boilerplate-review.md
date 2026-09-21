@@ -299,3 +299,57 @@ Other:
 
 - Google Fonts CSS2 endpoint for Open Sans, fetched today, registers `font-family: 'Open Sans'`.
 - Estate rules: `~/.claude/rules/hubspot-module-conventions.md` (macro `self.` verification, alt pre-population, WebP CDN behaviour), `~/.claude/rules/frontend-standards.md` (custom-property bridge, `renderRawHtml`).
+
+## 9. Re-measurement after the fixes
+
+Measured with Playwright on 21 September 2026 against `https://141885928.hs-sites-eu1.com/fable-review-test`, a page created from `CoreCode-review/templates/home.html` with a two-level menu on the header module. Cache busted with `?hsCacheBuster=` on each load. Desktop is 1280x800, mobile 390x844.
+
+| Check | Before (section) | Desktop | Mobile |
+|-------|------------------|---------|--------|
+| Header top edge | 80px (2.1) | 0px | 0px |
+| `body` inline padding-top | 80px (2.1) | none | none |
+| `<main>` top edge | 160px (2.1) | 80px | 80px |
+| Cumulative layout shift | 0.068 / 0.102 (3.1) | 0 | 0 |
+| Shift attributed to `.body-wrapper` | yes (3.1) | none | none |
+| `body` font | Times New Roman (2.2) | "Open Sans" | "Open Sans" |
+| `h1` font | Times New Roman (2.2) | Montserrat | Montserrat |
+| Horizontal scroll | none | none | none |
+
+Fonts confirmed loaded from the theme's font fields: Montserrat 700, Open Sans 400 and 700, requested by HubSpot's own injected stylesheet rather than a template link.
+
+**Stylesheet order** is as designed: inline critical, `theme_overrides`, `main`, then the two module stylesheets. No `preload` swap and no loadCSS polyfill remain.
+
+**Cascade proof after the directory rename.** Design Manager is case-insensitive on that path, so `css/modules/` merged into the existing `css/Modules/`. The CSSOM of the rendered page contains `.m-tags`, `.m-heading` and `.m-moduleFooter`, which proves `main.css` still resolves its `./modules/` includes. Eight stale files left behind by the rename and the deletions were removed from the portal with `hs cms delete`; an upload does not delete.
+
+**Macro imports resolve under their literal lowercase filenames.** The page carries no `Missing Template at Path` comment, and the navigation and footer render from their modules.
+
+**Keyboard path through a two-level menu**, measured step by step:
+
+| Step | Result |
+|------|--------|
+| Sub-menu at rest | `aria-expanded="false"`, panel not visible |
+| Focus the toggle | `document.activeElement` is the toggle |
+| Enter | `aria-expanded="true"`, panel visible |
+| Tab | focus lands on the first sub-menu link |
+| Escape | `aria-expanded="false"`, focus returns to the toggle |
+
+Target sizes: menu link 87x48, sub-menu toggle 48x48, drawer toggle 48x48. All clear the 44px working default.
+
+**Mobile drawer** opens to 764px starting at 80px, ending exactly at the 844px viewport bottom, with `aria-expanded` and the body scroll lock both correct. The `100dvh` fix holds.
+
+### Three defects the render found, now fixed
+
+The measurement did its job: reading the code would not have caught any of these.
+
+1. **The header inner row overflowed its own header by 8px.** `.m-siteHeader__inner` measured 88px inside an 80px `.m-siteHeader`, because the new 48px menu-link target plus 20px block padding exceeds the fixed height. This was introduced by the accessibility fix in 2.3. `.m-siteHeader` now uses `min-height` rather than `height`, and the inner's block padding is 16px, so 48 plus 32 lands exactly on 80.
+2. **Drag-and-drop content rendered edge to edge with no maximum width.** `.dnd-section` computed `padding: 0` and `max-width: none`, because the theme does not load HubSpot's `layout.css` and styled only `.o-wrapper--module`. Every page an editor builds was affected; it was invisible until section 4.2 added default drag-and-drop content. `.dnd-section` now takes the module spacing tokens and its row takes `--containerWidth`.
+3. **The header and footer sat 20px inside the page content.** Both used a fixed `--space20` inline gutter while content used the responsive module spacing, so the logo sat at 20px and the heading at 40px. Both now use `--moduleLeftSpacing` and `--moduleRightSpacing`.
+
+After those three, the logo, the page heading and the footer all share one gutter: 40px at 1280px, 24px at 390px.
+
+### Not verified
+
+- **The primary button.** `.e-button--primary` does not appear on this page, because the header CTA is switched off. The variant is defined and in the CSSOM; its rendered colours are still unmeasured.
+- **Structured data.** No JSON-LD rendered. The include resolves, so the `{% if site_settings.company_name %}` guard is suppressing it, which is the intended behaviour on a portal with no company name set. Confirm on a portal that has one.
+- **The blog post template.** No blog post exists on the sandbox, so the date, author, featured image, tags and Article structured data are unrendered.
+- **Forms.** No HubSpot form on the page, so the error state and the two-column wrap are unmeasured.

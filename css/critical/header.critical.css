@@ -7,9 +7,11 @@ div[data-global-resource-path*="header"] {
 	z-index: var(--zSticky);
 }
 
+/* min-height, not height: the inner row is sized by its own content (a 48px
+   touch target plus padding), and a fixed height would let it overflow. */
 .m-siteHeader {
 	position: relative;
-	height: var(--siteHeaderHeight);
+	min-height: var(--siteHeaderHeight);
 	z-index: var(--zBase);
 	background: var(--white);
 }
@@ -23,9 +25,13 @@ html.hs-inline-edit .m-siteHeader {
 	align-items: center;
 	width: 100%;
 	max-width: var(--containerWidth);
-	height: 100%;
+	min-height: var(--siteHeaderHeight);
 	margin-inline: auto;
-	padding: var(--space20);
+	/* 16px block padding keeps a 48px menu target inside the 80px header.
+	   The inline gutter matches the module spacing so the logo lines up with
+	   page content rather than sitting 20px inside it. */
+	padding-block: var(--space16);
+	padding-inline: var(--moduleLeftSpacing) var(--moduleRightSpacing);
 }
 
 .m-siteHeader__navigationgroup {

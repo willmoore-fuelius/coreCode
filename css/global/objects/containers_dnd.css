@@ -27,7 +27,16 @@
 	margin-inline: auto;
 }
 
+/* Drag-and-drop sections get the same rhythm as .o-wrapper--module, because
+   the theme does not load HubSpot's layout.css and a dnd_section otherwise
+   has no padding or max width: editor-built content runs edge to edge. */
+.dnd-section {
+	padding: var(--moduleTopSpacing) var(--moduleRightSpacing)
+	         var(--moduleBottomSpacing) var(--moduleLeftSpacing);
+}
+
 .dnd-section > .row-fluid {
+	max-width: var(--containerWidth);
 	margin-inline: auto;
 }
 
