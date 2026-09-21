@@ -19,6 +19,23 @@ Ordered by how much a visitor notices.
 | 8 | `html { font-size: calc(var(--rootFontSize) * 1px) }` pins the root to 16px and overrides the visitor's browser font-size preference. | `css/global/elements/typography.css` | 2.5 |
 | 9 | Mobile drawer sized `calc(100vh - var(--siteHeaderHeight))` but offset below the header, so its last rows sit under the fold on a browser with a collapsing URL bar. `100dvh` with a `100vh` fallback. | `css/critical/header.critical.css` | 2.6 |
 
+## Macro removals: one confirmed consumer
+
+This branch deletes `macros/style_helpers.html` and `macros/accessibility_helpers.html`, and replaces `image_helper.render_responsive_images` with `render_image`. A module calling a macro that no longer exists renders nothing, silently, so the thirty page modules in the older `CoreCode` portal theme were swept on 21 September 2026 to size the risk.
+
+| Removed | Modules calling it |
+|---------|--------------------|
+| `style_helpers.render_toggle` | 1: `pricing_grid.module/module.html:35` |
+| `image_helper.render_responsive_images` | 0 |
+| `accessibility_helpers.*` | 0 |
+| `style_helpers.render_module_padding` | 0 |
+
+So the macro rewrite is safe for those modules with one exception. If `pricing_grid` is ever brought forward into a theme on this branch, its monthly/annual toggle disappears without an error. Either carry `render_toggle` and `modules.toggle-button.css` across with it, or replace the toggle with markup the module owns.
+
+Two other numbers from the same sweep, both in this branch's favour. All thirty use the legacy `host_template_types` key, so any module brought forward needs the rename to `content_types`. Twenty-one reference `.e-button--primary` or `--secondary`, which were undefined before this branch and are now real, so those modules gain styled buttons rather than losing anything.
+
+None of the thirty uses `{% end_editor_placeholder %}`. The tag that blocked the upload was introduced by the nav and footer modules added at `d87c5e1`, not inherited from the older theme.
+
 ## Not portable
 
 These were changes of direction rather than fixes, and a client theme should only take them deliberately:
