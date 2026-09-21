@@ -102,19 +102,19 @@ coreCode/
 │   ├── CLAUDE.md              # Agent instructions and conventions
 │   └── skills/                # All slash command definitions
 ├── css/
-│   ├── critical/              # Inlined in <head> (layout, header, typography)
+│   ├── critical/              # header.critical.css, inlined in <head>
 │   ├── global/
 │   │   ├── generic/           # Reset, normalise
 │   │   ├── objects/           # Containers, DnD wrappers, utilities
 │   │   ├── components/        # Header, footer global styles
 │   │   └── elements/          # Buttons, forms, tables, typography, images
 │   ├── vendor/                # Splide, Plyr, Odometer
-│   ├── Modules/               # Shared module CSS (headings, footer CTA)
+│   ├── modules/               # Shared module CSS (tags, headings, footer CTA, video)
 │   └── main.css               # Entry point ({% include %} composition)
 ├── js/
-│   ├── modules/               # utilities.js (global), rotators, statistics
+│   ├── modules/               # utilities.js (global); rotators, statistics, video, video_popup load on demand
 │   └── vendor/                # Third-party libraries
-├── macros/                    # HubL macros (links, images, headings, video, style, accessibility)
+├── macros/                    # HubL macros (links, images, headings, video)
 ├── modules/                   # Generated content modules (flat directory)
 ├── templates/
 │   ├── layouts/base.html      # Base template — :root tokens, critical CSS, macro imports
@@ -123,9 +123,41 @@ coreCode/
 │   ├── home.html              # Default homepage template
 │   └── *.html                 # Additional page templates
 ├── design/                    # Design export files (input for /new-theme)
-├── fields.json                # Theme-level CMS settings (spacing sliders, container width)
+├── fields.json                # Theme settings: brand colours, fonts, spacing, container width
+├── package.json               # Dev tooling only (stylelint, CSS comment checker)
 └── theme.json                 # Theme metadata
 ```
+
+## Theme settings
+
+Brand colours and fonts are HubSpot theme settings, not hardcoded values. Editors change them under **Settings > Website > Themes**; the colour fields inherit from the portal's brand kit until someone sets them explicitly.
+
+| Group | Fields |
+|---|---|
+| Colours | Primary, Secondary, Tertiary, Highlight, Body text, Page background |
+| Typography | Heading font, Body font (HubSpot loads the selected web font automatically) |
+| Spacing | Mobile and desktop vertical/horizontal spacing, container max width |
+
+`css/theme_overrides.css` turns these into `:root` custom properties. A new theme field is not live until it is written there. Their values are portal content, not code: a colour changed in the editor is not in git, and `fields.json` holds the code-side default.
+
+## Repo tooling
+
+The theme has no build step. The repo carries two checks, which need one `npm install`:
+
+```bash
+npm install
+npm run check              # both checks
+npm run check:css-comments # nested or unclosed CSS comments (parser-based)
+npm run lint:css           # stylelint, --max-warnings 18 is the accepted !important baseline
+npm run lint:css:fix       # auto-fix the mechanical findings
+```
+
+Neither check is needed to deploy. `package.json`, `.stylelintrc.json` and `scripts/` are excluded from portal uploads by `.hsignore`.
+
+## Portal setup
+
+- **Switch off jQuery.** HubSpot includes it by default on hosted sites; this theme is vanilla JS. Confirm with `typeof window.jQuery` on a rendered page.
+- **Canonical tags and social metadata are automatic.** HubSpot sets a canonical URL on pages and blog posts by default, and generates Open Graph and Twitter card tags. Blog posts take their social image from the featured image; website and landing pages need one set by hand.
 
 ## Conventions
 

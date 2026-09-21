@@ -9,7 +9,7 @@
 .e-button,
 .hs-button,
 .cta_button,
-input[type=submit]:not(.normalise) {
+input[type="submit"]:not(.normalise) {
     position: relative;
     cursor: pointer;
     display: inline-flex;
@@ -33,7 +33,7 @@ input[type=submit]:not(.normalise) {
 .e-button:focus-visible,
 .hs-button:focus-visible,
 .cta_button:focus-visible,
-input[type=submit]:focus-visible {
+input[type="submit"]:focus-visible {
     outline: var(--border2) solid var(--primaryColour);
     outline-offset: 2px;
 }

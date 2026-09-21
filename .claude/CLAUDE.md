@@ -40,7 +40,7 @@ Use when the task involves:
 
 ## Front-End Coding Standards
 
-When writing or modifying module HTML, CSS, or JavaScript, follow the standards in `.claude/skills/frontend-standards/references/`. This covers BEM naming (camelCase within segments), ITCSS prefixes, WCAG 2.1 AA accessibility, vanilla CSS (no nesting), vanilla JS (no jQuery), design tokens, and performance best practices.
+When writing or modifying module HTML, CSS, or JavaScript, follow the standards in `.claude/skills/frontend-standards/references/`. This covers BEM naming (camelCase within segments), ITCSS prefixes, WCAG 2.2 AA accessibility, vanilla CSS (no nesting), vanilla JS (no jQuery), design tokens, and performance best practices.
 
 When spawning agents for front-end coding tasks, instruct them to read the reference files in `.claude/skills/frontend-standards/references/`.
 
@@ -53,11 +53,13 @@ This is **Core Code**, a HubSpot CMS theme by Fuelius. It provides modular, resp
 ## Development Workflow
 
 There are **no build commands** - this is a HubSpot CMS theme deployed directly via Git integration:
-1. Commit changes to Bitbucket
-2. HubSpot CI/CD automatically pulls and deploys
-3. Test in HubSpot editor/preview environment
+1. Commit changes to the repository
+2. Upload with `hs cms upload --account=<account> . "<destination>"` (or `hs cms watch` while developing)
+3. Test in the HubSpot editor and on a rendered page
 
-No npm, webpack, or compilation step exists. CSS and JS are used as-is.
+Repo tooling does have a dev dependency: `npm install` once, then `npm run check` runs the CSS comment parser and stylelint. Neither is required to deploy the theme.
+
+There is no build or compilation step: the CSS and JS in the repo are the CSS and JS HubSpot serves.
 
 ## Architecture
 
@@ -74,15 +76,14 @@ Entry point: `css/main.css` uses `{% include %}` to compose styles.
 
 ### Module Structure
 
-Modules are organised into category subdirectories:
+The boilerplate ships two modules:
 ```
 modules/
-├── banners/         # Banner hero, banner static
-├── blog/            # Blog filters, blog listing
-├── components/      # Search box, search results
-├── elements/        # Logo, rich text, social icons
-├── menus/           # Mega menu, simple menu
-└── page/            # All page content modules (~30+)
+├── site_navigation.module/   # Header logo, menu, optional CTA
+└── footer_content.module/    # Footer text, menu, copyright
+
+Those two are the only modules the boilerplate ships. Content modules are
+generated per project (see the stitch-to-hubspot skill), not kept here.
 ```
 
 Each module is self-contained:
@@ -101,29 +102,27 @@ Reusable template functions in `macros/`. These are imported globally in `templa
 
 | File (local) | Import alias | Key macros |
 |---|---|---|
-| `link_helpers.html` | `link_helper` | `render_link()`, `render_cta()` — see deprecation notes below |
-| `image_helpers.html` | `image_helper` | Responsive images with `<picture>` elements |
+| `link_helpers.html` | `link_helper` | `render_link()`, `render_cta()`, `render_button()`, `render_module_footer_cta()` |
+| `image_helpers.html` | `image_helper` | `render_image(image, class, sizes, priority)` — one `<img>` with a width-descriptor `srcset` |
 | `text_helpers.html` | `text_helpers` | `render_heading(model, enabled, name)` |
-| `style_helpers.html` | `style_helpers` | `render_toggle(trigger)` — toggle input component |
 | `video_helpers.html` | `video_helper` | Video embed helpers |
-| `accessibility_helpers.html` | — | Accessibility utilities (not imported globally) |
 
-**Note:** HubSpot maps local filenames to Title Case on deployment (e.g., `link_helpers.html` → `Link Helpers.html`). The import aliases in `base.html` use the Title Case paths. Pay attention to singular vs plural: `link_helper` (singular) but `text_helpers`, `style_helpers` (plural).
+**Superseded 21 Sep 2026:** this note previously said HubSpot maps local filenames to Title Case on deployment, and that `base.html` must import the Title Cased paths. The Design Manager stores the literal lowercase filenames (confirmed by listing `CoreCode-review/macros` on portal 141885928). HubSpot's resolver also matches a Title Cased path, which is why the old imports worked and the claim went unchallenged. `base.html` now imports the literal names. Mind singular vs plural in the aliases: `link_helper` (singular), `text_helpers` (plural).
 
-**Deprecated macros — do NOT use in new modules:**
-- `link_helper.render_button()` — internal cross-macro calls without namespace prefixes cause silent empty output
-- `link_helper.render_module_footer_cta()` — calls `render_button()` internally, which silently fails
-- `style_helpers.render_module_padding()` — **REMOVED** (was suppressed by HubSpot). Spacing is now handled via inline `style` attributes on the wrapper element.
+**Superseded 21 Sep 2026 — `render_button()` and `render_module_footer_cta()` are supported.** They were deprecated here on the grounds that un-prefixed cross-macro calls produce silent empty output. That was the wrong diagnosis: an un-prefixed sibling call works, and it is the `self.` prefix that renders nothing, because `self` addresses the block namespace rather than the macro namespace (verified on a rendered page, portal 149133071, 20 Aug 2026). Use the macros; do not duplicate their markup per module.
 
-Use the **inline patterns** shown in the Module Template Pattern section below instead.
+**Removed macros:**
+- `style_helpers.render_module_padding()` — removed. Spacing uses inline custom properties on `.o-wrapper--module`.
+- `style_helpers.html` and `accessibility_helpers.html` — deleted 21 Sep 2026, no consumers.
 
 ### CSS Variables & Design System
 
 The theme uses a comprehensive design system with CSS custom properties following **camelCase naming convention**.
 
 #### Variable Architecture
-- **Base tokens** defined in `templates/layouts/base.html` (inline `<style>`)
-- **Theme-configurable** values in `css/theme_overrides.css`
+- **Base tokens** (spacing, radius, z-index, type scale, neutral greys) defined in `templates/layouts/base.html` (inline `<style>`)
+- **Brand colours and fonts** are theme settings in `fields.json`, written to `:root` by `css/theme_overrides.css`. The colour fields inherit from the portal's brand kit. Their values are content, not code: a colour changed in the editor is not in git, and `fields.json` holds the code-side default
+- **Extension tokens** with no theme field of their own go in `css/global/tokens/palette.css`, inlined by `base.html`
 - **CMS fields** in `fields.json` for end-user customization
 
 #### Design System Tokens
@@ -232,7 +231,7 @@ These fields populate the CSS variables in `theme_overrides.css`, allowing per-s
       {%- endif -%}
       {%- endif -%}
 
-      {# Inline footer CTA — do NOT use link_helper.render_module_footer_cta() #}
+      {# Footer CTA. link_helper.render_module_footer_cta(module.module_footer_cta, name) does the same job. #}
       {%- set footer = module.module_footer_cta -%}
       {%- if footer.button_type == 'link' and footer.link_settings.link_field.url.href and footer.link_settings.link_text -%}
       <div class="m-moduleFooter">
@@ -263,8 +262,8 @@ These fields populate the CSS variables in `theme_overrides.css`, allowing per-s
 
 **Key details:**
 - `render_heading(model, enabled, name)` — 3rd `name` param is optional but recommended to avoid ID collisions
-- **Footer CTA** is rendered inline — do NOT use `link_helper.render_module_footer_cta()` (it silently fails due to internal cross-macro calls without namespace prefixes)
-- **Module spacing** uses inline `style` attribute on `.o-wrapper--module` to inject `--moduleTopSpacingMobile`, `--moduleBottomSpacingMobile`, `--moduleTopSpacingDesktop`, `--moduleBottomSpacingDesktop`. The CSS in `containers_dnd.css` switches between mobile/desktop at 992px. Do NOT use `style_helpers.render_module_padding()` (removed) or inline `<style>` blocks.
+- **Footer CTA** uses `{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}`. The inline copy shown above is still valid, but the macro is not broken and is the DRY option.
+- **Module spacing** uses inline `style` attribute on `.o-wrapper--module` to inject `--moduleTopSpacingMobile`, `--moduleBottomSpacingMobile`, `--moduleTopSpacingDesktop`, `--moduleBottomSpacingDesktop`. The CSS in `containers_dnd.css` switches between mobile/desktop at 992px. Do not use inline `<style>` blocks.
 - Spacing field names must be `padding_top` and `padding_bottom` (NOT `top`/`bottom`)
 - Scrollid wrapper is optional — provides anchor link targets
 - Use `{%- -%}` whitespace-trimming tags for clean HTML output
@@ -285,6 +284,7 @@ Located in `css/vendor/` and `js/vendor/`:
 `js/modules/utilities.js` is loaded globally via `base.html` and exposes:
 - `window.CoreCode.trapFocus(container)` — Traps Tab focus within a container. Returns a cleanup function.
 - `window.CoreCode.debounce(func, wait, immediate)` — Debounce utility (default 200ms delay).
+- `window.CoreCode.lazyModuleInit(moduleId, initFn)` — runs `initFn` when the module is needed. A wrapper carrying `data-lazy-init` waits until it nears the viewport (IntersectionObserver, 200px margin); anything else runs on DOMContentLoaded. Also exposed as the bare `window.lazyModuleInit`.
 
 Use these instead of inlining duplicate implementations in module JS files.
 
@@ -294,7 +294,7 @@ Carousels (`js/modules/rotators.js`) and statistics counters (`js/modules/statis
 
 ## Coding Principles
 
-- **WCAG 2.1 AA** — Keyboard navigation with `:focus-visible`, ARIA attributes, 4.5:1 contrast, 48px touch targets, semantic HTML
+- **WCAG 2.2 AA** — Keyboard navigation with `:focus-visible`, ARIA attributes, 4.5:1 contrast, 48px touch targets, semantic HTML
 - **Performance** — Lazy load images, async/defer JS, `font-display: swap`, responsive images
 - **Vanilla JS only** — No jQuery, no frameworks. IIFE pattern, event delegation, `const`/`let`
 - **Modern CSS** — Media query range syntax (`width >= 992px`), `:is()`/`:where()` selectors, logical properties (`margin-inline`), individual transform properties (`translate`, `rotate`, `scale`)
@@ -351,16 +351,20 @@ Most common upload errors shown below. The complete error table (12+ patterns) i
 | Error message | Root cause | Fix |
 |---|---|---|
 | `internal error` | `meta.json` missing `description`, `icon`, or other required keys | Add all required meta.json fields — see `/fix-module` skill |
-| `CSS or Javascript is not allowed on modules with ANY content type` | `meta.json` missing `host_template_types` | Add `"host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"]` |
+| `CSS or Javascript is not allowed on modules with ANY content type` | `meta.json` missing `content_types` | Add `"content_types": ["SITE_PAGE", "LANDING_PAGE", "BLOG_POST", "BLOG_LISTING"]` |
 | `'link' is required but no default is set` | Link field missing complete default, or cascade from broken meta.json | Fix meta.json first; if persists, ensure all link fields have `default` with `url.type`, `url.href`, `open_in_new_tab`, `no_follow` |
 | `'X' is not a valid category` | Category value in meta.json is lowercase | Use UPPERCASE: `"BODY_CONTENT"`, `"MEDIA"`, `"TEXT"`, etc. |
 | `Cannot deserialize value of type java.util.ArrayList` | `content_tags` included in meta.json | Remove `content_tags` entirely — it's auto-generated |
 | `Value for field with an occurrence must be an array` | Repeater default is `{}` instead of `[]` | Use `"default": []` or `"default": [{...}]` |
 
-**Key rule:** When `css_assets` or `js_assets` are present in `meta.json`, `host_template_types` is **mandatory**. Without it, HubSpot treats the module as available on ALL content types and blocks CSS/JS.
+**Key rule:** When `css_assets` or `js_assets` are present in `meta.json`, `content_types` is **mandatory**. Without it, HubSpot treats the module as available on ALL content types and blocks CSS/JS.
+
+`content_types` is the current key. `host_template_types` is its former name and still functions, but new modules use `content_types` with the documented values (`SITE_PAGE`, `LANDING_PAGE`, `BLOG_POST`, `BLOG_LISTING`, `EMAIL`, and the rest). Note `PAGE` is not one of them.
+
+**`{% end_editor_placeholder %}` is not a HubL tag.** `editor_placeholder` is a single tag used inside an `if`; the block form fails the whole upload with `Unknown tag: end_editor_placeholder` after earlier files have already been written. Put empty-state guidance in the `placeholder` object in `meta.json` (`show_module_icon`, `title`, `description`).
 
 ## Git Workflow
 
-- **Main branch**: `development`
+- **Main branch**: `main`
 - **Feature branches**: `feature/HCC-{number}`
 - **Bugfix branches**: `bugfix/HCC-{number}`

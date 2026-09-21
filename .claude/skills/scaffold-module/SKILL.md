@@ -99,9 +99,9 @@ Two patterns exist for loading vendor libraries. Choose based on whether the lib
 ```
 
 **Key details:**
-- `window.lazyModuleInit()` uses IntersectionObserver for deferred init — use it for heavy modules (carousels, video, counters)
+- `window.lazyModuleInit()` (defined in `js/modules/utilities.js`, also on `window.CoreCode`) uses IntersectionObserver for deferred init — use it for heavy modules (carousels, video, counters). The module wrapper must carry `data-lazy-init`, or the callback runs on DOMContentLoaded instead
 - Path convention: modules are 3 directories deep, so vendor paths use `../../../` to reach project root
-- When using `meta.json` assets, `host_template_types` is **mandatory** — without it HubSpot blocks CSS/JS
+- When using `meta.json` assets, `content_types` is **mandatory** — without it HubSpot blocks CSS/JS
 - Available vendor libraries: Splide (carousels), Plyr (video), lite-youtube (YouTube embeds), Odometer (animated counters). Check `css/vendor/` and `js/vendor/` for files
 
 ### Code standards summary
@@ -131,7 +131,7 @@ Run through this quick checklist mentally before presenting files:
 3. **Links** — Complete defaults with `url`, `open_in_new_tab`, `no_follow`?
 4. **Images** — All 6 default keys: `size_type`, `src`, `alt`, `loading`, `width`, `height`?
 5. **Spacing** — `inherited_value.default_value_path` on number fields? Path: `style > spacing_alignment > spacing > desktop/mobile > padding_top/padding_bottom`?
-6. **Meta** — UPPERCASE categories, has `icon`, `description`, `host_template_types`? No `content_tags` or `module_id`?
+6. **Meta** — UPPERCASE categories, has `icon`, `description`, `content_types`? No `content_tags` or `module_id`?
 7. **Template** — No imports, correct macro calls, `|safe` for rich text, inline `style` attribute on `.o-wrapper--module` for spacing?
 8. **CSS class** — camelCase (`.m-featureCards`, not `.m-feature_cards`)?
 9. **All required fields** — Have defaults?
@@ -145,7 +145,7 @@ Run through this quick checklist mentally before presenting files:
 - Spacing field names MUST be `padding_top` and `padding_bottom` (NOT `top`/`bottom`)
 - Footer CTAs and module spacing MUST use inline patterns (NOT deprecated macros)
 - Use `{%- -%}` whitespace-trimming tags for clean HTML output
-- Use `{% editor_placeholder %}` for empty content when `is_in_editor`
+- Use `{% editor_placeholder %}` for empty content when `is_in_editor`. It is a **single tag**: `{% end_editor_placeholder %}` is not a HubL tag and fails the whole upload. Put guidance text in the `placeholder` object in `meta.json` (`show_module_icon`, `title`, `description`)
 - Asset paths for modules in subdirectories: `../../../css/vendor/...` (3 levels up)
 
 ## Post-Generation

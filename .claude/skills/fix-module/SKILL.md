@@ -26,7 +26,7 @@ Match the error against the known error table below. If it doesn't match, analys
 | Error message | Root cause | Fix |
 |---|---|---|
 | `internal error` | Missing `description`, `icon`, or other required meta.json keys | Add all required meta.json fields |
-| `CSS or Javascript is not allowed on modules with ANY content type` | Missing `host_template_types` in meta.json | Add `"host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"]` |
+| `CSS or Javascript is not allowed on modules with ANY content type` | Missing `content_types` in meta.json | Add `"host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"]` |
 | `'link' is required but no default is set` | Incomplete link field default, or cascading from broken meta.json | Fix meta.json first; ensure all link fields have complete defaults with `url.type`, `url.href`, `url.content_id`, `open_in_new_tab`, `no_follow` |
 | `'X' is not a valid category` | Lowercase category value | Use UPPERCASE: `"BODY_CONTENT"`, `"MEDIA"`, `"TEXT"`, etc. |
 | `Cannot deserialize value of type java.util.ArrayList` | `content_tags` included in meta.json | Remove `content_tags` entirely — auto-generated |
@@ -76,7 +76,7 @@ Apply the fix directly to the module files. Explain what was wrong and what was 
 
 After fixing, run a quick validation:
 
-1. **meta.json** — has label, description, icon, host_template_types, UPPERCASE categories, no forbidden fields?
+1. **meta.json** — has label, description, icon, content_types, UPPERCASE categories, no forbidden fields?
 2. **fields.json** — all required fields have defaults? Repeaters use `group_occurrence_meta` with array defaults? Images have all 6 keys?
 3. **module.html** — no macro imports? No deprecated/removed macros? Inline `style` attribute on `.o-wrapper--module` with spacing variables?
 

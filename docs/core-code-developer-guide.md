@@ -19,7 +19,7 @@ Core Code is a HubSpot CMS theme by Fuelius. It provides modular, responsive web
 | **CSS** | Vanilla CSS, ITCSS architecture, BEM naming |
 | **JavaScript** | Vanilla JS (zero jQuery dependencies) |
 | **Templating** | HubL/Jinja2 with reusable macros |
-| **Accessibility** | WCAG 2.1 Level AA compliant |
+| **Accessibility** | WCAG 2.2 Level AA compliant |
 | **Breakpoint** | Mobile-first, desktop at `992px` |
 | **Main branch** | `development` |
 
@@ -83,7 +83,7 @@ Every module follows this wrapper structure:
 
 **Important:** Macros are imported once in `templates/layouts/base.html` and used via their aliases (e.g. `text_helpers.render_heading()`). Templates and modules that extend `base.html` use those aliases directly — do not re-import the macro files per module.
 
-**Module spacing** is set via inline `style` attribute on `.o-wrapper--module` using four CSS custom properties. The global CSS in `containers_dnd.css` switches between mobile/desktop at 992px. Do NOT use `style_helpers.render_module_padding()` (removed) or inline `<style>` blocks.
+**Module spacing** is set via inline `style` attribute on `.o-wrapper--module` using four CSS custom properties. The global CSS in `containers_dnd.css` switches between mobile/desktop at 992px. Do not use inline `<style>` blocks.
 
 ---
 
@@ -313,40 +313,44 @@ module_heading: {
 
 ### ~~`style_helpers.render_module_padding(name, spacing)`~~ — REMOVED
 
-This macro has been removed. Use the **inline style attribute pattern** on `.o-wrapper--module` instead. See the Module Template Pattern above.
+`style_helpers.html` was deleted on 21 September 2026 along with `accessibility_helpers.html`; neither had a consumer. Spacing uses the inline custom-property pattern on `.o-wrapper--module` shown in the Module Template Pattern above.
 
 ### `link_helper.render_button(button, scope, classes)`
 
-Thin router that calls `render_link` or `render_cta` based on `button_type`. Available for inline buttons; for module footer CTAs prefer the inline pattern in the Module Template Pattern above.
+Thin router that calls `render_link` or `render_cta` based on `button_type`.
 
 ```html
 {{ link_helper.render_button(item.button, name ~ '__button_' ~ loop.index) }}
 ```
 
-### ~~`link_helper.render_module_footer_cta(button, name)`~~ — DEPRECATED
+### `link_helper.render_module_footer_cta(button, name)`
 
-**Use the inline footer CTA pattern** from the Module Template Pattern instead. This macro is retained for backwards compatibility only.
-
-### `image_helper.render_responsive_images(item, class)`
-
-Renders a `<picture>` element with device-specific sources (mobile/tablet/desktop) and WebP.
+Renders the footer CTA wrapper, its alignment modifier and margin custom properties, then the button.
 
 ```html
-{{ image_helper.render_responsive_images(item.image, 'm-moduleName__image') }}
+{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
 ```
 
-**Field structure expected:**
+**Superseded 21 September 2026.** Both macros above were previously marked deprecated here, on the grounds that their internal cross-macro calls produce silent empty output. That diagnosis was wrong. An un-prefixed sibling macro call works; it is the `self.` prefix that renders nothing, because `self` addresses the block namespace rather than the macro namespace (verified on a rendered page, portal 149133071, 20 August 2026). The inline footer CTA in the Module Template Pattern is still valid, but it is a copy of what this macro already does.
 
-```
-image: {
-  mobile:   { mobile_image:  { src, alt, loading, width, height } },
-  tablet:   { tablet_image:  { src, alt, loading, width, height } },
-  desktop:  { desktop_image: { src, alt, loading, width, height } },
-  fallback_image: { default_image: { src, alt, width, height } }
-}
+### `image_helper.render_image(image, class, sizes, priority)`
+
+One `<img>` with a width-descriptor `srcset` at 480/768/1200/1600 (candidates wider than the source are skipped), `width` and `height` from the field, and a lazy/eager switch.
+
+```html
+{# A hero: the LCP image #}
+{{ image_helper.render_image(module.image, 'm-hero__image', '100vw', true) }}
+
+{# A card in a two-up grid #}
+{{ image_helper.render_image(item.image, 'm-card__image', '(width >= 992px) 50vw, 100vw') }}
 ```
 
----
+- `sizes` describes the slot the image occupies, not the image. Default `100vw`.
+- `priority` marks the LCP image: `loading="eager"`, `fetchpriority="high"`, `decoding="sync"`. Everything else is lazy.
+- Do not pre-convert to WebP. HubSpot's CDN negotiates the format when it is smaller, and Design Manager rejects `.webp` outright.
+- `width` and `height` are always emitted when the field has them: they reserve the aspect ratio and HubSpot's automatic resizing only applies to images that carry them.
+
+**Superseded 21 September 2026:** this macro replaced `render_responsive_images`, which emitted a `<picture>` with a duplicate WebP `<source>` pointing at the same URL, a single-candidate `srcset`, and no way to mark the LCP image.
 
 ## JavaScript Patterns
 
@@ -438,7 +442,7 @@ modules/module_name.module/
   "other_assets": [],
   "smart_type": "NOT_SMART",
   "tags": [],
-  "host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"],
+  "content_types": ["SITE_PAGE", "LANDING_PAGE", "BLOG_POST", "BLOG_LISTING"],
   "is_available_for_new_content": true,
   "categories": ["BODY_CONTENT"]
 }
@@ -449,7 +453,7 @@ modules/module_name.module/
 | Rule | Detail |
 |---|---|
 | **Categories** | MUST be UPPERCASE: `TEXT`, `BODY_CONTENT`, `MEDIA`, `FORMS_AND_BUTTONS`, `DESIGN`, `FUNCTIONALITY`, `BLOG`, `SOCIAL`, `COMMERCE` |
-| **host_template_types** | MUST be present when `css_assets` or `js_assets` exist — otherwise HubSpot blocks CSS/JS |
+| **content_types** | MUST be present when `css_assets` or `js_assets` exist — otherwise HubSpot blocks CSS/JS |
 | **Never include** | `content_tags`, `module_id`, `global`, `css_assets` (auto), `js_assets` (auto) |
 | **description + icon** | Always include both — missing description triggers "internal error" on upload |
 
@@ -532,7 +536,7 @@ Follow the JavaScript Patterns section:
 
 ## Accessibility Checklist
 
-Every module must meet WCAG 2.1 Level AA:
+Every module must meet WCAG 2.2 Level AA:
 
 - [ ] **Semantic HTML** — use `<button>`, `<nav>`, `<main>`, `<article>` over generic `<div>`
 - [ ] **Keyboard navigation** — all interactive elements reachable and operable via keyboard
@@ -611,7 +615,7 @@ Every module must meet WCAG 2.1 Level AA:
 | Error | Cause | Fix |
 |---|---|---|
 | `internal error` | `meta.json` missing `description`, `icon`, or required fields | Add all required meta.json fields |
-| `CSS or Javascript is not allowed on modules with ANY content type` | `meta.json` missing `host_template_types` | Add `"host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"]` |
+| `CSS or Javascript is not allowed on modules with ANY content type` | `meta.json` missing `content_types` | Add `"content_types": ["SITE_PAGE", "LANDING_PAGE", "BLOG_POST", "BLOG_LISTING"]` |
 | `'link' is required but no default is set` | Link field missing complete default, or cascade from broken meta.json | Fix meta.json first; then check all link fields have full defaults |
 | `'X' is not a valid category` | Category in meta.json is lowercase | Use UPPERCASE: `"BODY_CONTENT"`, `"MEDIA"`, etc. |
 | `Cannot deserialize value` | `content_tags` present in meta.json | Remove the `content_tags` key |
@@ -628,9 +632,27 @@ Every module must meet WCAG 2.1 Level AA:
 | **Plyr** | Video player | Lightweight, CSS variable theming |
 | **lite-youtube** | YouTube embeds | Facade pattern for performance |
 
+**Loaded on demand, not globally.** `js/modules/rotators.js`, `statistics.js`, `video.js` and `video_popup.js`, and the vendor libraries above, are dependencies of generated content modules. A module that needs one requires it with `require_js`; the layout loads only `utilities.js`.
+
 ### Removed Libraries (Do Not Re-introduce)
 
-jQuery, Slick Slider, Magnific Popup, Lightbox, HoverIntent, Equalize, Video.js, AOS, JPList, Select2 — all replaced with native browser APIs or lighter alternatives.
+jQuery, Slick Slider, Magnific Popup, Lightbox, HoverIntent, Equalize, Video.js, AOS, JPList, Select2 — all replaced with native browser APIs or lighter alternatives. `js/vendor/tabs_accordion.js` and the lightbox stylesheet and images were deleted on 21 September 2026, having had no consumer since the theme was stripped to a convention framework.
+
+jQuery is also included by default on HubSpot-hosted sites at the portal level. This theme is vanilla JS: switch the portal setting off (Settings > Website > Pages > scripts) and confirm with `typeof window.jQuery` on a rendered page.
+
+## Repo tooling
+
+The theme has no build step, but the repo carries two checks. Run `npm install` once, then:
+
+| Command | What it does |
+|---|---|
+| `npm run check` | Both checks below |
+| `npm run check:css-comments` | Parser-based scan for nested or unclosed CSS comments. Counting `/*` against `*/` cannot catch this: a file missing one of each still counts equal |
+| `npm run check:css-comments:self-test` | Positive and negative controls for that scanner |
+| `npm run lint:css` | stylelint. `--max-warnings 18` is the accepted `!important` baseline (nine visibility utilities, five HubSpot form overrides, the rest third-party widget overrides). The number should go down, never up |
+| `npm run lint:css:fix` | Auto-fix the mechanical findings |
+
+`css/main.css` and `css/theme_overrides.css` are excluded from stylelint: both are HubL templates that a CSS parser cannot read.
 
 ---
 
@@ -638,8 +660,8 @@ jQuery, Slick Slider, Magnific Popup, Lightbox, HoverIntent, Equalize, Video.js,
 
 | Branch type | Pattern | Example |
 |---|---|---|
-| Main | `development` | — |
+| Main | `main` | — |
 | Feature | `feature/HCC-{number}` | `feature/HCC-1234` |
 | Bugfix | `bugfix/HCC-{number}` | `bugfix/HCC-5678` |
 
-No build step — commit, push, and HubSpot CI/CD deploys automatically.
+No build step for the theme itself: `hs cms upload` pushes the files as they are. Repo tooling needs `npm install` once, after which `npm run check` runs the CSS comment parser and stylelint.

@@ -21,7 +21,7 @@ fieldset.form-columns-2 .hs-form-field {
 
 /* Scoped away from checkbox and radio: HubSpot puts .hs-input on every field
    type, and a full-width consent checkbox collapses its own label. */
-fieldset.form-columns-1 .hs-input:not([type=checkbox]):not([type=radio]) {
+fieldset.form-columns-1 .hs-input:not([type="checkbox"], [type="radio"]) {
   width: 100% !important;
 }
 
@@ -41,15 +41,15 @@ form .hs-field-desc{
 
 /* Inputs */
 
-form input[type=text],
-form input[type=email],
-form input[type=password],
-form input[type=tel],
-form input[type=number],
-form input[type=url],
-form input[type=search],
-form input[type=date],
-form input[type=file],
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="tel"],
+form input[type="number"],
+form input[type="url"],
+form input[type="search"],
+form input[type="date"],
+form input[type="file"],
 form select,
 form textarea {
   display: inline-block;
@@ -57,27 +57,27 @@ form textarea {
 }
 
 /* Focus visible styles for accessibility (WCAG 2.4.7) */
-form input[type=text]:focus-visible,
-form input[type=email]:focus-visible,
-form input[type=password]:focus-visible,
-form input[type=tel]:focus-visible,
-form input[type=number]:focus-visible,
-form input[type=url]:focus-visible,
-form input[type=search]:focus-visible,
-form input[type=date]:focus-visible,
-form input[type=file]:focus-visible,
+form input[type="text"]:focus-visible,
+form input[type="email"]:focus-visible,
+form input[type="password"]:focus-visible,
+form input[type="tel"]:focus-visible,
+form input[type="number"]:focus-visible,
+form input[type="url"]:focus-visible,
+form input[type="search"]:focus-visible,
+form input[type="date"]:focus-visible,
+form input[type="file"]:focus-visible,
 form select:focus-visible,
 form textarea:focus-visible {
   outline: var(--border2) solid var(--primaryColour);
   outline-offset: 2px;
 }
 
-form input[type=file]{
+form input[type="file"]{
   padding-left: 0;
   padding-right: 0;
 }
 
-input[type=file]::file-selector-button{
+input[type="file"]::file-selector-button{
   cursor: pointer;
   margin-right: var(--space20);
 }
@@ -109,8 +109,8 @@ form .inputs-list span {
   vertical-align: middle;
 }
 
-form input[type=checkbox],
-form input[type=radio] {
+form input[type="checkbox"],
+form input[type="radio"] {
   cursor: pointer;
   margin-right: var(--space8);
   opacity: 0;
@@ -120,15 +120,15 @@ form input[type=radio] {
   z-index: var(--zBase);
 }
 
-form input[type=checkbox] ~ span:first-of-type,
-form input[type=radio] ~ span:first-of-type {
+form input[type="checkbox"] ~ span:first-of-type,
+form input[type="radio"] ~ span:first-of-type {
   position: relative;
   display: flex !important;
   align-items: center;
 }
 
-form input[type=checkbox] ~ span:first-of-type:before,
-form input[type=radio] ~ span:first-of-type:before {
+form input[type="checkbox"] ~ span:first-of-type::before,
+form input[type="radio"] ~ span:first-of-type::before {
   content: '';
   background: var(--white);
   display: inline-block;
@@ -141,8 +141,8 @@ form input[type=radio] ~ span:first-of-type:before {
 }
 
 
-form input[type=checkbox]:checked ~ span:before,
-form input[type=radio]:checked ~ span:before{
+form input[type="checkbox"]:checked ~ span::before,
+form input[type="radio"]:checked ~ span::before{
   background-color: var(--white);
   border-color: var(--grey50);
   background-repeat: no-repeat;
@@ -151,11 +151,11 @@ form input[type=radio]:checked ~ span:before{
   background-position: center;
 }
 
-form input[type=radio]:checked ~ span:before{
+form input[type="radio"]:checked ~ span::before{
   background-image: none;
 }
 
-form input[type=radio]:checked ~ span:after {
+form input[type="radio"]:checked ~ span::after {
   content: '';
   top: 50%;
   left: var(--space8);
@@ -167,8 +167,8 @@ form input[type=radio]:checked ~ span:after {
 }
 
 /* Custom checkbox/radio focus indicators for accessibility (WCAG 2.4.7) */
-form input[type=checkbox]:focus-visible ~ span:first-of-type:before,
-form input[type=radio]:focus-visible ~ span:first-of-type:before {
+form input[type="checkbox"]:focus-visible ~ span:first-of-type::before,
+form input[type="radio"]:focus-visible ~ span:first-of-type::before {
   outline: var(--border2) solid var(--primaryColour);
   outline-offset: 2px;
 }
@@ -203,7 +203,7 @@ form .multi-container{
 
 /* Inputs - file picker */
 
-form input[type=file] {
+form input[type="file"] {
   background-color: transparent;
   border: initial;
   padding: initial;
@@ -249,7 +249,7 @@ form .hs-richtext img {
 
 /* Submit button */
 
-form input[type=submit],
+form input[type="submit"],
 form .hs-button {
   cursor: pointer;
   display: inline-block;
@@ -258,8 +258,8 @@ form .hs-button {
   white-space: normal;
 }
 
-form input[type=submit]:hover,
-form input[type=submit]:focus,
+form input[type="submit"]:hover,
+form input[type="submit"]:focus,
 form .hs-button:hover,
 form .hs-button:focus{
   text-decoration: none;

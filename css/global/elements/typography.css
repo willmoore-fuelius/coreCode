@@ -107,22 +107,22 @@ ol:not([class]) > li {
 	padding-left: var(--space20);
 }
 
-ul:not([class]) > li:before,
-ol:not([class]) > li:before {
+ul:not([class]) > li::before,
+ol:not([class]) > li::before {
 	content: '';
 	position: absolute;
 	left: 0;
 	top: 7px;
 }
 
-ul:not([class]) > li:before{
+ul:not([class]) > li::before{
 	width: 0.625rem;
 	height: 0.625rem;
 	border-width: var(--border1);
 	border-style: solid;
 }
 
-ol:not([class]) > li:before{
+ol:not([class]) > li::before{
 	content: counter(default-counter);
 	width: 0.625rem;
 	height: 0.625rem;

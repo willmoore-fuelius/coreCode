@@ -1,0 +1,17 @@
+{
+  "name": "core-code",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tooling for the Core Code HubSpot CMS theme. The theme itself has no build step.",
+  "scripts": {
+    "lint:css": "stylelint \"css/**/*.css\" \"modules/**/*.css\" --max-warnings 18",
+    "lint:css:fix": "stylelint \"css/**/*.css\" \"modules/**/*.css\" --fix",
+    "check:css-comments": "python scripts/check_css_comments.py css modules",
+    "check:css-comments:self-test": "python scripts/check_css_comments.py --self-test",
+    "check": "npm run check:css-comments && npm run lint:css"
+  },
+  "devDependencies": {
+    "stylelint": "^16.10.0",
+    "stylelint-config-standard": "^36.0.1"
+  }
+}

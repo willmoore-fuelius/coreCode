@@ -1,11 +1,11 @@
 .m-heading {
-  margin-top: var(--headingMarginTopMobile, 0px);
+  margin-top: var(--headingMarginTopMobile, 0);
   margin-bottom: var(--headingMarginBottomMobile, 40px);
 }
 
 @media (width >= 992px) {
   .m-heading {
-    margin-top: var(--headingMarginTopDesktop, 0px);
+    margin-top: var(--headingMarginTopDesktop, 0);
     margin-bottom: var(--headingMarginBottomDesktop, 40px);
   }
 }

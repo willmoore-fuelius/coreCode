@@ -16,3 +16,9 @@ docs/
 design/
 README.md
 LICENSE
+
+# Tooling config (not needed in the HubSpot portal)
+package.json
+package-lock.json
+.stylelintrc.json
+.editorconfig
