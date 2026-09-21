@@ -732,7 +732,7 @@ Tasks are ordered by dependency. Each task is one commit unless stated. Every up
 
 ## Tracked action before merge
 
-**Revert the theme label.** `theme.json` carries `"label": "Core Code (review branch)"` so the review copy is unmistakable in the sandbox theme picker alongside the original. HubSpot had otherwise renamed it to "Core Code - review" on upload to resolve the collision, which is what made it hard to find. Before this branch merges, set the label back to `"Core Code"`. A client theme cloned from a boilerplate labelled "review branch" is a visible defect, and `theme-clone` renames the label per client from this value.
+**Revert the theme label. Done 21 September 2026.** `theme.json` carried `"label": "Core Code (review branch)"` while the review copy sat on the sandbox beside the original, because HubSpot had otherwise renamed it to "Core Code - review" on upload to resolve the collision, and that made it hard to find in the theme picker. The label is back to `"Core Code"`, which is what `theme-clone` reads when it renames the theme per client. The sandbox copy will be renamed by HubSpot again on its next upload; that is the portal's business, not the repo's.
 
 ## Definition of done
 
@@ -744,4 +744,4 @@ Tasks are ordered by dependency. Each task is one commit unless stated. Every up
 - The review's scans report: 0 empty rulesets; `!important` only in `utilities.css` and the HubSpot-widget overrides; no hardcoded `z-index`; no `host_template_types` outside legacy notes; no `Bitbucket`, `WCAG 2.1` or "silently fail" in project docs.
 - `docs/reviews/2026-09-21-boilerplate-review.md` gains a section 9 with the re-measurement table, and `docs/reviews/2026-09-21-backport-note.md` exists.
 - Every `git rm` in Task 12 shows as deleted in `git status` before the deletion commit; none is left as a note.
-- `theme.json` label is back to `"Core Code"` (see Tracked action before merge).
+- `theme.json` label is back to `"Core Code"` (done, see Tracked action before merge).
