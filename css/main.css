@@ -3,22 +3,23 @@ This file should only import styles that are essential for the global layout of 
 These should be placed inside the global folder.
 */
 
-/* Accessibility - Respect user motion preferences (WCAG 2.3.3) */
+/* Accessibility - Respect user motion preferences (WCAG 2.3.3)
+   Scoped to the theme's own animated surfaces rather than every element: a
+   blanket reset also stops spinners and progress indicators, removing the only
+   signal that something is happening. Components that must keep an affordance
+   handle reduced motion in their own stylesheet.
+*/
 @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
+    .e-button,
+    .m-heading,
+    .m-siteHeader__navigation,
+    .m-playButton,
+    .m-videoPlayer .plyr__control--overlaid {
+        transition-duration: 0.01ms;
+        animation-duration: 0.01ms;
+        animation-iteration-count: 1;
     }
 }
-
-/* Tools
-Any animations, or functions used throughout the project.
-Note: _macros.css needs to be imported into each stylesheet where macros are used and not included here
-*/
 
 /* Generic
 This is where reset, normalize & box-sizing styles go.
@@ -32,17 +33,18 @@ Non-cosmetic design patterns including grid and layout classes)
 
 {% include './global/objects/utilities.css' %}
 {% include './global/objects/containers_dnd.css' %}
+{% include './global/objects/rte.css' %}
 
 /* Components
 Specific pieces of UI that are stylized. Typically used for global partial styling
 */
 
-{# header.css is inlined as critical CSS in templates/layouts/base.html — not duplicated here #}
+{# header.critical.css is inlined in templates/layouts/base.html — not duplicated here #}
 {% include './global/components/footer.css' %}
 {% include './global/components/default_modules.css' %}
 
 /* Elements
-Base HMTL elements are styled in this section (<body<, <h1>, <a>, <p>, <button> etc.)
+Base HTML elements are styled in this section (<body>, <h1>, <a>, <p>, <button> etc.)
 */
 
 {% include './global/elements/typography.css' %}
@@ -53,7 +55,11 @@ Base HMTL elements are styled in this section (<body<, <h1>, <a>, <p>, <button> 
 {% include './global/elements/page.css' %}
 {% include './global/elements/skip-link.css' %}
 
-/* Modules */
+/* Modules
+Module stylesheets that are needed on every page. Anything used by one module
+only is loaded by that module (or its macro) via require_css instead.
+*/
 
 {% include './modules/tags.css' %}
-{% include './modules/video.css' %}
+{% include './modules/heading.css' %}
+{% include './modules/footer_cta.css' %}

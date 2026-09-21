@@ -1,0 +1,23 @@
+[
+  {
+    "name": "footer_text",
+    "label": "Footer text",
+    "type": "richtext",
+    "default": "",
+    "inline_help_text": "Optional text shown in the footer, for example an address or contact details."
+  },
+  {
+    "name": "menu",
+    "label": "Footer menu",
+    "type": "menu",
+    "default": null,
+    "inline_help_text": "Select the advanced menu to show in the footer. Menus are managed under Settings > Website > Navigation."
+  },
+  {
+    "name": "copyright",
+    "label": "Copyright text",
+    "type": "text",
+    "default": "Your Company. All rights reserved.",
+    "inline_help_text": "Shown at the bottom of the footer. The copyright symbol and the current year are added automatically."
+  }
+]

@@ -3,15 +3,20 @@ templateType: none
 isAvailableForNewContent: false
 -->
 
+{# A macro file does not inherit the layout's imports, so the sibling file is
+   imported here by its literal filename. #}
+{% import './link_helpers.html' as link_helper %}
+
 {% macro render_heading(model, enabled, name) %}
 {%- if enabled -%}
+{%- set headingTag = model.heading_type | default('h2', true) -%}
 <div id="{{ name | default('section') }}__heading"
      class="m-heading"
-     style="--headingMarginTopMobile: {{ model.position.margin.mobile.margin_top }}px; --headingMarginBottomMobile: {{ model.position.margin.mobile.margin_bottom }}px; --headingMarginTopDesktop: {{ model.position.margin.desktop.margin_top }}px; --headingMarginBottomDesktop: {{ model.position.margin.desktop.margin_bottom }}px;">
+     style="--headingMarginTopMobile: {{ model.position.margin.mobile.margin_top | default(0, true) }}px; --headingMarginBottomMobile: {{ model.position.margin.mobile.margin_bottom | default(0, true) }}px; --headingMarginTopDesktop: {{ model.position.margin.desktop.margin_top | default(0, true) }}px; --headingMarginBottomDesktop: {{ model.position.margin.desktop.margin_bottom | default(0, true) }}px;">
 
   {%- if model.heading -%}
   <div class="m-heading__heading">
-    <{{ model.heading_type }} class="m-heading__text">{{ model.heading }}</{{ model.heading_type }}>
+    <{{ headingTag }} class="m-heading__text">{{ model.heading }}</{{ headingTag }}>
     {%- if model.summary -%}
     <div class="m-heading__summary">{{ model.summary }}</div>
     {%- endif -%}
@@ -20,20 +25,7 @@ isAvailableForNewContent: false
 
   {%- if model.add_link_cta_ and model.button.button_type != 'none' -%}
   <div class="m-heading__cta">
-    {%- if model.button.button_type == 'link' and model.button.link_settings.link_field.url.href and model.button.link_settings.link_text -%}
-    {%- set href = model.button.link_settings.link_field.url.href -%}
-    {%- if model.button.link_settings.link_field.url.type is equalto "EMAIL_ADDRESS" -%}{%- set href = "mailto:" + href -%}{%- endif -%}
-    {%- set rel = [] -%}
-    {%- if model.button.link_settings.link_field.no_follow -%}{%- do rel.append("nofollow") -%}{%- endif -%}
-    {%- if model.button.link_settings.link_field.open_in_new_tab -%}{%- do rel.append("noopener") -%}{%- endif -%}
-    <a id="{{ name }}__heading_cta"
-       class="e-button e-button--{{ model.button.button_style | default('primary') }}"
-       href="{{ href }}"
-       {% if model.button.link_settings.link_field.open_in_new_tab %}target="_blank" aria-label="{{ model.button.link_settings.link_text }} (opens in new window)"{% else %}aria-label="{{ model.button.link_settings.link_text }}"{% endif %}
-       {% if rel %}rel="{{ rel|join(' ') }}"{% endif %}>{{ model.button.link_settings.link_text }}</a>
-    {%- elif model.button.button_type == 'cta' and model.button.cta_settings.cta_field -%}
-    {% cta guid="{{ model.button.cta_settings.cta_field }}" %}
-    {%- endif -%}
+    {{ link_helper.render_button(model.button, name ~ '__heading_cta') }}
   </div>
   {%- endif -%}
 

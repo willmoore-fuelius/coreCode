@@ -27,7 +27,7 @@ The boilerplate repo contains layout infrastructure, not content modules:
 
 - **`templates/layouts/base.html`** - Critical CSS inlining, async font/stylesheet loading, macro imports, Google Fonts, JS utility loading. Design tokens defined in inline `<style>` at `:root`.
 - **`macros/`** - `render_heading()`, `render_link()`, `render_cta()`, `render_responsive_images()`, video helpers, style helpers, accessibility helpers. Generated modules call these macros.
-- **`css/critical/`** - `layout.critical.css`, `header.critical.css`, `typography.critical.css`. Inlined in `<head>`.
+- **`css/critical/`** - `header.critical.css` only, inlined in `<head>` alongside the `:root` tokens and `palette.css`. The layout and typography critical copies were deleted on 21 Sep 2026: they duplicated `containers_dnd.css` and `typography.css`, which `main.css` loads blocking.
 - **`css/global/`** - Reset, utilities, containers_dnd, buttons, forms, tables, typography, images, page, skip-link. Design-agnostic base styles.
 - **`css/main.css`** - HubL `{% include %}` composition of sub-files.
 - **`css/theme_overrides.css`** - Maps `theme.*` fields to CSS custom properties.
@@ -56,7 +56,7 @@ Every section in the Stitch design becomes a purpose-built module with:
 - `module.js` (when interactive) - vanilla JS following Core Code patterns
 
 Plus:
-- Updated `base.html` `:root` token values
+- Updated theme field defaults in `fields.json`, and `base.html` `:root` values for non-brand tokens
 - Page template with `dnd_area` pre-seeded with generated modules
 - Global CSS additions (button overrides, header treatments) where needed
 
@@ -89,7 +89,7 @@ Extract design tokens from the Stitch DESIGN.md and/or Tailwind config in the HT
       - text-emerald-200/60 (used in: footer)
       Action required: map to a Tier 1 token or define as a Tier 1 extension.
       ```
-   6. Write the complete token set to `css/global/tokens/palette.css`.
+   6. Write the extension tokens to `css/global/tokens/palette.css` (inlined by `base.html`). Brand colours that map to a theme field go to that field's default in `fields.json` instead — see Tier 1 / Tier 2 in `references/core-code-conventions.md`.
    7. Present the token mapping table AND the raw Tailwind class flag table to the user. Wait for review before proceeding.
 
 2. **Typography.** Parse font families, weights, sizes. Map to `--fontPrimary`, `--fontSecondary`, weight tokens, and the fluid type scale (`--h1` through `--h6`, `--pXs` through `--pXl`). Convert fixed pixel/rem sizes to `clamp()` expressions matching Core Code's fluid type pattern. If a display size larger than `--h1` is needed, define `--displaySize`. If weight 900 is used, define `--fontBlack`.
@@ -157,30 +157,20 @@ Generate all theme files based on the token mapping and module specifications.
 
 The design token block with all mapped custom properties. Preserve the existing token structure; only change values. Add project-specific tokens at the end of the relevant category block with clear comments.
 
-Also update the Google Fonts `<link>` in `base.html` to load the project fonts synchronously with `display=swap`:
+Set the project's fonts as the **defaults of the theme's font fields** in `fields.json` (`typography.heading_font` and `typography.body_font`), not as a Google Fonts `<link>`.
 
-```html
-<link href="https://fonts.googleapis.com/css2?family=FontA:wght@...&family=FontB:wght@...&display=swap" rel="stylesheet">
+```json
+{ "name": "body_font", "type": "font", "load_external_fonts": true,
+  "default": { "font": "Work Sans", "font_set": "GOOGLE", "size": 16, "size_unit": "px", "color": "#1D252D", "styles": {} } }
 ```
 
-Do **not** use the deferred `media="print" onload` pattern — it is fragile in HubSpot.
+HubSpot loads the selected web font automatically because `css/theme_overrides.css` references the field. **Do not add a Google Fonts `<link>` to `base.html`:** it loads the fonts a second time and ignores whatever the editor later chooses.
 
 #### 1b. Typography font-family declarations
 
-**CRITICAL:** The boilerplate's typography CSS does not apply `font-family`. Without this step, the site renders in Times New Roman. Verify and update both `css/critical/typography.critical.css` and `css/global/elements/typography.css` to include:
+**Superseded 21 September 2026.** This step used to say the boilerplate's typography CSS does not apply `font-family`, and that the site renders in Times New Roman without adding it. That gap is fixed: `css/global/elements/typography.css` now sets `font-family: var(--fontSecondary)` on `body` and `var(--fontPrimary)` on `h1` to `h6`, and `typography.critical.css` no longer exists. The tokens themselves come from the font fields via `theme_overrides.css`.
 
-```css
-body {
-  font-family: var(--fontSecondary);
-  color: var(--grey90);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--fontPrimary);
-}
-```
-
-If these declarations already exist, update the variable references to match the project's font mapping. If they are missing, add them.
+So this is now a **verification**, not an edit. Confirm on a rendered page that `getComputedStyle(document.body).fontFamily` is the project's body font, not a fallback. If it is not, the font field default or the `theme_overrides.css` reference is wrong — fix it there rather than hardcoding a family in the stylesheet.
 
 #### 2. Page template
 

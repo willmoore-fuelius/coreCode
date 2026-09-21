@@ -27,25 +27,16 @@
 	margin-inline: auto;
 }
 
-html.hs-inline-edit .default-module{
-	background-color: var(--grey10);
-	border: 1px dashed;
-	padding: var(--space20);
-	text-align: center;
-	font-size: 1.125rem; /* 18px */
-	font-weight: bold;
-}
-
-html:not(.hs-inline-edit) .default-module{
-	display: none;
-}
-
-.dnd-section.collapse{
-	padding-top: 0 !important;
-	padding-bottom: 0 !important;
+/* Drag-and-drop sections get the same rhythm as .o-wrapper--module, because
+   the theme does not load HubSpot's layout.css and a dnd_section otherwise
+   has no padding or max width: editor-built content runs edge to edge. */
+.dnd-section {
+	padding: var(--moduleTopSpacing) var(--moduleRightSpacing)
+	         var(--moduleBottomSpacing) var(--moduleLeftSpacing);
 }
 
 .dnd-section > .row-fluid {
+	max-width: var(--containerWidth);
 	margin-inline: auto;
 }
 

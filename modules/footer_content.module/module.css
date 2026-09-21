@@ -1,0 +1,32 @@
+/* ==========================================================================
+   Footer content
+   The container (.m-siteFooter__inner) width and padding live in
+   css/global/components/footer.css. These rules cover the inner layout.
+   ========================================================================== */
+
+.m-siteFooter__inner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space20);
+}
+
+/* Scope the menu overrides so the multi-column .hs-menu-wrapper defaults in
+   default_modules.css do not apply to the footer navigation. */
+.m-siteFooter__navigation .hs-menu-wrapper > ul {
+	display: flex;
+	flex-wrap: wrap;
+	column-count: auto;
+	gap: var(--space16) var(--space24);
+	margin: 0;
+	padding: 0;
+}
+
+.m-siteFooter__navigation .hs-menu-wrapper > ul > li > a {
+	margin-bottom: 0;
+}
+
+.m-siteFooter__copyright {
+	margin: 0;
+	color: var(--grey50);
+	font-size: var(--pSm);
+}

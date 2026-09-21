@@ -7,7 +7,11 @@ label: Core Code - Search results
 {% extends "../layouts/base.html" %}
 {% block body %}
 <main id="main-content">
-  {% module "search_input" path="@hubspot/search_input", label="Search" %}
-  {% module "search_results" path="@hubspot/search_results", label="Search Results" %}
+  <section class="o-wrapper o-wrapper--module">
+    <div class="o-container">
+      {% module "search_input" path="@hubspot/search_input", label="Search" %}
+      {% module "search_results" path="@hubspot/search_results", label="Search Results" %}
+    </div>
+  </section>
 </main>
 {% endblock body %}

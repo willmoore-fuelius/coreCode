@@ -8,6 +8,10 @@ label: Core Code - Blog listing
 {% block body %}
 <main id="main-content">
   {% dnd_area 'main_content' class='body-container', label='Blog listing content' %}
+    {% dnd_section %}
+      {% dnd_module path='@hubspot/blog_content', offset=0, width=12 %}
+      {% end_dnd_module %}
+    {% end_dnd_section %}
   {% end_dnd_area %}
 </main>
 {% endblock body %}

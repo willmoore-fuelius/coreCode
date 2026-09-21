@@ -1,0 +1,27 @@
+/* System pages (404, 500) */
+
+.m-errorPage {
+	text-align: center;
+}
+
+.m-errorPage__inner {
+	max-width: 640px;
+	margin-inline: auto;
+}
+
+.m-errorPage__code {
+	margin-bottom: var(--space8);
+	color: var(--grey50);
+	font-size: var(--pSm);
+	font-weight: var(--fontSemibold);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.m-errorPage__content {
+	margin-bottom: var(--space32);
+}
+
+.m-errorPage__link {
+	margin-top: var(--space24);
+}

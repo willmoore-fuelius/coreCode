@@ -10,10 +10,18 @@
 
 fieldset.form-columns-2 {
   display: flex;
+  flex-wrap: wrap;
   align-items: stretch;
 }
 
-fieldset.form-columns-1 .hs-input{
+/* Wrap to one column before the fields get too narrow to use. */
+fieldset.form-columns-2 .hs-form-field {
+  flex: 1 1 16rem;
+}
+
+/* Scoped away from checkbox and radio: HubSpot puts .hs-input on every field
+   type, and a full-width consent checkbox collapses its own label. */
+fieldset.form-columns-1 .hs-input:not([type="checkbox"], [type="radio"]) {
   width: 100% !important;
 }
 
@@ -31,39 +39,57 @@ form .hs-field-desc{
   margin: var(--space20) 0;
 }
 
-/* Inputs */
+/* Inputs
 
-form input[type=text],
-form input[type=email],
-form input[type=password],
-form input[type=tel],
-form input[type=number],
-form input[type=file],
+   HubSpot renders its fields with no appearance of their own, so without
+   these a fresh clone shows raw browser widgets: a 30px tall box with a 2px
+   inset border. Measured on portal 141885928, 21 Sep 2026. */
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="tel"],
+form input[type="number"],
+form input[type="url"],
+form input[type="search"],
+form input[type="date"],
+form input[type="file"],
 form select,
 form textarea {
   display: inline-block;
   width: 100%;
+  min-height: var(--touchArea);
+  padding: var(--space12) var(--space16);
+  border: var(--border1) solid var(--grey30);
+  border-radius: var(--radiusXs);
+  background-color: var(--white);
+  color: var(--grey90);
+  /* 16px keeps iOS from zooming the page when a field takes focus. */
+  font-size: var(--pBase);
 }
 
 /* Focus visible styles for accessibility (WCAG 2.4.7) */
-form input[type=text]:focus-visible,
-form input[type=email]:focus-visible,
-form input[type=password]:focus-visible,
-form input[type=tel]:focus-visible,
-form input[type=number]:focus-visible,
-form input[type=file]:focus-visible,
+form input[type="text"]:focus-visible,
+form input[type="email"]:focus-visible,
+form input[type="password"]:focus-visible,
+form input[type="tel"]:focus-visible,
+form input[type="number"]:focus-visible,
+form input[type="url"]:focus-visible,
+form input[type="search"]:focus-visible,
+form input[type="date"]:focus-visible,
+form input[type="file"]:focus-visible,
 form select:focus-visible,
 form textarea:focus-visible {
-  outline: 2px solid var(--primaryColour, #0066cc);
+  outline: var(--border2) solid var(--primaryColour);
   outline-offset: 2px;
 }
 
-form input[type=file]{
+form input[type="file"]{
   padding-left: 0;
   padding-right: 0;
 }
 
-input[type=file]::file-selector-button{
+input[type="file"]::file-selector-button{
   cursor: pointer;
   margin-right: var(--space20);
 }
@@ -95,26 +121,26 @@ form .inputs-list span {
   vertical-align: middle;
 }
 
-form input[type=checkbox],
-form input[type=radio] {
+form input[type="checkbox"],
+form input[type="radio"] {
   cursor: pointer;
   margin-right: var(--space8);
   opacity: 0;
   position: absolute;
   width: 24px;
   height: 24px;
-  z-index: 99;
+  z-index: var(--zBase);
 }
 
-form input[type=checkbox] ~ span:first-of-type,
-form input[type=radio] ~ span:first-of-type {
+form input[type="checkbox"] ~ span:first-of-type,
+form input[type="radio"] ~ span:first-of-type {
   position: relative;
   display: flex !important;
   align-items: center;
 }
 
-form input[type=checkbox] ~ span:first-of-type:before,
-form input[type=radio] ~ span:first-of-type:before {
+form input[type="checkbox"] ~ span:first-of-type::before,
+form input[type="radio"] ~ span:first-of-type::before {
   content: '';
   background: var(--white);
   display: inline-block;
@@ -126,25 +152,22 @@ form input[type=radio] ~ span:first-of-type:before {
   border: var(--border2) solid var(--grey30);
 }
 
-form input[type=radio] ~ span:before {
 
-}
-
-form input[type=checkbox]:checked ~ span:before,
-form input[type=radio]:checked ~ span:before{
+form input[type="checkbox"]:checked ~ span::before,
+form input[type="radio"]:checked ~ span::before{
   background-color: var(--white);
   border-color: var(--grey50);
   background-repeat: no-repeat;
-  background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='check' class='svg-inline--fa fa-check fa-w-16' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23f46c42' d='M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z'%3E%3C/path%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg aria-hidden='true' focusable='false' data-prefix='fas' data-icon='check' class='svg-inline--fa fa-check fa-w-16' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%231D252D' d='M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z'%3E%3C/path%3E%3C/svg%3E");
   background-size: 10px 10px;
   background-position: center;
 }
 
-form input[type=radio]:checked ~ span:before{
+form input[type="radio"]:checked ~ span::before{
   background-image: none;
 }
 
-form input[type=radio]:checked ~ span:after {
+form input[type="radio"]:checked ~ span::after {
   content: '';
   top: 50%;
   left: var(--space8);
@@ -156,9 +179,9 @@ form input[type=radio]:checked ~ span:after {
 }
 
 /* Custom checkbox/radio focus indicators for accessibility (WCAG 2.4.7) */
-form input[type=checkbox]:focus-visible ~ span:first-of-type:before,
-form input[type=radio]:focus-visible ~ span:first-of-type:before {
-  outline: 2px solid var(--primaryColour, #0066cc);
+form input[type="checkbox"]:focus-visible ~ span:first-of-type::before,
+form input[type="radio"]:focus-visible ~ span:first-of-type::before {
+  outline: var(--border2) solid var(--primaryColour);
   outline-offset: 2px;
 }
 
@@ -172,35 +195,27 @@ form .multi-container{
   position: relative;
 }
 
-.hs-dateinput:before {
-  content:'';
-  position: absolute;
-  top: 50%;
-  height: 24px;
-  width: 24px;
-  background-size: 24px 24px;
-  right: var(--space20);
-  transform: translateY(-50%);
-}
-
 .fn-date-picker .pika-table thead th {
-  color: var(--white);
+  color: var(--grey90);
 }
 
 .fn-date-picker td.is-selected .pika-button {
   border-radius: 0;
   box-shadow: none;
+  background-color: var(--primaryColour);
+  color: var(--primaryTextColour);
 }
 
 .fn-date-picker td .pika-button:hover,
 .fn-date-picker td .pika-button:focus {
-  border-radius: 0 !important;
-  color: var(--white);
+  border-radius: 0;
+  background-color: var(--primaryColour);
+  color: var(--primaryTextColour);
 }
 
 /* Inputs - file picker */
 
-form input[type=file] {
+form input[type="file"] {
   background-color: transparent;
   border: initial;
   padding: initial;
@@ -224,35 +239,50 @@ form .hs-richtext img {
   margin-left: 0 !important;
 }
 
-/* Validation */
+/* Validation
+   The error state carries a border as well as colour, so it does not rely on
+   colour alone (WCAG 1.4.1). --colorError is 5.9:1 on white. */
 
 .hs-form-required {
-
+  margin-left: var(--space4);
+  color: var(--colorError);
 }
 
 .hs-input.invalid.error {
-
+  border: var(--border2) solid var(--colorError);
 }
 
 .hs-error-msg {
-  margin-top: var(--space20);
+  display: block;
+  margin-top: var(--space8);
+  color: var(--colorError);
+  font-size: var(--pSm);
 }
 
 /* Submit button */
 
-form input[type=submit],
+/* The shared rules in buttons.css give this its shape, but a HubSpot submit
+   carries no variant class, so without a colour here it renders with the
+   browser's grey default inside a theme-shaped button. */
+
+form input[type="submit"],
 form .hs-button {
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  transition: all var(--transitionSpeed);
+  background-color: var(--primaryColour);
+  color: var(--primaryTextColour);
+  transition: background-color var(--transitionSpeed) var(--easeOut),
+              color var(--transitionSpeed) var(--easeOut);
   white-space: normal;
 }
 
-form input[type=submit]:hover,
-form input[type=submit]:focus,
+form input[type="submit"]:hover,
+form input[type="submit"]:focus-visible,
 form .hs-button:hover,
-form .hs-button:focus{
+form .hs-button:focus-visible {
+  background-color: color-mix(in oklch, var(--primaryColour), black 12%);
+  color: var(--primaryTextColour);
   text-decoration: none;
 }
 

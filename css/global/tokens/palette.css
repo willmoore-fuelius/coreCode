@@ -1,16 +1,10 @@
 /* ==========================================================================
    Tier 1 - Design Palette Tokens
-   Generated from Stitch export. Do not edit manually unless rebranding.
+
+   Extension tokens from a design export that have no theme field of their own.
+   Brand colours and fonts are theme settings: see fields.json (Colours,
+   Typography) and css/theme_overrides.css, which writes them to :root.
+
+   This file is inlined into templates/layouts/base.html, so it resolves at
+   first paint. Do not add a stylesheet link for it.
    ========================================================================== */
-
-:root {
-  /* Surface */
-
-  /* Text */
-
-  /* Brand */
-
-  /* Utility */
-
-  /* Extensions */
-}

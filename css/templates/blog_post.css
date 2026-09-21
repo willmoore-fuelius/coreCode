@@ -1,15 +1,34 @@
+.m-blogPost__header {
+	margin-bottom: var(--space24);
+}
+
+.m-blogPost__title {
+	margin-top: 0;
+}
+
+.m-blogPost__meta {
+	margin-bottom: var(--space16);
+	color: var(--grey50);
+	font-size: var(--pSm);
+}
+
+.m-blogPost__author {
+	margin-left: var(--space8);
+}
+
+.m-blogPost__image {
+	width: 100%;
+	height: auto;
+}
+
 .m-blogPost__body {
-
+	max-width: 75ch;
 }
 
-.m-blogPost__featuredimage {
-
+.m-blogPost__tags {
+	margin-top: var(--space24);
 }
 
-.m-blogPost__metadata {
-
-}
-
-.m-blogPost__date {
-
+.m-blogPost__comments {
+	margin-top: var(--space48);
 }

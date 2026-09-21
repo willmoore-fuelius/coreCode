@@ -19,7 +19,7 @@ Core Code is a HubSpot CMS theme by Fuelius. It provides modular, responsive web
 | **CSS** | Vanilla CSS, ITCSS architecture, BEM naming |
 | **JavaScript** | Vanilla JS (zero jQuery dependencies) |
 | **Templating** | HubL/Jinja2 with reusable macros |
-| **Accessibility** | WCAG 2.1 Level AA compliant |
+| **Accessibility** | WCAG 2.2 Level AA compliant |
 | **Breakpoint** | Mobile-first, desktop at `992px` |
 | **Main branch** | `development` |
 
@@ -81,9 +81,9 @@ Every module follows this wrapper structure:
 {%- endif -%}
 ```
 
-**Important:** Do NOT use `{% from %}` or `{% import %}` for macros — call them directly (e.g. `text_helpers.render_heading()`). HubSpot makes macros globally available.
+**Important:** Macros are imported once in `templates/layouts/base.html` and used via their aliases (e.g. `text_helpers.render_heading()`). Templates and modules that extend `base.html` use those aliases directly — do not re-import the macro files per module.
 
-**Module spacing** is set via inline `style` attribute on `.o-wrapper--module` using four CSS custom properties. The global CSS in `containers_dnd.css` switches between mobile/desktop at 992px. Do NOT use `style_helpers.render_module_padding()` (removed) or inline `<style>` blocks.
+**Module spacing** is set via inline `style` attribute on `.o-wrapper--module` using four CSS custom properties. The global CSS in `containers_dnd.css` switches between mobile/desktop at 992px. Do not use inline `<style>` blocks.
 
 ---
 
@@ -99,7 +99,7 @@ CoreCode/
 │   │   ├── objects/                # Layout patterns (.o-*)
 │   │   ├── components/             # Header, footer (.c-*)
 │   │   └── elements/               # Base HTML styling (.e-*)
-│   ├── modules/                    # Shared module styles
+│   ├── Modules/                    # Shared module styles
 │   └── vendor/                     # Third-party (Splide, Plyr, etc.)
 ├── js/
 │   └── vendor/                     # Third-party JS
@@ -108,14 +108,13 @@ CoreCode/
 │   ├── image_helpers.html
 │   ├── text_helpers.html
 │   └── style_helpers.html
-├── modules/
-│   └── page/                       # Page modules
-│       └── module_name.module/     # Self-contained module
-│           ├── module.html
-│           ├── module.css
-│           ├── module.js           # Optional
-│           ├── fields.json
-│           └── meta.json
+├── modules/                        # Content modules (flat directory)
+│   └── module_name.module/         # Self-contained module
+│       ├── module.html
+│       ├── module.css
+│       ├── module.js               # Optional
+│       ├── fields.json
+│       └── meta.json
 └── templates/
     └── layouts/
         └── base.html               # Design system tokens + critical CSS
@@ -123,7 +122,7 @@ CoreCode/
 
 ### Module Anatomy
 
-Each module lives in `modules/page/[name].module/` and is fully self-contained:
+Each module lives in `modules/[name].module/` and is fully self-contained:
 
 | File | Purpose |
 |---|---|
@@ -153,7 +152,7 @@ Modules      →  Module-specific: .m-accordion, .m-featureCards (highest specif
 - **BEM with camelCase** — `.m-accordion__triggerText`, not `.m-accordion__trigger-text`
 - **ITCSS prefixes** — `.o-` objects, `.c-` components, `.e-` elements, `.m-` modules
 - **Design system tokens** — always use CSS variables, never magic numbers
-- **Mobile-first** — base styles are mobile, use `@media (min-width: 992px)` for desktop
+- **Mobile-first** — base styles are mobile, use `@media (width >= 992px)` for desktop
 - **Flat selectors** — repeat the full selector at each breakpoint, don't nest
 
 ### CSS Class Pattern
@@ -175,7 +174,7 @@ Modules      →  Module-specific: .m-accordion, .m-featureCards (highest specif
 }
 
 /* Desktop override */
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .m-moduleName {
     padding: var(--space24);
   }
@@ -233,7 +232,7 @@ All tokens are defined in `templates/layouts/base.html` and use **camelCase nami
 |---|---|---|
 | `--h1` | 35px → 62px | Page title |
 | `--h2` | 32px → 46px | Section heading |
-| `--h3` | 24px → 34px | Subsection |
+| `--h3` | 28px → 32px | Subsection |
 | `--h4` | 20px → 24px | Card title |
 | `--pXs` | 12px | Small print |
 | `--pSm` | 14px | Captions |
@@ -270,7 +269,7 @@ Weights: `--fontLight` (300), `--fontRegular` (400), `--fontSemibold` (600), `--
 ### Borders & Radius
 
 Borders: `--border1` (1px), `--border2` (2px), `--border3` (3px)
-Radius: `--radiusNone` → `--radiusXxs` (0.25rem) → `--radiusSm` (0.5rem) → `--radiusMd` (0.75rem) → `--radiusLg` (1rem) → `--radiusXl` (2rem)
+Radius: `--radiusNone` (0) → `--radiusXxs` (0.25rem) → `--radiusXs` (0.5rem) → `--radiusSm` (0.75rem) → `--radiusMd` (1rem) → `--radiusLg` (1.5rem) → `--radiusXl` (2rem) → `--radiusAvatar` (50%)
 
 ### Animation
 
@@ -301,7 +300,7 @@ module_heading: {
   heading: "Section Title",
   heading_type: "h2",         // h1–h6
   summary: "<p>Optional</p>",
-  add_link_cta_: true/false,  // NOTE: trailing underscore in field name
+  add_link_cta_: true/false,  // NOTE: trailing underscore is the exact field name
   button: { ... },
   position: {
     margin: {
@@ -314,40 +313,44 @@ module_heading: {
 
 ### ~~`style_helpers.render_module_padding(name, spacing)`~~ — REMOVED
 
-This macro has been removed. Use the **inline style attribute pattern** on `.o-wrapper--module` instead. See the Module Template Pattern above.
+`style_helpers.html` was deleted on 21 September 2026 along with `accessibility_helpers.html`; neither had a consumer. Spacing uses the inline custom-property pattern on `.o-wrapper--module` shown in the Module Template Pattern above.
 
 ### `link_helper.render_button(button, scope, classes)`
 
-Renders a button — routes to link or CTA based on `button_type`.
+Thin router that calls `render_link` or `render_cta` based on `button_type`.
 
 ```html
 {{ link_helper.render_button(item.button, name ~ '__button_' ~ loop.index) }}
 ```
 
-### ~~`link_helper.render_module_footer_cta(button, name)`~~ — DEPRECATED
+### `link_helper.render_module_footer_cta(button, name)`
 
-This macro silently produces empty output due to an internal cross-macro namespace issue. **Use the inline footer CTA pattern** from the Module Template Pattern instead.
-
-### `image_helpers.render_responsive_images(item, class)`
-
-Renders a `<picture>` element with device-specific sources (mobile/tablet/desktop) and WebP.
+Renders the footer CTA wrapper, its alignment modifier and margin custom properties, then the button.
 
 ```html
-{{ image_helpers.render_responsive_images(item.image, 'm-moduleName__image') }}
+{{ link_helper.render_module_footer_cta(module.module_footer_cta, name) }}
 ```
 
-**Field structure expected:**
+**Superseded 21 September 2026.** Both macros above were previously marked deprecated here, on the grounds that their internal cross-macro calls produce silent empty output. That diagnosis was wrong. An un-prefixed sibling macro call works; it is the `self.` prefix that renders nothing, because `self` addresses the block namespace rather than the macro namespace (verified on a rendered page, portal 149133071, 20 August 2026). The inline footer CTA in the Module Template Pattern is still valid, but it is a copy of what this macro already does.
 
-```
-image: {
-  mobile:   { mobile_image:  { src, alt, loading, width, height } },
-  tablet:   { tablet_image:  { src, alt, loading, width, height } },
-  desktop:  { desktop_image: { src, alt, loading, width, height } },
-  fallback_image: { default_image: { src, alt, width, height } }
-}
+### `image_helper.render_image(image, class, sizes, priority)`
+
+One `<img>` with a width-descriptor `srcset` at 480/768/1200/1600 (candidates wider than the source are skipped), `width` and `height` from the field, and a lazy/eager switch.
+
+```html
+{# A hero: the LCP image #}
+{{ image_helper.render_image(module.image, 'm-hero__image', '100vw', true) }}
+
+{# A card in a two-up grid #}
+{{ image_helper.render_image(item.image, 'm-card__image', '(width >= 992px) 50vw, 100vw') }}
 ```
 
----
+- `sizes` describes the slot the image occupies, not the image. Default `100vw`.
+- `priority` marks the LCP image: `loading="eager"`, `fetchpriority="high"`, `decoding="sync"`. Everything else is lazy.
+- Do not pre-convert to WebP. HubSpot's CDN negotiates the format when it is smaller, and Design Manager rejects `.webp` outright.
+- `width` and `height` are always emitted when the field has them: they reserve the aspect ratio and HubSpot's automatic resizing only applies to images that carry them.
+
+**Superseded 21 September 2026:** this macro replaced `render_responsive_images`, which emitted a `<picture>` with a duplicate WebP `<source>` pointing at the same URL, a single-candidate `srcset`, and no way to mark the LCP image.
 
 ## JavaScript Patterns
 
@@ -420,7 +423,7 @@ Before writing any code, establish the spec:
 ### Step 2: Create the Module Directory
 
 ```
-modules/page/module_name.module/
+modules/module_name.module/
 ├── module.html
 ├── module.css
 ├── module.js        # Only if interactive behaviour needed
@@ -439,7 +442,7 @@ modules/page/module_name.module/
   "other_assets": [],
   "smart_type": "NOT_SMART",
   "tags": [],
-  "host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"],
+  "content_types": ["SITE_PAGE", "LANDING_PAGE", "BLOG_POST", "BLOG_LISTING"],
   "is_available_for_new_content": true,
   "categories": ["BODY_CONTENT"]
 }
@@ -450,7 +453,7 @@ modules/page/module_name.module/
 | Rule | Detail |
 |---|---|
 | **Categories** | MUST be UPPERCASE: `TEXT`, `BODY_CONTENT`, `MEDIA`, `FORMS_AND_BUTTONS`, `DESIGN`, `FUNCTIONALITY`, `BLOG`, `SOCIAL`, `COMMERCE` |
-| **host_template_types** | MUST be present when `css_assets` or `js_assets` exist — otherwise HubSpot blocks CSS/JS |
+| **content_types** | MUST be present when `css_assets` or `js_assets` exist — otherwise HubSpot blocks CSS/JS |
 | **Never include** | `content_tags`, `module_id`, `global`, `css_assets` (auto), `js_assets` (auto) |
 | **description + icon** | Always include both — missing description triggers "internal error" on upload |
 
@@ -465,7 +468,7 @@ Every module should include:
 1. **Style tab** — spacing fields with inherited theme values
 2. **Module heading** — toggle + heading fields (uses `text_helpers.render_heading()`)
 3. **Content fields** — module-specific content
-4. **Footer CTA** — optional bottom CTA (uses `link_helper.render_module_footer_cta()`)
+4. **Footer CTA** — optional bottom CTA (use the inline footer CTA pattern, not `render_module_footer_cta()`)
 5. **Scroll ID** — optional anchor text field
 
 #### Field Authoring Rules
@@ -494,7 +497,7 @@ Every module should include:
   "suffix": "px",
   "default": 80,
   "inherited_value": {
-    "default_value_path": "theme.spacing.desktop_vertical_spacing"
+    "default_value_path": "theme.spacing.desktop.vertical_spacing"
   }
 }
 ```
@@ -503,7 +506,7 @@ Every module should include:
 
 Follow the template pattern from the Quick Start section. Key rules:
 
-- **No macro imports** — call macros directly (`text_helpers.render_heading()`, not `{% from 'macros/text_helpers.html' import render_heading %}`)
+- **Use the base.html macro aliases** — call `text_helpers.render_heading()` etc.; the macros are imported once in `base.html`, so do not re-import them per module
 - **Defensive checks** — always check fields exist before rendering: `{% if module.field.src %}`
 - **`|safe` filter** — use on rich text fields from the CMS editor (these are trusted)
 - **Security** — never use `|safe` on user-supplied input; add `rel="noopener noreferrer"` on external links
@@ -515,7 +518,7 @@ Follow the template pattern from the Quick Start section. Key rules:
 
 Follow the CSS patterns from the CSS Architecture section:
 - `.m-camelCase` prefix matching the module name
-- Mobile-first with `@media (min-width: 992px)` for desktop
+- Mobile-first with `@media (width >= 992px)` for desktop
 - Design system tokens for all values
 - `focus-visible` outlines for interactive elements
 - `@media (prefers-reduced-motion: reduce)` for all transitions/animations
@@ -533,7 +536,7 @@ Follow the JavaScript Patterns section:
 
 ## Accessibility Checklist
 
-Every module must meet WCAG 2.1 Level AA:
+Every module must meet WCAG 2.2 Level AA:
 
 - [ ] **Semantic HTML** — use `<button>`, `<nav>`, `<main>`, `<article>` over generic `<div>`
 - [ ] **Keyboard navigation** — all interactive elements reachable and operable via keyboard
@@ -596,12 +599,12 @@ Every module must meet WCAG 2.1 Level AA:
 |---|---|
 | **Loop scoping** | Arrays/objects built inside `{% for %}` loops don't persist outside — render output inside the loop |
 | **`content.absolute_url` vs `content.url`** | `absolute_url` includes domain, `url` is path-only — not interchangeable |
-| **No macro imports** | Core Code macros are globally available; `{% from %}` will cause upload errors |
+| **Macro imports live in base.html** | Macros are imported once in `base.html` and used via their aliases; do not re-import them per module |
 | **`|safe` on user input** | XSS risk — only use on CMS rich text fields, never on query params or form data |
 | **`hidden` attribute on animated panels** | The HTML `[hidden]` attribute has `display: none !important` in the UA stylesheet. Use a CSS class (`.is-open`) with `grid-template-rows` animation and toggle `aria-hidden` for accessibility instead |
 | **`--h*Min` tokens required** | `typography.css` uses `clamp()` with `--h1Min`–`--h6Min` variables. These are defined in `base.html`. Do not remove them — headings will render unsized without them |
-| **`add_link_cta_` trailing underscore** | The heading CTA toggle field is named `add_link_cta_` (with trailing underscore) in `fields.json`. The macro checks this exact name. Renaming the field will break the CTA toggle |
-| **Inline footer CTA, not macro** | `link_helper.render_module_footer_cta()` silently produces empty output. Always use the inline CTA pattern from the Module Template Pattern |
+| **`add_link_cta_` trailing underscore** | The heading CTA toggle field is named `add_link_cta_` (with trailing underscore) in `fields.json`. The `render_heading` macro checks this exact name. Renaming the field will silently break the CTA toggle |
+| **Inline footer CTA, not macro** | Prefer the inline footer CTA pattern from the Module Template Pattern over `link_helper.render_module_footer_cta()` |
 | **Module spacing via inline style** | `style_helpers.render_module_padding()` has been removed. Always set `--moduleTopSpacingMobile` etc. via inline `style` on `.o-wrapper--module` |
 | **Debugging** | Append `?hsDebug=true` to preview URL for caching/rendering debug info |
 
@@ -612,7 +615,7 @@ Every module must meet WCAG 2.1 Level AA:
 | Error | Cause | Fix |
 |---|---|---|
 | `internal error` | `meta.json` missing `description`, `icon`, or required fields | Add all required meta.json fields |
-| `CSS or Javascript is not allowed on modules with ANY content type` | `meta.json` missing `host_template_types` | Add `"host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"]` |
+| `CSS or Javascript is not allowed on modules with ANY content type` | `meta.json` missing `content_types` | Add `"content_types": ["SITE_PAGE", "LANDING_PAGE", "BLOG_POST", "BLOG_LISTING"]` |
 | `'link' is required but no default is set` | Link field missing complete default, or cascade from broken meta.json | Fix meta.json first; then check all link fields have full defaults |
 | `'X' is not a valid category` | Category in meta.json is lowercase | Use UPPERCASE: `"BODY_CONTENT"`, `"MEDIA"`, etc. |
 | `Cannot deserialize value` | `content_tags` present in meta.json | Remove the `content_tags` key |
@@ -629,9 +632,38 @@ Every module must meet WCAG 2.1 Level AA:
 | **Plyr** | Video player | Lightweight, CSS variable theming |
 | **lite-youtube** | YouTube embeds | Facade pattern for performance |
 
+**Loaded on demand, not globally.** `js/modules/rotators.js`, `statistics.js`, `video.js` and `video_popup.js`, and the vendor libraries above, are dependencies of generated content modules. A module that needs one requires it with `require_js`; the layout loads only `utilities.js`.
+
 ### Removed Libraries (Do Not Re-introduce)
 
-jQuery, Slick Slider, Magnific Popup, Lightbox, HoverIntent, Equalize, Video.js, AOS, JPList, Select2 — all replaced with native browser APIs or lighter alternatives.
+jQuery, Slick Slider, Magnific Popup, Lightbox, HoverIntent, Equalize, Video.js, AOS, JPList, Select2 — all replaced with native browser APIs or lighter alternatives. `js/vendor/tabs_accordion.js` and the lightbox stylesheet and images were deleted on 21 September 2026, having had no consumer since the theme was stripped to a convention framework.
+
+jQuery is also included by default on HubSpot-hosted sites at the portal level. This theme is vanilla JS: switch the portal setting off (Settings > Website > Pages > scripts) and confirm with `typeof window.jQuery` on a rendered page.
+
+
+## Theme fields: what HubSpot allows
+
+A theme's `fields.json` supports only **Boolean, Border, Choice, Color, Font, Image, Number and Spacing**. A `text` field is rejected on upload with `'text' fields are not supported in theme fields.json`, which fails the whole file. Theme settings are for styling; content belongs to the portal or to a module.
+
+That is why the Organisation name in the structured data reads `site_settings.company_name` rather than a theme setting. It is filled in Settings > Account Defaults > Company Information, which is a different screen from the brand kit, and the structured data does not render until it is set.
+
+## Included partials need templateType: page
+
+A partial you `{% include %}` must be annotated `templateType: page`, with `isAvailableForNewContent: false` and a `label`. Annotated `templateType: none` it uploads cleanly, is never registered as a template, and the include renders **nothing at all**: no output, and no `Missing Template at Path` comment to point at the cause. Both `templates/partials/seo_schema.html` and `subscription_assets.html` shipped with `none` and silently produced nothing until corrected (portal 141885928, 21 Sep 2026). Registration is not instant, so allow a minute before concluding a corrected path is wrong.
+
+## Repo tooling
+
+The theme has no build step, but the repo carries two checks. Run `npm install` once, then:
+
+| Command | What it does |
+|---|---|
+| `npm run check` | Both checks below |
+| `npm run check:css-comments` | Parser-based scan for nested or unclosed CSS comments. Counting `/*` against `*/` cannot catch this: a file missing one of each still counts equal |
+| `npm run check:css-comments:self-test` | Positive and negative controls for that scanner |
+| `npm run lint:css` | stylelint. `--max-warnings 18` is the accepted `!important` baseline (nine visibility utilities, five HubSpot form overrides, the rest third-party widget overrides). The number should go down, never up |
+| `npm run lint:css:fix` | Auto-fix the mechanical findings |
+
+`css/main.css` and `css/theme_overrides.css` are excluded from stylelint: both are HubL templates that a CSS parser cannot read.
 
 ---
 
@@ -639,8 +671,8 @@ jQuery, Slick Slider, Magnific Popup, Lightbox, HoverIntent, Equalize, Video.js,
 
 | Branch type | Pattern | Example |
 |---|---|---|
-| Main | `development` | — |
+| Main | `main` | — |
 | Feature | `feature/HCC-{number}` | `feature/HCC-1234` |
 | Bugfix | `bugfix/HCC-{number}` | `bugfix/HCC-5678` |
 
-No build step — commit, push, and HubSpot CI/CD deploys automatically.
+No build step for the theme itself: `hs cms upload` pushes the files as they are. Repo tooling needs `npm install` once, after which `npm run check` runs the CSS comment parser and stylelint.

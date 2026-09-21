@@ -1,13 +1,15 @@
-html {
-	font-size: 16px;
-}
+/* Base typography. The root font size is deliberately not set, so `rem` follows
+   the visitor's own browser font-size preference. */
 
 body {
+	font-family: var(--fontSecondary);
+	font-size: var(--pBase);
+	color: var(--grey90);
+	background-color: var(--contentBackgroundColour);
 	word-break: break-word;
-	line-height: 150%;
 }
 
-body.disable-scroll{
+body.disable-scroll {
 	overflow-y: hidden;
 }
 
@@ -16,12 +18,6 @@ html[lang^="zh"] body,
 html[lang^="ko"] body {
 	line-break: strict;
 	word-break: break-all;
-}
-
-/* Paragraphs */
-
-p {
-	margin: 0;
 }
 
 /* Anchors */
@@ -46,35 +42,37 @@ h4,
 h5,
 h6 {
 	margin: var(--space20) 0;
+	font-family: var(--fontPrimary);
+	font-weight: var(--fontBold);
 }
 
 h1 {
-	font-size: clamp(var(--h1Min), 4vw + 1rem, var(--h1));
+	font-size: var(--h1);
 	line-height: 120%;
 }
 
 h2 {
-	font-size: clamp(var(--h2Min), 4vw + 1rem, var(--h2));
+	font-size: var(--h2);
 	line-height: 120%;
 }
 
 h3 {
-	font-size: clamp(var(--h3Min), 4vw + 1rem, var(--h3));
+	font-size: var(--h3);
 	line-height: 120%;
 }
 
 h4 {
-	font-size: clamp(var(--h4Min), 4vw + 1rem, var(--h4));
+	font-size: var(--h4);
 	line-height: 140%;
 }
 
 h5 {
-	font-size: clamp(var(--h5Min), 4vw + 1rem, var(--h5));
+	font-size: var(--h5);
 	line-height: 140%;
 }
 
 h6 {
-	font-size: clamp(var(--h6Min), 4vw + 1rem, var(--h6));
+	font-size: var(--h6);
 	line-height: 140%;
 }
 
@@ -109,22 +107,22 @@ ol:not([class]) > li {
 	padding-left: var(--space20);
 }
 
-ul:not([class]) > li:before,
-ol:not([class]) > li:before {
+ul:not([class]) > li::before,
+ol:not([class]) > li::before {
 	content: '';
 	position: absolute;
 	left: 0;
 	top: 7px;
 }
 
-ul:not([class]) > li:before{
+ul:not([class]) > li::before{
 	width: 0.625rem;
 	height: 0.625rem;
 	border-width: var(--border1);
 	border-style: solid;
 }
 
-ol:not([class]) > li:before{
+ol:not([class]) > li::before{
 	content: counter(default-counter);
 	width: 0.625rem;
 	height: 0.625rem;

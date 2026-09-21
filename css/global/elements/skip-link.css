@@ -2,18 +2,21 @@
 
 .skip-link {
     position: absolute;
-    top: -40px;
+    top: 0;
     left: 0;
-    background: var(--primaryColour, #0066cc);
-    color: var(--white);
+    /* translateY(-100%) hides the link fully regardless of its rendered height,
+       avoiding the partial-visibility issue a fixed negative top would cause. */
+    transform: translateY(-100%);
+    background: var(--primaryColour);
+    color: var(--primaryTextColour);
     padding: var(--space20);
     text-decoration: none;
-    z-index: 9999;
+    z-index: var(--zTooltip);
     font-weight: bold;
 }
 
 .skip-link:focus {
-    top: 0;
-    outline: 2px solid var(--white);
+    transform: translateY(0);
+    outline: var(--border2) solid var(--white);
     outline-offset: -4px;
 }

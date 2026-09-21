@@ -1,0 +1,17 @@
+{
+  "label": "Site navigation",
+  "description": "Site header logo, primary navigation menu, and optional header button.",
+  "icon": "fontawesome-5.14.0:bars:SOLID",
+  "content_types": ["SITE_PAGE", "LANDING_PAGE", "BLOG_POST", "BLOG_LISTING"],
+  "is_available_for_new_content": false,
+  "categories": ["FUNCTIONALITY"],
+  "js_render_options": {
+    "position": "footer",
+    "defer": true
+  },
+  "placeholder": {
+    "show_module_icon": true,
+    "title": "Site navigation",
+    "description": "Select a navigation menu in the module settings."
+  }
+}

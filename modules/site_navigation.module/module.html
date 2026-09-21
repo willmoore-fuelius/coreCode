@@ -1,0 +1,97 @@
+{#
+  Site navigation.
+
+  The menu is built from the menu() function rather than the {% menu %} tag so
+  the theme owns the markup: each parent with children gets a real <button>
+  with aria-expanded, instead of a hover-only flyout that keyboard and touch
+  users cannot reach. Two levels, matching the previous max_levels=2.
+#}
+
+{%- set logo_src = module.logo.src or site_settings.logo_src -%}
+{%- set logo_alt = module.logo_alt_text or site_settings.logo_alt or site_settings.company_name -%}
+{%- set logo_href = module.logo_link.url.href or site_settings.logo_link or '/' -%}
+
+<div class="m-siteHeader__inner">
+
+  {%- if logo_src -%}
+  <a class="m-siteHeader__logo" href="{{ logo_href }}"{% if module.logo_link.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}>
+    <img src="{{ logo_src }}"
+         alt="{{ logo_alt|default('', true)|escape_attr }}"
+         {% if module.logo.width %}width="{{ module.logo.width }}"{% endif %}
+         {% if module.logo.height %}height="{{ module.logo.height }}"{% endif %}
+         loading="eager"
+         decoding="async">
+  </a>
+  {%- endif -%}
+
+  <div class="m-siteHeader__navigationgroup">
+
+    <nav id="{{ name }}__nav" class="m-siteHeader__navigation js-siteNav" aria-label="Main navigation">
+      {%- if module.menu -%}
+      {%- set nav_root = menu(module.menu, "site_root") -%}
+      {%- if nav_root.children -%}
+      <ul class="m-siteHeader__menu">
+        {%- for item in nav_root.children -%}
+        <li class="m-siteHeader__menuItem{% if item.children %} has-children{% endif %}{% if item.activeBranch %} is-activeBranch{% endif %}">
+          {%- if item.url -%}
+          <a class="m-siteHeader__menuLink"
+             href="{{ item.url }}"
+             {% if item.activeNode %}aria-current="page"{% endif %}
+             {% if item.linkTarget == '_blank' %}target="_blank" rel="noopener noreferrer"{% endif %}>{{ item.label }}</a>
+          {%- else -%}
+          <span class="m-siteHeader__menuLink">{{ item.label }}</span>
+          {%- endif -%}
+
+          {%- if item.children -%}
+          <button type="button"
+                  class="m-siteHeader__submenuToggle js-submenuToggle"
+                  aria-expanded="false"
+                  aria-controls="{{ name }}__submenu_{{ loop.index }}">
+            <span class="show-for-sr">Show {{ item.label }} submenu</span>
+          </button>
+          <ul id="{{ name }}__submenu_{{ loop.index }}" class="m-siteHeader__submenu">
+            {%- for child in item.children -%}
+            <li class="m-siteHeader__submenuItem">
+              <a class="m-siteHeader__submenuLink"
+                 href="{{ child.url }}"
+                 {% if child.activeNode %}aria-current="page"{% endif %}
+                 {% if child.linkTarget == '_blank' %}target="_blank" rel="noopener noreferrer"{% endif %}>{{ child.label }}</a>
+            </li>
+            {%- endfor -%}
+          </ul>
+          {%- endif -%}
+        </li>
+        {%- endfor -%}
+      </ul>
+      {%- endif -%}
+      {%- elif is_in_editor -%}
+      {% editor_placeholder %}
+      {%- endif -%}
+    </nav>
+
+    {#- A button with no destination would render a dead anchor, so it is gated
+        on the href. Tell the editor why it vanished rather than failing silently. -#}
+    {%- if module.show_cta and is_in_editor and not (module.cta_link.url.href and module.cta_text) -%}
+    <p class="m-siteHeader__ctaHint">Header button hidden: set both the button text and a link destination.</p>
+    {%- endif -%}
+
+    {%- if module.show_cta and module.cta_link.url.href and module.cta_text -%}
+    {%- set cta_rel = [] -%}
+    {%- if module.cta_link.no_follow -%}{% do cta_rel.append("nofollow") %}{%- endif -%}
+    {%- if module.cta_link.open_in_new_tab -%}{% do cta_rel.append("noopener") %}{% do cta_rel.append("noreferrer") %}{%- endif -%}
+    <a class="m-siteHeader__cta e-button e-button--primary"
+       href="{{ module.cta_link.url.href }}"
+       {% if module.cta_link.open_in_new_tab %}target="_blank"{% endif %}
+       {% if cta_rel %}rel="{{ cta_rel|join(' ') }}"{% endif %}>{{ module.cta_text }}{% if module.cta_link.open_in_new_tab %} <span class="show-for-sr">(opens in new window)</span>{% endif %}</a>
+    {%- endif -%}
+
+    <button type="button"
+            class="m-siteHeader__toggle js-siteNavToggle"
+            aria-expanded="false"
+            aria-controls="{{ name }}__nav">
+      <span class="show-for-sr">Menu</span>
+    </button>
+
+  </div>
+
+</div>

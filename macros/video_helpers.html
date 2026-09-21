@@ -3,19 +3,24 @@
  isAvailableForNewContent: false
 -->
 
+{# render_video(id, settings) — a Plyr-enhanced HTML5 video player.
+   Initialisation lives in js/modules/video.js, required after the vendor
+   script; footer scripts run in order, so no readiness polling is needed. #}
+
 {% macro render_video(id, settings) %}
-{% if settings.video_url %}
-<div class="m-video-player" id="{{id}}_wrapper">
+{% if settings.video_url.href %}
+<div class="m-videoPlayer" id="{{id}}_wrapper">
 	<video
 		id="{{id}}"
-		class="m-video-player__video"
+		class="m-videoPlayer__video js-videoPlayer"
+		data-video-ratio="16:9"
 		preload="metadata"
 		controls
-		crossorigin
+		{% if settings.video_caption %}crossorigin="anonymous"{% endif %}
 		playsinline
 		{% if settings.video_poster.src %}poster="{{ settings.video_poster.src }}"{% endif %}>
 		{# WebM source for better compression (if available) #}
-		{% if settings.video_webm_url %}
+		{% if settings.video_webm_url.href %}
 		<source src="{{ settings.video_webm_url.href }}" type="video/webm" />
 		{% endif %}
 		{# MP4 fallback #}
@@ -32,20 +37,9 @@
 	</video>
 </div>
 
-{{ require_js(get_asset_url('../js/vendor/vendor.plyr.js'), { position: "footer", async: true }) }}
-{% require_js position='footer' %}
-<script>
-	document.addEventListener('DOMContentLoaded', function() {
-		if (typeof Plyr !== 'undefined') {
-			new Plyr('#{{id}}', {
-				controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'fullscreen'],
-				ratio: '16:9'
-			});
-		}
-	});
-</script>
-{% end_require_js %}
-
 {{ require_css(get_asset_url('../css/vendor/vendor.plyr.css')) }}
+{{ require_css(get_asset_url('../css/modules/video.css')) }}
+{{ require_js(get_asset_url('../js/vendor/vendor.plyr.js'), { position: "footer" }) }}
+{{ require_js(get_asset_url('../js/modules/video.js'), { position: "footer" }) }}
 {% endif %}
 {% endmacro %}

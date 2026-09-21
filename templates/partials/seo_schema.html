@@ -1,0 +1,45 @@
+<!--
+templateType: page
+isAvailableForNewContent: false
+label: SEO structured data
+-->
+
+{# Organisation and WebSite structured data, built from website settings so it
+   is correct on a fresh portal without anyone editing a template.
+
+   Two things here were learned the hard way on portal 141885928, 21 Sep 2026.
+
+   1. templateType is `page`, not `none`. An included partial annotated `none`
+      is never registered as a template, and the include then renders nothing
+      at all: no output, and no "Missing Template at Path" comment to explain
+      why. The partial did not execute until this was corrected.
+
+   2. The name comes from site_settings.company_name, which is set in
+      Settings > Account Defaults > Company Information. That is a different
+      screen from the brand kit, and the variable renders empty until that
+      specific field is filled. It cannot be moved to a theme setting: theme
+      fields.json supports only Boolean, Border, Choice, Color, Font, Image,
+      Number and Spacing, and rejects a text field on upload.
+
+   Page-level types (Article, Product) belong in the template that owns them,
+   via the layout's {% block head %}. #}
+
+{%- if site_settings.company_name -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ site_settings.company_name|tojson }},
+  "url": {{ content.absolute_url|tojson }}{% if site_settings.logo_src %},
+  "logo": {{ site_settings.logo_src|tojson }}{% endif %}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ site_settings.company_name|tojson }},
+  "url": {{ content.absolute_url|tojson }}
+}
+</script>
+{%- endif -%}

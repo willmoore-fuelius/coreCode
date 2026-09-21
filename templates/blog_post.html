@@ -4,18 +4,75 @@ isAvailableForNewContent: true
 label: Core Code - Blog post
 -->
 
+{% set template_css = '../../css/templates/blog_post.css' %}
 {% extends "./layouts/base.html" %}
+
+{#
+  No Article structured data here on purpose.
+
+  HubSpot already injects a BlogPosting block on every blog post, and it is
+  richer than anything worth hand-rolling: mainEntityOfPage, publisher with
+  the portal logo, an author URL, and dateModified as well as datePublished.
+  Measured on portal 141885928, 21 Sep 2026.
+
+  This template previously added its own Article block. It duplicated
+  HubSpot's, competed with it, and carried a bug: in a blog post context
+  `content.name` returns the editable span HubSpot wraps around the title, so
+  the headline serialised as `<span id="hs_cos_wrapper_name" ...>Title</span>`
+  rather than the title. If a page-level type is ever genuinely needed here,
+  strip the markup first with `content.name|striptags|tojson`, and check it
+  does not restate what HubSpot already emits.
+#}
+
 {% block body %}
 <main id="main-content">
-  <article class="blog-post">
-    <h1>{{ content.name }}</h1>
-    {{ content.post_body }}
-  </article>
+  <article class="m-blogPost o-wrapper o-wrapper--module">
+    <div class="o-container">
+      <header class="m-blogPost__header">
+        <h1 class="m-blogPost__title">{{ content.name }}</h1>
 
-  {% if group.allow_comments %}
-  <div class="blog-post__comments">
-    {% module 'blog_comments' path='@hubspot/blog_comments', label="Blog comments" %}
-  </div>
-  {% endif %}
+        <p class="m-blogPost__meta">
+          <time datetime="{{ content.publish_date|format_datetime('yyyy-MM-dd') }}">{{ content.publish_date|format_date('long') }}</time>
+          {%- if content.blog_post_author.display_name %}
+          <span class="m-blogPost__author">by {{ content.blog_post_author.display_name }}</span>
+          {%- endif %}
+        </p>
+
+        {#- The featured image sits beside the title and usually repeats its
+            meaning, so an unset alt renders alt="" and the image is treated as
+            decorative. Where it carries information the reader needs, set the
+            featured image alt text on the post itself. -#}
+        {%- if content.featured_image %}
+        <img class="m-blogPost__image"
+             src="{{ resize_image_url(content.featured_image, 1200, 0, 0) }}"
+             alt="{{ content.featured_image_alt_text|default('', true)|escape_attr }}"
+             loading="eager"
+             fetchpriority="high"
+             decoding="sync">
+        {%- endif %}
+      </header>
+
+      <div class="m-blogPost__body o-rte">
+        {{ content.post_body }}
+      </div>
+
+      {# Tag names only. Linking them needs blog_tag_url(group.id, tag.slug),
+         whose current status is unclear in HubSpot's docs — confirm it for the
+         project before turning these into links. #}
+      {%- if content.tag_list %}
+      <ul class="m-tags m-blogPost__tags">
+        {%- for tag in content.tag_list %}
+        <li class="m-tags__tag">{{ tag.name }}</li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+
+      {% if group.allow_comments %}
+      <div class="m-blogPost__comments">
+        {% module 'blog_comments' path='@hubspot/blog_comments', label="Blog comments" %}
+      </div>
+      {% endif %}
+    </div>
+  </article>
 </main>
 {% endblock body %}

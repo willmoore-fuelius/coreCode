@@ -17,11 +17,3 @@
 	transition: border var(--transitionSpeed);
 	cursor: pointer;
 }
-
-.m-arrows__button:hover {
-
-}
-
-.m-arrows__buttonicon {
-
-}

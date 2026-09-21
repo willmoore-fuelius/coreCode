@@ -185,6 +185,8 @@ The theme uses a two-tier colour token system.
 
 #### Tier 1 - Design Palette (css/global/tokens/palette.css)
 
+**Amended 21 September 2026:** brand colours and fonts are now theme settings. A design colour that maps to one of the theme's colour fields (primary, secondary, tertiary, highlight, text, background) is written as that field's **default in `fields.json`**, so an editor can change it and it can inherit from the portal's brand kit. `palette.css` keeps only the tokens with no field of their own, and is inlined into `base.html` rather than linked.
+
 - Full 1:1 mapping of the Stitch design palette to CSS custom properties.
 - Literal hex values. No cascade, no dependencies.
 - Not exposed to content editors.
@@ -197,7 +199,8 @@ The theme uses a two-tier colour token system.
 - Small set of semantic colour fields in HubSpot theme settings.
 - Fully decoupled from Tier 1.
 - Referenced in module CSS only where explicit editor control is needed.
-- Default set: primary, secondary, background, surface, text, heading, accent, footer_background.
+- The boilerplate ships `colours` (primary, secondary, tertiary, highlight, text, background) and `typography` (heading_font, body_font). Extend that set rather than replacing it, and keep the brand-kit `inherited_value` on any colour that has a sensible brand-kit source.
+- `css/theme_overrides.css` is what turns these fields into `:root` custom properties. A new field is not live until it is written there.
 
 #### Rules
 
@@ -331,7 +334,7 @@ Globally imported in `base.html`. Generated modules must use these macros instea
 
 - `css/main.css` - primary stylesheet, loaded async via `rel="preload"`. Uses HubL `{% include %}` to compose sub-files.
 - `css/theme_overrides.css` - loaded async, maps theme fields to CSS custom properties.
-- Critical CSS inlined in `<head>` via `base.html`: `layout.critical.css`, `header.critical.css`, `typography.critical.css`.
+- Critical CSS inlined in `<head>` via `base.html`: the `:root` tokens, `css/global/tokens/palette.css`, and `header.critical.css`. `main.css` and `theme_overrides.css` load as blocking stylesheets before `standard_header_includes`.
 - Module CSS auto-loaded by HubSpot when the module is placed on a page.
 
 ### Global CSS files (provided by boilerplate)
@@ -345,9 +348,9 @@ Globally imported in `base.html`. Generated modules must use these macros instea
 
 ### CRITICAL: Typography font-family declarations
 
-The boilerplate's `typography.critical.css` and `typography.css` define font sizes and line heights but **do not apply `font-family`**. Without explicit declarations, browsers fall back to Times New Roman.
+**Superseded 21 September 2026.** The boilerplate now applies `font-family` in `css/global/elements/typography.css` (`body` gets `var(--fontSecondary)`, headings get `var(--fontPrimary)`), and `typography.critical.css` has been deleted. The families come from the theme's font fields via `theme_overrides.css`. Verify the computed font on a rendered page; do not add the declarations again.
 
-**Phase 3 must ensure these declarations exist** in both `css/critical/typography.critical.css` and `css/global/elements/typography.css`:
+For reference, the declarations that now ship in `css/global/elements/typography.css`:
 
 ```css
 body {
@@ -824,7 +827,7 @@ See the `frontend-standards` JavaScript reference for the full standard. Key poi
 - `.js-*` classes for DOM targeting. `data-*` for configuration.
 - Event delegation on the module container.
 - `CoreCode.trapFocus()` and `CoreCode.debounce()` from shared utilities.
-- `window.lazyModuleInit(moduleId, initFn)` for below-fold modules. This defers `initFn` until the module element (identified by `moduleId`) enters the viewport via IntersectionObserver. Defined in `js/modules/utilities.js`.
+- `window.lazyModuleInit(moduleId, initFn)` for below-fold modules. Defers `initFn` until the module element (identified by `moduleId`) nears the viewport via IntersectionObserver. Defined in `js/modules/utilities.js` and also exposed as `window.CoreCode.lazyModuleInit`. **The module wrapper must carry `data-lazy-init`**, or the callback runs on DOMContentLoaded instead.
 - Guard against missing elements. Graceful degradation if JS fails.
 
 See `references/interactive-module-guardrails.md` for pattern-specific JS requirements.

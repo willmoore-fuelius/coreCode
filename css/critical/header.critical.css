@@ -1,17 +1,18 @@
 /* Critical Header Styles - Above the fold */
-/* Extracted from css/global/components/header.css */
 
 div[data-global-resource-path*="header"] {
 	position: sticky;
 	top: 0;
 	left: 0;
-	z-index: 90;
+	z-index: var(--zSticky);
 }
 
+/* min-height, not height: the inner row is sized by its own content (a 48px
+   touch target plus padding), and a fixed height would let it overflow. */
 .m-siteHeader {
 	position: relative;
-	height: var(--siteHeaderHeight);
-	z-index: 10;
+	min-height: var(--siteHeaderHeight);
+	z-index: var(--zBase);
 	background: var(--white);
 }
 
@@ -24,14 +25,17 @@ html.hs-inline-edit .m-siteHeader {
 	align-items: center;
 	width: 100%;
 	max-width: var(--containerWidth);
-	height: 100%;
+	min-height: var(--siteHeaderHeight);
 	margin-inline: auto;
-	padding: var(--space20);
-	background-color: var(--white);
+	/* 16px block padding keeps a 48px menu target inside the 80px header.
+	   The inline gutter matches the module spacing so the logo lines up with
+	   page content rather than sitting 20px inside it. */
+	padding-block: var(--space16);
+	padding-inline: var(--moduleLeftSpacing) var(--moduleRightSpacing);
 }
 
 .m-siteHeader__navigationgroup {
-	padding-left: 20px;
+	padding-left: var(--space20);
 	margin-left: auto;
 	display: flex;
 	align-items: center;
@@ -39,67 +43,61 @@ html.hs-inline-edit .m-siteHeader {
 }
 
 .m-siteHeader__navigation {
-	display: none;
 	align-self: stretch;
 }
 
 .m-siteHeader__toggle {
-	height: 40px;
-	width: 40px;
+	display: flex;
 	align-items: center;
 	justify-content: center;
+	height: var(--touchArea);
+	width: var(--touchArea);
 	background: none;
 	border: none;
-	content: '';
 	padding: 0;
-	background-image: url("data:image/svg+xml,%3Csvg fill='%23000000' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3C!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --%3E%3Cpath d='M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z'/%3E%3C/svg%3E");
+	background-image: url("data:image/svg+xml,%3Csvg fill='%23000000' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z'/%3E%3C/svg%3E");
 	background-size: 20px;
 	background-repeat: no-repeat;
 	background-position: center;
+	cursor: pointer;
 }
 
-.m-siteHeader__toggle.active {
-	background-image: url("data:image/svg+xml,%3Csvg fill='%23000000' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 352 512'%3E%3C!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --%3E%3Cpath d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'/%3E%3C/svg%3E");
+.m-siteHeader__toggle:focus-visible {
+	outline: var(--border2) solid var(--primaryColour);
+	outline-offset: 2px;
 }
 
-.m-siteHeader__cta--navigationmenu {
-	margin: var(--space12);
+.m-siteHeader__toggle.is-active {
+	background-image: url("data:image/svg+xml,%3Csvg fill='%23000000' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 352 512'%3E%3Cpath d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'/%3E%3C/svg%3E");
 }
 
-@media (width < 1200px){
-	.m-siteHeader__row--upper {
-		display: none;
-	}
-
-	.m-siteHeader__inner {
-		height: 100%;
-	}
-
+@media (width < 1200px) {
 	.m-siteHeader__logo {
 		max-width: 125px;
 	}
 
 	.m-siteHeader__navigation {
+		display: none;
 		position: absolute;
-		z-index: 99;
+		z-index: var(--zDropdown);
 		top: 100%;
 		left: 0;
 		right: 0;
 		height: calc(100vh - var(--siteHeaderHeight));
+		height: calc(100dvh - var(--siteHeaderHeight));
 		overflow-y: auto;
 		background-color: var(--white);
 	}
 
-	.m-siteHeader__navigation.active {
-		display: flex!important;
+	.m-siteHeader__navigation.is-active {
+		display: flex;
 		flex-direction: column;
 	}
 }
 
 @media (width >= 1200px) {
-	.m-siteHeader__navigation,
-	.m-siteHeader__navigation .hs_cos_wrapper{
-		display: flex!important;
+	.m-siteHeader__navigation {
+		display: flex;
 	}
 
 	.m-siteHeader__toggle {
