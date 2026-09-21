@@ -3,73 +3,48 @@ templateType: "none"
 isAvailableForNewContent: false
 -->
 
-{% macro render_responsive_images(item, class) %}
+{# ============================================================
+   image_helpers.html — responsive image rendering
 
-{% if item.desktop.desktop_image.src or item.tablet.tablet_image.src or item.mobile.mobile_image.src %}
+   render_image(image, class, sizes, priority)
 
-<picture class="{{ class }}-wrapper">
+     image    - a HubSpot image field value. Needs .src; .width, .height and
+                .alt are used when present.
+     class    - BEM class applied to the <img>.
+     sizes    - the sizes attribute, e.g. "(width >= 992px) 50vw, 100vw".
+                Defaults to 100vw. Describe the slot, not the image.
+     priority - true for the LCP image (a hero). Loads eagerly at high
+                priority; everything else is lazy.
 
-	{% set loadingAttr = item.mobile.mobile_image.loading != 'disabled' ? 'loading="{{ item.mobile.mobile_image.loading }}"' : '' %}
-	{% set fallbackSrc = item.fallback_image.default_image.src or item.desktop.desktop_image.src or item.tablet.tablet_image.src or item.mobile.mobile_image.src %}
+   One <img> with a width-descriptor srcset, not a <picture>. HubSpot's CDN
+   negotiates WebP by content type when it is smaller, so a duplicate WebP
+   <source> pointing at the same URL buys nothing.
 
-	{% if item.mobile.mobile_image.src %}
-	{% set sizeAttrs = 'width="{{ item.mobile.mobile_image.width }}" height="{{ item.mobile.mobile_image.height }}"' %}
-	{% set width = item.mobile.mobile_image.width ? item.mobile.mobile_image.width : 767 %}
-	{# WebP source for better compression (HubSpot auto-converts server-side) #}
-	<source class="{{ class }}" type="image/webp" srcset="{{ resize_image_url(item.mobile.mobile_image.src, 0, 0, 767) }} {{width}}w" media="(max-width: 767px)">
-	{# Original format fallback #}
-	<source class="{{ class }}" {{get_file_type(item.mobile.mobile_image.src)}} srcset="{{ resize_image_url(item.mobile.mobile_image.src, 0, 0, 767) }} {{width}}w" media="(max-width: 767px)">
-	{% endif %}
+   width and height are always emitted when the field has them: they reserve
+   the aspect ratio before load, and HubSpot's automatic resizing only applies
+   to images that carry them.
+   ============================================================ #}
 
-	{% if item.tablet.tablet_image.src %}
-	{% set sizeAttrs = 'width="{{ item.tablet.tablet_image.width }}" height="{{ item.tablet.tablet_image.height }}"' %}
-	{% set width = item.tablet.tablet_image.width ? item.tablet.tablet_image.width : 991 %}
-	{# WebP source for better compression #}
-	<source class="{{ class }}" type="image/webp" srcset="{{ resize_image_url(item.tablet.tablet_image.src, 0, 0, 991) }} {{width}}w" media="(max-width: 991px)">
-	{# Original format fallback #}
-	<source class="{{ class }}" {{get_file_type(item.tablet.tablet_image.src)}} srcset="{{ resize_image_url(item.tablet.tablet_image.src, 0, 0, 991) }} {{width}}w" media="(max-width: 991px)">
-	{% endif %}
-
-	{% if item.desktop.desktop_image.src %}
-	{% set sizeAttrs = 'width="{{ item.desktop.desktop_image.width }}" height="{{ item.desktop.desktop_image.height }}"' %}
-	{% set width = item.desktop.desktop_image.width ? item.desktop.desktop_image.width : 1200 %}
-	{# WebP source for better compression #}
-	<source class="{{ class }}" type="image/webp" srcset="{{ resize_image_url(item.desktop.desktop_image.src, 0, 0, 1200) }} {{width}}w" media="(min-width: 992px)">
-	{# Original format fallback #}
-	<source class="{{ class }}" {{get_file_type(item.desktop.desktop_image.src)}} srcset="{{ resize_image_url(item.desktop.desktop_image.src, 0, 0, 1200) }} {{width}}w" media="(min-width: 992px)">
-	{% endif %}
-
-	<img class="{{ class }}" src="{{ resize_image_url(fallbackSrc, 0, 0, 1200) }}" alt="{{ item.fallback_image.default_image.alt | default('Image related to content') | striptags }}"{% if item.fallback_image.default_image.width %} width="{{ item.fallback_image.default_image.width }}" height="{{ item.fallback_image.default_image.height }}"{% endif %} decoding="async" {{ get_loading_type(item.fallback_image.default_image) }} />
-
-</picture>
-
-{% elif item.fallback_image.default_image.src %}
-<img class="{{ class }}" src="{{ resize_image_url(item.fallback_image.default_image.src, 0, 0, 1200) }}" alt="{{ item.fallback_image.default_image.alt | default('Image related to content') | striptags }}" {{ get_loading_type(item.fallback_image.default_image) }} {{ get_image_size(item.fallback_image.default_image) }} />
-{% endif %}
-
-{% endmacro %}
-
-{% macro get_image_size(image) %}
-{%- if image.size_type == 'auto' -%}
-style="max-width: 100%; height: auto;"
-{%- elif image.size_type == 'auto_custom_max' -%}
-width="{{ image.max_width }}" height="{{ image.max_height }}" style="max-width: 100%; height: auto;"
-{%- else -%}
-width="{{ image.width }}" height="{{ image.height }}"
+{% macro render_image(image, class, sizes, priority) %}
+{%- if image.src -%}
+{%- set candidate_widths = [480, 768, 1200, 1600] -%}
+{%- set candidates = [] -%}
+{%- for w in candidate_widths -%}
+  {%- if not image.width or w <= image.width -%}
+    {%- do candidates.append(resize_image_url(image.src, w, 0, 0) ~ ' ' ~ w ~ 'w') -%}
+  {%- endif -%}
+{%- endfor -%}
+<img class="{{ class }}"
+     src="{{ resize_image_url(image.src, 1200, 0, 0) }}"
+     {% if candidates %}srcset="{{ candidates|join(', ') }}" sizes="{{ sizes|default('100vw', true) }}"{% endif %}
+     alt="{{ image.alt|default('', true)|escape_attr }}"
+     {% if image.width %}width="{{ image.width }}"{% endif %}
+     {% if image.height %}height="{{ image.height }}"{% endif %}
+     {% if priority %}loading="eager" fetchpriority="high" decoding="sync"{% else %}loading="lazy" decoding="async"{% endif %}>
 {%- endif -%}
 {% endmacro %}
 
+{# Respects an image field's own loading setting, including "disabled". #}
 {% macro get_loading_type(image) %}
 {%- if image.loading != 'disabled' -%}loading="{{ image.loading }}"{%- endif -%}
-{% endmacro %}
-
-{% macro get_file_type(src) %}
-{%- set ext = src|split('.')|last|lower -%}
-{%- if ext == 'jpg' or ext == 'jpeg' -%}type="image/jpeg"
-{%- elif ext == 'svg' -%}type="image/svg+xml"
-{%- elif ext == 'png' -%}type="image/png"
-{%- elif ext == 'gif' -%}type="image/gif"
-{%- elif ext == 'webp' -%}type="image/webp"
-{%- elif ext == 'avif' -%}type="image/avif"
-{%- endif -%}
 {% endmacro %}

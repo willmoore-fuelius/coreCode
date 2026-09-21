@@ -11,6 +11,16 @@ isAvailableForNewContent: false
    render_link(link_settings, scope, classes, style) — Anchor element
    render_cta(cta_settings, scope, classes, style)   — HubSpot CTA
 
+   Cross-macro calls in this file are un-prefixed and work. Do not add a
+   `self.` prefix: `self` addresses the block namespace, not the macro
+   namespace, and a call through it renders nothing, silently (verified on a
+   rendered page, portal 149133071, 20 Aug 2026).
+
+   Superseded 21 Sep 2026: earlier versions of this comment and the project
+   docs deprecated render_button() and render_module_footer_cta() on the
+   grounds that un-prefixed cross-macro calls fail silently. That was the
+   wrong diagnosis of the `self.` trap above, and both macros are supported.
+
    Alignment for render_module_footer_cta is applied via modifier
    classes on .m-moduleFooter (see css/Modules/footer_cta.css, loaded
    globally via css/main.css):
@@ -44,7 +54,10 @@ isAvailableForNewContent: false
 {%- endif -%}
 {% endmacro %}
 
-{% macro render_link(link_settings, scope, classes, style, theme) %}
+{# The new-window warning is visually hidden text inside the anchor rather than
+   an aria-label, so it does not replace the accessible name with a duplicate
+   of the link text. #}
+{% macro render_link(link_settings, scope, classes, style) %}
 {%- if link_settings.link_field.url.href and link_settings.link_text -%}
 {%- set href = link_settings.link_field.url.href -%}
 {%- if link_settings.link_field.url.type is equalto "EMAIL_ADDRESS" -%}
@@ -56,31 +69,13 @@ isAvailableForNewContent: false
 <a id="{{ scope }}"
    class="{{ classes }} e-button e-button--{{ style ? style : 'primary' }}"
    href="{{ href }}"
-   {% if link_settings.link_field.open_in_new_tab %}target="_blank" aria-label="{{ link_settings.link_text | escape_attr }} (opens in new window)"{% else %}aria-label="{{ link_settings.link_text | escape_attr }}"{% endif %}
-   {% if rel %}rel="{{ rel|join(' ') }}"{% endif %}
-   title="{{ link_settings.link_text | escape_attr }}">{{ link_settings.link_text }}</a>
+   {% if link_settings.link_field.open_in_new_tab %}target="_blank"{% endif %}
+   {% if rel %}rel="{{ rel|join(' ') }}"{% endif %}>{{ link_settings.link_text }}{% if link_settings.link_field.open_in_new_tab %} <span class="show-for-sr">(opens in new window)</span>{% endif %}</a>
 {%- endif -%}
 {% endmacro %}
 
 {% macro render_cta(cta_settings, scope, classes, style) %}
-{# Support new CTA (no dash in GUID) #}
-{%- if cta_settings.cta_field and cta_settings.cta_field is not string_containing '-' -%}
+{%- if cta_settings.cta_field -%}
 {% cta guid="{{ cta_settings.cta_field }}" %}
-{%- else -%}
-{%- set portal_id = hub_id -%}
-{%- set cta_id = cta_settings.cta_field -%}
-<span id="{{ scope }}" class="hs-cta-button {{ classes }}">
-    <!--HubSpot Call-to-Action Code -->
-    <span class="hs-cta-wrapper hs-cta-wrapper--{{ style }}" id="hs-cta-wrapper-{{ cta_id }}" role="button" aria-label="{{ cta_settings.cta_text | default('Call to action button') | escape_attr }}">
-        <span class="hs-cta-node hs-cta-{{ cta_id }}" id="hs-cta-{{ cta_id }}">
-            <!--[if lte IE 8]><div id="hs-cta-ie-element"></div><![endif]-->
-            <a href="https://cta-redirect.hubspot.com/cta/redirect/{{ portal_id }}/{{ cta_id }}" target="_blank" rel="noopener noreferrer" aria-label="{{ cta_settings.cta_text | default('Call to action') | escape_attr }}">
-                <img class="hs-cta-img" id="hs-cta-img-{{ cta_id }}" style="border-width:0px;" src="https://no-cache.hubspot.com/cta/default/{{ portal_id }}/{{ cta_id }}.png" alt="{{ cta_settings.cta_text | default('') | escape_attr }}" />
-            </a>
-        </span>
-        <script charset="utf-8" src="https://js.hscta.net/cta/current.js"></script>
-        <script type="text/javascript"> hbspt.cta.load({{ portal_id }}, '{{ cta_id }}', {"useNewLoader":"true"}); </script>
-    </span>
-</span>
 {%- endif -%}
 {% endmacro %}

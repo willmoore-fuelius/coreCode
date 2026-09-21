@@ -2,10 +2,13 @@
 templateType: none
 -->
 
-{% import '../../macros/Link Helpers.html' as link_helper %}
-{% import '../../macros/Image Helpers.html' as image_helper %}
-{% import '../../macros/Video Helpers.html' as video_helper %}
-{% import '../../macros/Text Helpers.html' as text_helpers %}
+{# Imported by their literal filenames, which is what the Design Manager
+   stores. HubSpot also resolves a Title Cased path, but relying on that
+   leniency is how a path becomes wrong without anyone noticing. #}
+{% import '../../macros/link_helpers.html' as link_helper %}
+{% import '../../macros/image_helpers.html' as image_helper %}
+{% import '../../macros/video_helpers.html' as video_helper %}
+{% import '../../macros/text_helpers.html' as text_helpers %}
 
 <!DOCTYPE html>
 <html lang="{{ html_lang }}" {{ html_lang_dir }}>

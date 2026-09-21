@@ -3,11 +3,18 @@
   "preview_path": "./templates/home.html",
   "screenshot_path": "./images/template-previews/theme_preview.png",
   "enable_domain_stylesheets": false,
+  "is_available_for_new_content": true,
+  "documentation_url": "https://github.com/willmoore-fuelius/coreCode#readme",
+  "license": "MIT",
   "author": {
     "name": "Fuelius",
     "email": "help@fuelius.com",
     "url": "https://www.fuelius.com/"
   },
+  "hidden_modules": [
+    "@hubspot/menu",
+    "@hubspot/simple_menu"
+  ],
   "responsive_breakpoints": [
     {
       "name": "mobile",
