@@ -1,0 +1,15 @@
+<!--
+templateType: none
+isAvailableForNewContent: false
+label: Subscription page assets
+-->
+
+{# Shared by the three email subscription system templates. #}
+
+{{ require_css(get_asset_url("../../css/templates/communication_preferences.css")) }}
+
+{# HubSpot internal static asset — path is hardcoded because it is not available via get_asset_url. #}
+{# If subscription preferences stop working, check whether the version number (static-1.1) needs updating. #}
+{% require_js position='footer' %}
+<script src="/hs/hsstatic/SubscriptionPreferences/static-1.1/subscription_preferences_asset.js"></script>
+{% end_require_js %}

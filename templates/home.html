@@ -10,6 +10,14 @@ screenshotPath: ../images/template-previews/theme_preview.png
 {% block body %}
 <main id="main-content">
   {% dnd_area 'main_content' class='body-container', label='Main section' %}
+    {% dnd_section %}
+      {% dnd_module path='@hubspot/rich_text', offset=0, width=12 %}
+        {% module_attribute 'html' %}
+          <h1>Page heading</h1>
+          <p>Replace this text, or delete the section and drop in your own modules.</p>
+        {% end_module_attribute %}
+      {% end_dnd_module %}
+    {% end_dnd_section %}
   {% end_dnd_area %}
 </main>
 {% endblock body %}

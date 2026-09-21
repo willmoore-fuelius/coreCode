@@ -204,6 +204,8 @@ templateType: none
 
 		{{ require_js(get_asset_url('../../js/modules/utilities.js'), { position: "footer" }) }}
 
+		{% include '../partials/seo_schema.html' %}
+
 		{# To see a full list of what is included via standard_footer_includes please reference this article: https://developers.hubspot.com/docs/cms/hubl/variables#required-page-template-variables #}
 		{{ standard_footer_includes }}
 	</body>

@@ -1,0 +1,30 @@
+<!--
+templateType: none
+isAvailableForNewContent: false
+label: SEO structured data
+-->
+
+{# Organisation and WebSite structured data, built from website settings so it
+   is correct on a fresh portal without anyone editing a template. Page-level
+   types (Article, Product) belong in the template that owns them, via the
+   layout's {% block head %}. #}
+
+{%- if site_settings.company_name -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ site_settings.company_name|tojson }},
+  "url": {{ content.absolute_url|tojson }}{% if site_settings.logo_src %},
+  "logo": {{ site_settings.logo_src|tojson }}{% endif %}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ site_settings.company_name|tojson }},
+  "url": {{ content.absolute_url|tojson }}
+}
+</script>
+{%- endif -%}
