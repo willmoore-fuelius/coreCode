@@ -110,9 +110,93 @@ screenshotPath: ../images/template-previews/theme_preview.png
      ==================================================================== #}
   <section class="o-wrapper o-wrapper--module" data-surface="form">
     <div class="o-container">
-      <h2>Form</h2>
-      <p class="m-playground__note">Select a form in this module, then submit it empty to check the required marker, the invalid border and the error message contrast.</p>
+      <h2>Form, live</h2>
+      <p class="m-playground__note">Select a form in this module, then submit it empty to check the required marker, the invalid border and the error message contrast against HubSpot's own renderer.</p>
       {% module "playground_form" path="@hubspot/form", label="Playground form" %}
+    </div>
+  </section>
+
+  {# ====================================================================
+     Form, static.
+
+     A hand-built copy of the DOM HubSpot's form renderer emits, so the
+     theme's form CSS is measurable on a portal with no form, and so the
+     error state can be inspected without submitting anything.
+
+     What this proves: the rules in css/global/elements/forms.css.
+     What it does not prove: that HubSpot still emits this markup. Only the
+     live module above does that, and the two should be compared whenever a
+     form is available. A form created through the Forms API also renders
+     inside an iframe unless displayOptions.renderRawHtml is set, in which
+     case none of this CSS reaches it at all.
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="form-static">
+    <div class="o-container">
+      <h2>Form, static copy of HubSpot's markup</h2>
+
+      <form class="hs-form stacked" novalidate>
+        <fieldset class="form-columns-2">
+          <div class="hs-form-field">
+            <label for="pg-first">First name<span class="hs-form-required">*</span></label>
+            <div class="input">
+              <input id="pg-first" class="hs-input" type="text" name="firstname" autocomplete="given-name">
+            </div>
+          </div>
+          <div class="hs-form-field">
+            <label for="pg-last">Last name</label>
+            <div class="input">
+              <input id="pg-last" class="hs-input" type="text" name="lastname" autocomplete="family-name">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-columns-1">
+          <div class="hs-form-field">
+            <label for="pg-email">Email<span class="hs-form-required">*</span></label>
+            <legend class="hs-field-desc">We only use this to reply to your enquiry.</legend>
+            <div class="input">
+              <input id="pg-email" class="hs-input invalid error" type="email" name="email" autocomplete="email" aria-invalid="true" aria-describedby="pg-email-error" value="not-an-email">
+            </div>
+            <ul class="no-list hs-error-msgs inputs-list" role="alert">
+              <li><label id="pg-email-error" class="hs-error-msg">Please enter a valid email address.</label></li>
+            </ul>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-columns-1">
+          <div class="hs-form-field">
+            <label for="pg-message">Message</label>
+            <div class="input">
+              <textarea id="pg-message" class="hs-input" name="message" rows="4"></textarea>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-columns-1">
+          <div class="hs-form-field">
+            <fieldset>
+              <legend>Which services interest you?</legend>
+              <ul class="inputs-list">
+                <li><label for="pg-c1"><input id="pg-c1" type="checkbox" name="services" value="one"><span>Service one</span></label></li>
+                <li><label for="pg-c2"><input id="pg-c2" type="checkbox" name="services" value="two"><span>Service two</span></label></li>
+              </ul>
+            </fieldset>
+          </div>
+        </fieldset>
+
+        <div class="legal-consent-container">
+          <div class="hs-form-booleancheckbox-display">
+            <label for="pg-consent"><input id="pg-consent" type="checkbox" name="consent"><span>I agree to be contacted about this enquiry.</span></label>
+          </div>
+          <div class="hs-richtext"><p>We store your details to answer your enquiry. See our privacy notice for how long we keep them.</p></div>
+        </div>
+
+        <div class="actions">
+          <input type="submit" class="hs-button primary large" value="Send enquiry">
+        </div>
+      </form>
+
+      <p class="m-playground__note">The required marker, the invalid border and the error message should all be visible without relying on colour alone, and the error text should clear 4.5:1. The two-column fieldset should stack below roughly 512px. The consent checkbox must not stretch to full width.</p>
     </div>
   </section>
 
