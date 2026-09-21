@@ -347,9 +347,25 @@ The measurement did its job: reading the code would not have caught any of these
 
 After those three, the logo, the page heading and the footer all share one gutter: 40px at 1280px, 24px at 390px.
 
-### Not verified
+### The primary button, measured in every state
 
-- **The primary button.** `.e-button--primary` does not appear on this page, because the header CTA is switched off. The variant is defined and in the CSSOM; its rendered colours are still unmeasured.
+The header CTA was switched on and given a destination, so the button from section 2.4 could finally be measured. Colours were resolved through a canvas, because Chrome serialises the `color-mix()` hover value as `oklch(...)`, which an `rgb()`-only parser silently misreads. The resolver was proved first against known pairs: white on black returned 21, and `#0d2c41` round-tripped exactly.
+
+| State | Background | Text contrast |
+|-------|-----------|---------------|
+| Rest | `#0d2c41` (the resolved `--primaryColour`) | 14.45:1 |
+| Hover | `oklch(0.247731 0.0466362 241.879)`, resolved `#092335` | 16.11:1 |
+| Focus-visible | same as hover | 16.11:1 |
+
+The focus ring is `2px solid` at `2px` offset, so it sits on the white header rather than on the button, where it measures 14.45:1 against that surface. Geometry: 151x48 with a 48px `min-height`, 12px by 24px padding, 8px radius, Montserrat 600. Identical at 390px, with no horizontal scroll and the header still exactly 80px.
+
+### A bug the CTA work exposed
+
+**The conditional rule on the two CTA fields never applied.** Both carried their `visibility` object nested inside a `display_conditions` wrapper, one level below the key HubSpot documents. The portal drops the unknown key, confirmed by fetching the module's `fields.json` back and finding no rule on either field, so the button text and link showed in the editor whether the toggle was on or off. This predates the branch. The rules are now at the documented top level.
+
+The same investigation showed the button fails silently when half configured: it is gated on having a destination, because a button with no href is a dead anchor, but an editor who sets the text and no link sees nothing and no explanation. The module now renders an editor-only line in its place saying the button is hidden until both are set.
+
+### Not verified
 - **Structured data.** No JSON-LD rendered. The include resolves, so the `{% if site_settings.company_name %}` guard is suppressing it, which is the intended behaviour on a portal with no company name set. Confirm on a portal that has one.
 - **The blog post template.** No blog post exists on the sandbox, so the date, author, featured image, tags and Article structured data are unrendered.
 - **Forms.** No HubSpot form on the page, so the error state and the two-column wrap are unmeasured.
