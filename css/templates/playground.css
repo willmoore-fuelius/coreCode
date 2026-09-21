@@ -1,0 +1,45 @@
+/* ==========================================================================
+   Theme surface playground
+
+   Fixture-only styling for templates/Playground.html. Nothing here is part of
+   the theme's own surface: it exists to make the surfaces measurable. The
+   template is isAvailableForNewContent: false, so these rules never load on a
+   page anyone ships.
+   ========================================================================== */
+
+.m-playground__row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space16);
+	margin-block: var(--space24);
+}
+
+.m-playground__note {
+	margin-block-start: var(--space16);
+	color: var(--grey60);
+	font-size: var(--pSm);
+}
+
+.m-playground__measure {
+	max-width: 70ch;
+}
+
+.m-playground__image {
+	width: 100%;
+	height: auto;
+}
+
+/* A visible block that fills the container, so the gutter and the container
+   width can be read off the page rather than inferred. */
+.m-playground__ruler {
+	padding: var(--space16);
+	border: var(--border2) dashed var(--grey30);
+	color: var(--grey60);
+	font-size: var(--pSm);
+}
+
+/* Separate the sections so one surface cannot be mistaken for the next. */
+[data-surface] + [data-surface] {
+	border-block-start: var(--border1) solid var(--grey10);
+}

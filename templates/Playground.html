@@ -1,15 +1,208 @@
 <!--
 templateType: page
-isAvailableForNewContent: false
+isAvailableForNewContent: true
 enableDomainStylesheets: false
-label: Core Code - Playground
+label: Core Code - Theme surface playground (QA fixture)
 screenshotPath: ../images/template-previews/theme_preview.png
 -->
 
+{#
+  Theme surface playground.
+
+  A regression fixture, not a page anyone ships: it renders every surface the
+  boilerplate styles so one page load shows what a token or CSS change moved.
+  Deliberately static rather than a dnd_area, so the markup cannot drift.
+
+  It is isAvailableForNewContent: true on purpose. A fixture nobody can
+  instantiate is not a fixture, and every portal running this theme should be
+  able to spin up its own copy in a minute. The label says QA fixture so an
+  editor picking a template knows what it is; keep the page unpublished, or
+  published on a slug nobody links to.
+
+  What it does not cover, because each needs portal content rather than markup:
+  the blog post template (needs a published post), and the Organisation and
+  WebSite structured data (needs a company name in website settings).
+
+  Every section carries a data-surface attribute so an automated check can
+  address it without depending on heading text.
+#}
+
+{% set template_css = '../css/templates/playground.css' %}
 {% extends "./layouts/base.html" %}
+
 {% block body %}
 <main id="main-content">
-  {% dnd_area 'main_content' class='body-container', label='Main section' %}
-  {% end_dnd_area %}
+
+  {# ====================================================================
+     Typography
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="typography">
+    <div class="o-container">
+      <h1>Heading level 1</h1>
+      <h2>Heading level 2</h2>
+      <h3>Heading level 3</h3>
+      <h4>Heading level 4</h4>
+      <h5>Heading level 5</h5>
+      <h6>Heading level 6</h6>
+
+      <p>A paragraph at the base size, with <a href="#main-content">an inline link</a> to check the anchor colour and its underline on hover and focus. The measure below is capped so line length stays readable.</p>
+
+      <p class="m-playground__measure">A second paragraph constrained to a comfortable measure, long enough to wrap onto several lines so the line height and the maximum width can both be judged rather than guessed from a single short line of text.</p>
+
+      <ul>
+        <li>An unordered list item, using the theme's own marker</li>
+        <li>A second item, long enough to wrap so the hanging indent can be checked against the marker position</li>
+      </ul>
+
+      <ol>
+        <li>An ordered list item</li>
+        <li>A second ordered item</li>
+      </ol>
+
+      <hr>
+    </div>
+  </section>
+
+  {# ====================================================================
+     Buttons. Rest and disabled render here; hover, focus-visible and
+     active are driven by the checker.
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="buttons">
+    <div class="o-container">
+      <h2>Buttons</h2>
+      <div class="m-playground__row">
+        <a class="e-button e-button--primary" href="#main-content" data-state="rest">Primary button</a>
+        <a class="e-button e-button--secondary" href="#main-content" data-state="rest">Secondary button</a>
+        <button type="button" class="e-button e-button--primary" disabled data-state="disabled">Primary disabled</button>
+        <button type="button" class="e-button e-button--secondary" disabled data-state="disabled">Secondary disabled</button>
+      </div>
+      <p class="m-playground__note">Both variants should clear 4.5:1 for their label, and the focus ring should be visible against the page rather than against the button.</p>
+    </div>
+  </section>
+
+  {# ====================================================================
+     Images through the macro. A dict stands in for an image field so the
+     macro can be exercised without a module.
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="images">
+    <div class="o-container">
+      <h2>Images</h2>
+      {%- set sample_image = {
+        "src": get_asset_url('../images/template-previews/theme_preview.png'),
+        "alt": "Sample image used to exercise the responsive image macro",
+        "width": 1600,
+        "height": 900
+      } -%}
+
+      <h3>Priority image, full width</h3>
+      {{ image_helper.render_image(sample_image, 'm-playground__image', '100vw', true) }}
+
+      <h3>Lazy image, half width above 992px</h3>
+      {{ image_helper.render_image(sample_image, 'm-playground__image', '(width >= 992px) 50vw, 100vw') }}
+
+      <p class="m-playground__note">The first should carry loading="eager" and fetchpriority="high"; the second loading="lazy". Both should list four srcset candidates and explicit width and height.</p>
+    </div>
+  </section>
+
+  {# ====================================================================
+     Forms. Pick a form on this page in the editor to exercise the
+     field, label, error and submit styling.
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="form">
+    <div class="o-container">
+      <h2>Form</h2>
+      <p class="m-playground__note">Select a form in this module, then submit it empty to check the required marker, the invalid border and the error message contrast.</p>
+      {% module "playground_form" path="@hubspot/form", label="Playground form" %}
+    </div>
+  </section>
+
+  {# ====================================================================
+     Tables
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="table">
+    <div class="o-container">
+      <h2>Table</h2>
+      <table>
+        <caption>A caption describing the table contents</caption>
+        <thead>
+          <tr><th scope="col">Column one</th><th scope="col">Column two</th><th scope="col">Column three</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Cell</td><td>Cell</td><td>Cell</td></tr>
+          <tr><td>Cell</td><td>A longer cell value, to check wrapping inside a table cell</td><td>Cell</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  {# ====================================================================
+     Rich text, as an editor's output flows through .o-rte
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="richtext">
+    <div class="o-container">
+      <h2>Rich text</h2>
+      <div class="o-rte">
+        <h3>A heading inside rich text</h3>
+        <p>Rich text output should lose its outer margins so it sits flush in its container, while keeping the rhythm between its own children.</p>
+        <blockquote><p>A block quotation, to check that quoted text is distinguishable from body copy.</p></blockquote>
+        <p>A closing paragraph with <strong>bold</strong> and <em>italic</em> text.</p>
+      </div>
+    </div>
+  </section>
+
+  {# ====================================================================
+     Module stylesheets that main.css loads globally
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="components">
+    <div class="o-container">
+      <h2>Shared components</h2>
+
+      <h3>Tags</h3>
+      <ul class="m-tags">
+        <li class="m-tags__tag">Tag one</li>
+        <li class="m-tags__tag">Tag two</li>
+        <li class="m-tags__tag">A longer tag</li>
+      </ul>
+
+      <h3>Arrows</h3>
+      <div class="m-arrows">
+        <button type="button" class="m-arrows__button" aria-label="Previous">
+          <span class="m-arrows__buttonicon" aria-hidden="true">&#8592;</span>
+        </button>
+        <button type="button" class="m-arrows__button" aria-label="Next">
+          <span class="m-arrows__buttonicon" aria-hidden="true">&#8594;</span>
+        </button>
+      </div>
+
+      <h3>Dots</h3>
+      <ul class="m-dots">
+        <li class="is-active"><button type="button" aria-label="Go to slide 1">1</button></li>
+        <li><button type="button" aria-label="Go to slide 2">2</button></li>
+        <li><button type="button" aria-label="Go to slide 3">3</button></li>
+      </ul>
+
+      <h3>Heading macro</h3>
+      {{ text_helpers.render_heading({
+        "heading": "A heading rendered by the macro",
+        "summary": "With a summary beneath it, to check the spacing the macro applies.",
+        "heading_type": "h4"
+      }, true, "playground") }}
+    </div>
+  </section>
+
+  {# ====================================================================
+     Spacing and container reference. The markers make the module gutter
+     and the container edge measurable rather than eyeballed.
+     ==================================================================== #}
+  <section class="o-wrapper o-wrapper--module" data-surface="spacing">
+    <div class="o-container">
+      <h2>Spacing and container</h2>
+      <div class="m-playground__ruler" data-ruler="container">
+        Container edge. This block fills the container, so its left edge is the page gutter and its width is the container width.
+      </div>
+      <p class="m-playground__note">The gutter should match the header logo and the footer text. The width should match the container max width in theme settings.</p>
+    </div>
+  </section>
+
 </main>
 {% endblock body %}
