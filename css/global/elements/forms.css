@@ -39,7 +39,11 @@ form .hs-field-desc{
   margin: var(--space20) 0;
 }
 
-/* Inputs */
+/* Inputs
+
+   HubSpot renders its fields with no appearance of their own, so without
+   these a fresh clone shows raw browser widgets: a 30px tall box with a 2px
+   inset border. Measured on portal 141885928, 21 Sep 2026. */
 
 form input[type="text"],
 form input[type="email"],
@@ -54,6 +58,14 @@ form select,
 form textarea {
   display: inline-block;
   width: 100%;
+  min-height: var(--touchArea);
+  padding: var(--space12) var(--space16);
+  border: var(--border1) solid var(--grey30);
+  border-radius: var(--radiusXs);
+  background-color: var(--white);
+  color: var(--grey90);
+  /* 16px keeps iOS from zooming the page when a field takes focus. */
+  font-size: var(--pBase);
 }
 
 /* Focus visible styles for accessibility (WCAG 2.4.7) */
@@ -249,19 +261,28 @@ form .hs-richtext img {
 
 /* Submit button */
 
+/* The shared rules in buttons.css give this its shape, but a HubSpot submit
+   carries no variant class, so without a colour here it renders with the
+   browser's grey default inside a theme-shaped button. */
+
 form input[type="submit"],
 form .hs-button {
   cursor: pointer;
   display: inline-block;
   text-align: center;
-  transition: all var(--transitionSpeed);
+  background-color: var(--primaryColour);
+  color: var(--primaryTextColour);
+  transition: background-color var(--transitionSpeed) var(--easeOut),
+              color var(--transitionSpeed) var(--easeOut);
   white-space: normal;
 }
 
 form input[type="submit"]:hover,
-form input[type="submit"]:focus,
+form input[type="submit"]:focus-visible,
 form .hs-button:hover,
-form .hs-button:focus{
+form .hs-button:focus-visible {
+  background-color: color-mix(in oklch, var(--primaryColour), black 12%);
+  color: var(--primaryTextColour);
   text-decoration: none;
 }
 

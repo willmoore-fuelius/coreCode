@@ -372,4 +372,19 @@ The same investigation showed the button fails silently when half configured: it
   Two defects surfaced there, both now fixed. **The hand-rolled Article structured data was a regression.** HubSpot already injects a `BlogPosting` block on every post, and it is richer than what this template added: `mainEntityOfPage`, a publisher with the portal logo, an author URL, and `dateModified` as well as `datePublished`. The template's own block duplicated it and competed with it. It also carried a bug: in a blog post context `content.name` returns the editable span HubSpot wraps around the title, so the headline serialised as `<span id="hs_cos_wrapper_name" ...>Blog post number 1</span>` rather than the title. The block is removed, and the page now carries exactly one correct `BlogPosting`.
 
   Second, the featured image renders `alt=""` when the post has no featured image alt text. Beside the title that is defensible, since the image usually repeats the heading's meaning, so the template now says so in a comment rather than leaving it accidental.
-- **Forms.** No HubSpot form on the page, so the error state and the two-column wrap are unmeasured.
+- ~~**Forms.**~~ Verified 21 Sep 2026 against a real HubSpot form on `/fable-review-test-1`.
+
+  **The form is not iframed.** It renders as real DOM (`form.hs-form-private`, no `hs-form-iframe`), so the theme's CSS reaches it. The only iframe present is HubSpot's legacy `target_iframe_` submit target, which is the invisible utility element the rules estate warns not to mistake for the fields being boxed in.
+
+  The error work from section 2.6 is correct against HubSpot's own renderer. Submitting empty produced the message "Please complete this required field." in `#c81e1e` at 5.74:1, a `2px solid` invalid border in the same colour, and a required marker at 5.74:1. So the error state carries a border as well as colour, and clears 4.5:1.
+
+  **Two gaps the live form exposed, both now fixed.** The theme styled labels, errors and checkboxes but never the fields themselves, so inputs rendered as raw browser widgets: 30px tall with a 2px inset border. They now take the theme's padding, border, radius and a 48px minimum, at 16px so iOS does not zoom on focus. And the submit button took its shape from `buttons.css` but no colour, because a HubSpot submit carries no variant class, so it rendered browser-grey inside a theme-shaped button. It now uses the primary colour.
+
+  | Measurement | Before | After |
+  |---|---|---|
+  | Text input height | 30px | 49px |
+  | Input border | 2px inset, browser default | 1px solid `--grey30`, 8px radius |
+  | Submit background | `rgb(240,240,240)` | `--primaryColour`, label at 14.45:1 |
+  | Submit on hover | unchanged | darkened, 16.11:1 |
+
+  At 390px the fields stay 49px at 16px, the two-column fieldset stacks, and there is no horizontal scroll. The consent checkbox exclusion is covered only by the static fixture, since this form has no checkbox.
