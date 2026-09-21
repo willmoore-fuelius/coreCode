@@ -4,5 +4,10 @@
   "icon": "fontawesome-5.14.0:bars:SOLID",
   "host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"],
   "is_available_for_new_content": false,
-  "categories": ["FUNCTIONALITY"]
+  "categories": ["FUNCTIONALITY"],
+  "placeholder": {
+    "show_module_icon": true,
+    "title": "Site navigation",
+    "description": "Select a navigation menu in the module settings."
+  }
 }
