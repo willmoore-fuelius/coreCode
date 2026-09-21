@@ -72,9 +72,11 @@ templateType: none
 				--radiusXl: 2rem; /* 32px */
 				--radiusAvatar: 50%;
 
-				/* COLOURS */
+				/* COLOURS
+				   Brand colours and body text come from theme settings and are
+				   written to :root by css/theme_overrides.css. Only the neutral
+				   ramp and the on-brand text colours live here. */
 
-				/* General */
 				--white: #fff;
 				--black: #000;
 				--grey10: #E8E9EA;
@@ -83,23 +85,12 @@ templateType: none
 				--grey40: #BBBEC0;
 				--grey50: #6C7378;
 				--grey60: #5E646A;
-				--grey90: #1D252D;
 
-				/* Brand */
-				--primary10: #46107b;
-				--primary20: #ee52ac;
-				--primary30: #e3f7e8;
-
-				/* Theme Colors - Used by components (video player, etc.) */
-				--primaryColour: var(--primary10);
-				--secondaryColour: var(--grey60);
-				--tertiaryColour: var(--primary20);
-				--highlightColour: var(--primary30);
+				/* Text colour to place on each brand colour */
 				--primaryTextColour: var(--white);
 				--secondaryTextColour: var(--white);
 				--tertiaryTextColour: var(--black);
 				--highlightTextColour: var(--black);
-				--contentBackgroundColour: var(--white);
 
 				/* Semantic State Colors */
 				--colorSuccess: #10b981;
@@ -113,9 +104,7 @@ templateType: none
 				--easeOut: cubic-bezier(0, 0, 0.2, 1);
 				--easeInOut: cubic-bezier(0.4, 0, 0.2, 1);
 
-				/* FONTS - FAMILIES */
-				--fontPrimary: "Montserrat", sans-serif;
-				--fontSecondary: "Open Sans", sans-serif;
+				/* FONTS - FAMILIES come from theme settings (see theme_overrides.css) */
 
 				/* FONTS - WEIGHTS */
 				--fontLight: 300;
@@ -163,12 +152,11 @@ templateType: none
 		<meta name="description" content="{{ page_meta.meta_description }}" />
 		{% endif %}
 
-		{# Preconnect to Google Fonts CDN for early DNS resolution #}
+		{# Web fonts are loaded by HubSpot from the theme's font fields, which #}
+		{# theme_overrides.css references. Do not add a Google Fonts link here: #}
+		{# it would load the fonts a second time and ignore the editor's choice. #}
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-		{# Load fonts with font-display: swap (prevents FOIT) #}
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
 		{# DNS Prefetch for HubSpot third-party domains #}
 		<link rel="dns-prefetch" href="//js.hs-analytics.net">

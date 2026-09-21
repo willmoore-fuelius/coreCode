@@ -1,4 +1,21 @@
+/* Theme settings written to CSS custom properties.
+
+   This file is a real stylesheet rather than an inline block on purpose:
+   HubSpot only auto-loads a font field's web font when the field is referenced
+   by HubL in a stylesheet or a module. It is loaded blocking from base.html so
+   the tokens the critical CSS reads exist at first paint. */
+
 :root {
+	--primaryColour: {{ theme.colours.primary.color }};
+	--secondaryColour: {{ theme.colours.secondary.color }};
+	--tertiaryColour: {{ theme.colours.tertiary.color }};
+	--highlightColour: {{ theme.colours.highlight.color }};
+	--grey90: {{ theme.colours.text.color }};
+	--contentBackgroundColour: {{ theme.colours.background.color }};
+
+	--fontPrimary: {{ theme.typography.heading_font.font }}, sans-serif;
+	--fontSecondary: {{ theme.typography.body_font.font }}, sans-serif;
+
 	--containerWidth: {{ theme.spacing.max_width ~ 'px' }};
 	--moduleTopSpacing: {{ theme.spacing.mobile.vertical_spacing ~ 'px' }};
 	--moduleRightSpacing: {{ theme.spacing.mobile.horizontal_spacing ~ 'px' }};
