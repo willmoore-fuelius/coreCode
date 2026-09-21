@@ -69,6 +69,12 @@
       {%- endif -%}
     </nav>
 
+    {#- A button with no destination would render a dead anchor, so it is gated
+        on the href. Tell the editor why it vanished rather than failing silently. -#}
+    {%- if module.show_cta and is_in_editor and not (module.cta_link.url.href and module.cta_text) -%}
+    <p class="m-siteHeader__ctaHint">Header button hidden: set both the button text and a link destination.</p>
+    {%- endif -%}
+
     {%- if module.show_cta and module.cta_link.url.href and module.cta_text -%}
     {%- set cta_rel = [] -%}
     {%- if module.cta_link.no_follow -%}{% do cta_rel.append("nofollow") %}{%- endif -%}

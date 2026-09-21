@@ -21,9 +21,15 @@
     "name": "logo_link",
     "label": "Logo link",
     "type": "link",
-    "supported_types": ["EXTERNAL", "CONTENT"],
+    "supported_types": [
+      "EXTERNAL",
+      "CONTENT"
+    ],
     "default": {
-      "url": { "href": "/", "type": "EXTERNAL" },
+      "url": {
+        "href": "/",
+        "type": "EXTERNAL"
+      },
       "open_in_new_tab": false,
       "no_follow": false
     },
@@ -48,30 +54,37 @@
     "label": "Button text",
     "type": "text",
     "default": "Get in touch",
-    "display_conditions": {
-      "visibility": {
-        "controlling_field_path": "show_cta",
-        "controlling_value_regex": "true",
-        "operator": "EQUAL"
-      }
-    }
+    "visibility": {
+      "controlling_field_path": "show_cta",
+      "controlling_value_regex": "true",
+      "operator": "EQUAL"
+    },
+    "inline_help_text": "The button label, for example \"Get in touch\"."
   },
   {
     "name": "cta_link",
     "label": "Button link",
     "type": "link",
-    "supported_types": ["EXTERNAL", "CONTENT", "FILE", "EMAIL_ADDRESS", "BLOG"],
+    "supported_types": [
+      "EXTERNAL",
+      "CONTENT",
+      "FILE",
+      "EMAIL_ADDRESS",
+      "BLOG"
+    ],
     "default": {
-      "url": { "href": "", "type": "EXTERNAL" },
+      "url": {
+        "href": "",
+        "type": "EXTERNAL"
+      },
       "open_in_new_tab": false,
       "no_follow": false
     },
-    "display_conditions": {
-      "visibility": {
-        "controlling_field_path": "show_cta",
-        "controlling_value_regex": "true",
-        "operator": "EQUAL"
-      }
-    }
+    "visibility": {
+      "controlling_field_path": "show_cta",
+      "controlling_value_regex": "true",
+      "operator": "EQUAL"
+    },
+    "inline_help_text": "Where the button goes. The button is hidden until both this and the button text are set."
   }
 ]

@@ -153,3 +153,12 @@
 	}
 
 }
+
+/* Editor-only warning when the header button is switched on but incomplete. */
+.m-siteHeader__ctaHint {
+	margin: 0;
+	padding: var(--space8) var(--space12);
+	border: var(--border1) dashed var(--grey30);
+	color: var(--grey60);
+	font-size: var(--pSm);
+}
