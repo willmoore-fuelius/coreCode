@@ -1,7 +1,7 @@
 /* ==========================================================================
    Site navigation
    Structural header styles live in css/critical/header.critical.css.
-   These rules cover the logo, CTA, and the menu list output by {% menu %}.
+   These rules cover the logo, the CTA, and the menu built by module.html.
    ========================================================================== */
 
 .m-siteHeader__logo {
@@ -18,26 +18,138 @@
 	white-space: nowrap;
 }
 
-/* Scope the menu overrides to the header so the multi-column .hs-menu-wrapper
-   defaults in default_modules.css do not apply to the horizontal top nav. */
-.m-siteHeader__navigation .hs-menu-wrapper > ul {
+/* ==========================================================================
+   Menu
+   ========================================================================== */
+
+.m-siteHeader__menu {
 	display: flex;
 	flex-direction: column;
-	column-count: auto;
 	gap: var(--space16);
 	margin: 0;
 	padding: var(--space20);
+	list-style: none;
 }
 
-.m-siteHeader__navigation .hs-menu-wrapper > ul > li > a {
-	margin-bottom: 0;
+.m-siteHeader__menuItem {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space8);
+}
+
+.m-siteHeader__menuLink {
+	display: inline-flex;
+	align-items: center;
+	min-height: var(--touchArea);
+	padding: var(--space8) 0;
+	color: var(--grey90);
+	font-weight: var(--fontSemibold);
+}
+
+.m-siteHeader__menuLink[aria-current="page"] {
+	text-decoration: underline;
+	text-decoration-thickness: var(--border2);
+	text-underline-offset: var(--space4);
+}
+
+/* ==========================================================================
+   Sub-menu disclosure
+   ========================================================================== */
+
+.m-siteHeader__submenuToggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--touchArea);
+	height: var(--touchArea);
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+}
+
+.m-siteHeader__submenuToggle::before {
+	content: "";
+	display: block;
+	width: 0.5rem;
+	height: 0.5rem;
+	border: solid var(--grey90);
+	border-width: 0 var(--border2) var(--border2) 0;
+	rotate: 45deg;
+	translate: 0 -0.15rem;
+	transition: rotate var(--transitionSpeed) var(--easeOut);
+}
+
+.m-siteHeader__submenuToggle[aria-expanded="true"]::before {
+	rotate: -135deg;
+	translate: 0 0.15rem;
+}
+
+.m-siteHeader__menuLink:focus-visible,
+.m-siteHeader__submenuLink:focus-visible,
+.m-siteHeader__submenuToggle:focus-visible {
+	outline: var(--border2) solid var(--primaryColour);
+	outline-offset: 2px;
+}
+
+.m-siteHeader__submenu {
+	display: none;
+	flex-basis: 100%;
+	margin: 0;
+	padding: 0 0 0 var(--space16);
+	list-style: none;
+}
+
+.m-siteHeader__submenuToggle[aria-expanded="true"] + .m-siteHeader__submenu {
+	display: block;
+}
+
+.m-siteHeader__submenuLink {
+	display: flex;
+	align-items: center;
+	min-height: var(--touchArea);
+	padding: var(--space8) 0;
+	color: var(--grey90);
+}
+
+.m-siteHeader__submenuLink[aria-current="page"] {
+	text-decoration: underline;
+	text-decoration-thickness: var(--border2);
+	text-underline-offset: var(--space4);
 }
 
 @media (width >= 1200px) {
-	.m-siteHeader__navigation .hs-menu-wrapper > ul {
+
+	.m-siteHeader__menu {
 		flex-direction: row;
 		align-items: center;
 		gap: var(--gridGutters);
 		padding: 0;
 	}
+
+	.m-siteHeader__menuItem {
+		flex-wrap: nowrap;
+	}
+
+	.m-siteHeader__submenu {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		z-index: var(--zDropdown);
+		min-width: 14rem;
+		padding: var(--space8) var(--space16);
+		background-color: var(--contentBackgroundColour);
+		box-shadow: 0 var(--space4) var(--space16) rgb(0 0 0 / 0.12);
+	}
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.m-siteHeader__submenuToggle::before {
+		transition: none;
+	}
+
 }

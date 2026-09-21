@@ -25,9 +25,6 @@
   margin-bottom: var(--space20);
 }
 
-.hs-menu-wrapper > ul > li.hs-menu-item a {
-}
-
 /* Horizontal menu */
 
 .hs-menu-wrapper.hs-menu-flow-horizontal .hs-menu-children-wrapper {
@@ -110,8 +107,15 @@
   white-space: nowrap;
 }
 
+/* :focus-within alongside :hover so a keyboard user reaching a parent link can
+   see its children. These rules govern HubSpot's own menu modules placed in
+   page content; the site header builds its own accessible disclosure menu. */
+
 .hs-menu-wrapper.hs-menu-flow-horizontal.flyouts
   .hs-item-has-children:hover
+  > .hs-menu-children-wrapper,
+.hs-menu-wrapper.hs-menu-flow-horizontal.flyouts
+  .hs-item-has-children:focus-within
   > .hs-menu-children-wrapper {
   left: 0;
   opacity: 1;
@@ -120,13 +124,18 @@
 
 .hs-menu-wrapper.hs-menu-flow-vertical.flyouts
   .hs-item-has-children:hover
+  > .hs-menu-children-wrapper,
+.hs-menu-wrapper.hs-menu-flow-vertical.flyouts
+  .hs-item-has-children:focus-within
   > .hs-menu-children-wrapper {
   left: 100%;
   opacity: 1;
   top: 0;
 }
 
-@media (width < 768px) {
+/* Below the header's drawer breakpoint the children sit inline, so touch users
+   are never left with a hover-only reveal. */
+@media (width < 1200px) {
   .hs-menu-wrapper.flyouts .hs-menu-children-wrapper,
   .hs-menu-wrapper.hs-menu-flow-horizontal.flyouts
     .hs-item-has-children:hover

@@ -2,7 +2,7 @@
   "label": "Footer content",
   "description": "Site footer text, navigation menu, and copyright line.",
   "icon": "fontawesome-5.14.0:align-center:SOLID",
-  "host_template_types": ["PAGE", "BLOG_POST", "BLOG_LISTING"],
+  "content_types": ["SITE_PAGE", "LANDING_PAGE", "BLOG_POST", "BLOG_LISTING"],
   "is_available_for_new_content": false,
   "categories": ["FUNCTIONALITY"],
   "placeholder": {

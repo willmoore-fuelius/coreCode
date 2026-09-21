@@ -8,7 +8,14 @@
       "alt": "",
       "loading": "eager"
     },
-    "inline_help_text": "The logo shown in the site header. Links to the homepage by default."
+    "inline_help_text": "The logo shown in the site header. Falls back to the logo in your website settings."
+  },
+  {
+    "name": "logo_alt_text",
+    "label": "Logo alt text",
+    "type": "text",
+    "default": "",
+    "inline_help_text": "Describes the logo for screen readers, usually the company name. Falls back to the alt text set in your website settings."
   },
   {
     "name": "logo_link",
@@ -20,7 +27,7 @@
       "open_in_new_tab": false,
       "no_follow": false
     },
-    "inline_help_text": "Where the logo links to. Defaults to the homepage."
+    "inline_help_text": "Where the logo links to. Falls back to the homepage."
   },
   {
     "name": "menu",
