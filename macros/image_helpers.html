@@ -4,9 +4,9 @@ isAvailableForNewContent: false
 -->
 
 {# ============================================================
-   image_helpers.html — responsive image rendering
+   image_helpers.html - responsive image rendering
 
-   render_image(image, class, sizes, priority)
+   render_image(image, class, sizes, priority, alt)
 
      image    - a HubSpot image field value. Needs .src; .width, .height and
                 .alt are used when present.
@@ -15,6 +15,10 @@ isAvailableForNewContent: false
                 Defaults to 100vw. Describe the slot, not the image.
      priority - true for the LCP image (a hero). Loads eagerly at high
                 priority; everything else is lazy.
+     alt      - optional. Wins over image.alt when passed, including ''.
+                HubSpot pre-fills image.alt from the filename, so a default on
+                it never fires: pass a module text field for a meaningful name,
+                or '' for a decorative image.
 
    One <img> with a width-descriptor srcset, not a <picture>. HubSpot's CDN
    negotiates WebP by content type when it is smaller, so a duplicate WebP
@@ -25,7 +29,7 @@ isAvailableForNewContent: false
    to images that carry them.
    ============================================================ #}
 
-{% macro render_image(image, class, sizes, priority) %}
+{% macro render_image(image, class, sizes, priority, alt) %}
 {%- if image.src -%}
 {%- set candidate_widths = [480, 768, 1200, 1600] -%}
 {%- set candidates = [] -%}
@@ -37,7 +41,7 @@ isAvailableForNewContent: false
 <img class="{{ class }}"
      src="{{ resize_image_url(image.src, 1200, 0, 0) }}"
      {% if candidates %}srcset="{{ candidates|join(', ') }}" sizes="{{ sizes|default('100vw', true) }}"{% endif %}
-     alt="{{ image.alt|default('', true)|escape_attr }}"
+     alt="{{ (alt if alt is string else image.alt)|default('', true)|escape_attr }}"
      {% if image.width %}width="{{ image.width }}"{% endif %}
      {% if image.height %}height="{{ image.height }}"{% endif %}
      {% if priority %}loading="eager" fetchpriority="high" decoding="sync"{% else %}loading="lazy" decoding="async"{% endif %}>
