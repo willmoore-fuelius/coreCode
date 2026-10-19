@@ -15,10 +15,16 @@
 
   {%- if logo_src -%}
   <a class="m-siteHeader__logo" href="{{ logo_href }}"{% if module.logo_link.open_in_new_tab %} target="_blank" rel="noopener noreferrer"{% endif %}>
+    {#- height is the rendered cap at 2x, not the source size. HubSpot keys its
+        auto-resize off these attributes: at the source size it injects a srcset
+        up to several thousand pixels wide for a 48px logo. The aspect ratio
+        goes to CSS instead, so the width is still reserved before load. -#}
+    {%- set logo_width = module.logo.width|int -%}
+    {%- set logo_height = module.logo.height|int -%}
     <img src="{{ logo_src }}"
          alt="{{ logo_alt|default('', true)|escape_attr }}"
-         {% if module.logo.width %}width="{{ module.logo.width }}"{% endif %}
-         {% if module.logo.height %}height="{{ module.logo.height }}"{% endif %}
+         height="96"
+         {% if module.logo.src and logo_width > 0 and logo_height > 0 %}class="has-ratio" style="--logoRatio: {{ logo_width }} / {{ logo_height }}"{% endif %}
          loading="eager"
          decoding="async">
   </a>

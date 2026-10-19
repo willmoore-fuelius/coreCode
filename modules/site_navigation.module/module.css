@@ -7,11 +7,20 @@
 .m-siteHeader__logo {
 	display: inline-flex;
 	align-items: center;
+	min-block-size: var(--touchArea);
 }
 
 .m-siteHeader__logo img {
 	max-height: 48px;
 	width: auto;
+}
+
+/* module.html sets height="96" (2x the cap, for HubSpot's resizer) and
+   --logoRatio from the image field. The global img { height: auto } overrides
+   the attribute, so the box is reserved here: a fixed height plus the ratio. */
+.m-siteHeader__logo img.has-ratio {
+	height: 48px;
+	aspect-ratio: var(--logoRatio);
 }
 
 .m-siteHeader__cta {
