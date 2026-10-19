@@ -62,7 +62,7 @@ Every module follows this wrapper structure:
         <a id="{{ name }}__footer_cta"
            class="e-button e-button--{{ footer.button_style|default('primary') }}"
            href="{{ footer.link_settings.link_field.url.href }}"
-           {% if footer.link_settings.link_field.open_in_new_tab %}target="_blank" rel="noopener" aria-label="{{ footer.link_settings.link_text }} (opens in new window)"{% else %}aria-label="{{ footer.link_settings.link_text }}"{% endif %}>
+           {% if footer.link_settings.link_field.open_in_new_tab %}target="_blank" rel="noopener noreferrer" aria-label="{{ footer.link_settings.link_text }} (opens in new window)"{% else %}aria-label="{{ footer.link_settings.link_text }}"{% endif %}>
           {{ footer.link_settings.link_text }}
         </a>
       </div>
@@ -333,7 +333,7 @@ Renders the footer CTA wrapper, its alignment modifier and margin custom propert
 
 **Superseded 21 September 2026.** Both macros above were previously marked deprecated here, on the grounds that their internal cross-macro calls produce silent empty output. That diagnosis was wrong. An un-prefixed sibling macro call works; it is the `self.` prefix that renders nothing, because `self` addresses the block namespace rather than the macro namespace (verified on a rendered page, portal 149133071, 20 August 2026). The inline footer CTA in the Module Template Pattern is still valid, but it is a copy of what this macro already does.
 
-### `image_helper.render_image(image, class, sizes, priority)`
+### `image_helper.render_image(image, class, sizes, priority, alt)`
 
 One `<img>` with a width-descriptor `srcset` at 480/768/1200/1600 (candidates wider than the source are skipped), `width` and `height` from the field, and a lazy/eager switch.
 

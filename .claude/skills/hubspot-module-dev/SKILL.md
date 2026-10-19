@@ -39,7 +39,7 @@ Based on `$ARGUMENTS`:
 1. Load `references/hubl-standards.md`
 2. Check for common HubL gotchas (variable scoping, filter behaviour, asset loading)
 3. Verify field validation and defensive coding
-4. Check security (no `|safe` on user input, `rel="noopener"` on external links)
+4. Check security (no `|safe` on user input, `rel="noopener noreferrer"` on `target="_blank"` links)
 5. Report findings with specific file and line references
 
 ## Rules

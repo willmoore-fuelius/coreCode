@@ -47,7 +47,7 @@ Match the error against the known error table below. If it doesn't match, analys
   <a id="{{ name }}__footer_cta"
      class="e-button e-button--{{ footer.button_style|default('primary') }}"
      href="{{ footer.link_settings.link_field.url.href }}"
-     {% if footer.link_settings.link_field.open_in_new_tab %}target="_blank" rel="noopener" aria-label="{{ footer.link_settings.link_text }} (opens in new window)"{% else %}aria-label="{{ footer.link_settings.link_text }}"{% endif %}>
+     {% if footer.link_settings.link_field.open_in_new_tab %}target="_blank" rel="noopener noreferrer" aria-label="{{ footer.link_settings.link_text }} (opens in new window)"{% else %}aria-label="{{ footer.link_settings.link_text }}"{% endif %}>
     {{ footer.link_settings.link_text }}
   </a>
 </div>

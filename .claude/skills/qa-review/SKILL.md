@@ -111,7 +111,7 @@ Also read the coding standards for reference:
 - No `|safe` on untrusted content
 - `|safe` used on rich text output
 - No data queries inside loops
-- External links with `target="_blank"` include `rel="noopener"`
+- External links with `target="_blank"` include `rel="noopener noreferrer"`
 
 ### 11. module.html — macro usage
 

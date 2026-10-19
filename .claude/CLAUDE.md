@@ -103,7 +103,7 @@ Reusable template functions in `macros/`. These are imported globally in `templa
 | File (local) | Import alias | Key macros |
 |---|---|---|
 | `link_helpers.html` | `link_helper` | `render_link()`, `render_cta()`, `render_button()`, `render_module_footer_cta()` |
-| `image_helpers.html` | `image_helper` | `render_image(image, class, sizes, priority)` — one `<img>` with a width-descriptor `srcset` |
+| `image_helpers.html` | `image_helper` | `render_image(image, class, sizes, priority, alt)` — one `<img>` with a width-descriptor `srcset` |
 | `text_helpers.html` | `text_helpers` | `render_heading(model, enabled, name)` |
 | `video_helpers.html` | `video_helper` | Video embed helpers |
 
@@ -238,7 +238,7 @@ These fields populate the CSS variables in `theme_overrides.css`, allowing per-s
         <a id="{{ name }}__footer_cta"
            class="e-button e-button--{{ footer.button_style|default('primary') }}"
            href="{{ footer.link_settings.link_field.url.href }}"
-           {% if footer.link_settings.link_field.open_in_new_tab %}target="_blank" rel="noopener" aria-label="{{ footer.link_settings.link_text }} (opens in new window)"{% else %}aria-label="{{ footer.link_settings.link_text }}"{% endif %}>
+           {% if footer.link_settings.link_field.open_in_new_tab %}target="_blank" rel="noopener noreferrer" aria-label="{{ footer.link_settings.link_text }} (opens in new window)"{% else %}aria-label="{{ footer.link_settings.link_text }}"{% endif %}>
           {{ footer.link_settings.link_text }}
         </a>
       </div>

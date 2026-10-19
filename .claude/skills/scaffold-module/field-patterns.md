@@ -140,7 +140,7 @@ Template access pattern:
 {% endif %}
 
 <a href="{{ href }}"
-   {% if item.link_field.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}
+   {% if item.link_field.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
    {% if item.link_field.no_follow %}rel="nofollow"{% endif %}>
   Link text
 </a>
